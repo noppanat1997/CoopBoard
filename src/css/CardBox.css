@@ -1,3 +1,6 @@
 .blue {
   background-color: blue;
+  opacity: 50%;
+  width: 100px;
+  height: 600px;
 }

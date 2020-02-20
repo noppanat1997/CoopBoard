@@ -5,7 +5,7 @@ import Logo from '.././images/logo.svg';
 
 const Header = (props) => {
   const pageChangeHandler = (newPage) => {
-    if (newPage < 0) newPage = 0;
+    if (newPage < 1) newPage = 1;
     const newData = { curPage: newPage };
     props.setNewPage(newData);
   }
@@ -18,10 +18,9 @@ const Header = (props) => {
       <div style={{ 'top': '50%', 'left': '50%', 'position': 'absolute', 'transform': 'translate(-50%,-50%)' }}>
         <button
           className="btn btn-light m-1"
-          disabled={props.curPage === 0}
           onClick={() => pageChangeHandler(props.curPage - 1)}
         >&#60;</button>
-        <button className="btn btn-light m-1">{props.curPage + 1}</button>
+        <button className="btn btn-light m-1">{props.curPage}</button>
         <button
           className="btn btn-light m-1"
           onClick={() => pageChangeHandler(props.curPage + 1)}

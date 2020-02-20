@@ -1,7 +1,6 @@
 const initialState = {
-  curPage: 0,
+  curPage: 1,
   data: [
-    { id: 0, line: [] },
     { id: 1, line: [] },
     { id: 2, line: [] },
     { id: 3, line: [] },
