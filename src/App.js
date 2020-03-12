@@ -6,19 +6,22 @@ import logger from 'redux-logger';
 import reducer from './reducer.js';
 import CarouselComponent from './components/CarouselComponent.js';
 import Header from './components/Header.js';
-import CardBox from './components/CardBox.js';
+import StackCard from './components/StackCard.js';
 
 const App = () => {
   const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
   // const store = createStore(reducer, applyMiddleware(logger));
   return (
     <Provider store={store}>
-      <Header />
-      <div className="mt-3 d-flex justify-content-center">
+      <div>
+        <Header />
+        {/* <div className="d-flex justify-content-center">
+          <CarouselComponent />
+        </div> */}
         <CarouselComponent />
-      </div>
-      <div className="d-flex justify-content-end" style={{'zIndex':'2'}}>
-        <CardBox />
+        <div className="d-flex justify-content-end" style={{'zIndex': '2'}}>
+          <StackCard />
+        </div>
       </div>
     </Provider>
   );

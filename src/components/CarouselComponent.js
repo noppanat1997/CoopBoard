@@ -16,7 +16,8 @@ const CarouselComponent = (props) => {
       controls={false}
       indicators={false}
       onSelect={() => { }}
-      style={{'position': 'absolute'}}
+      className="mt-5"
+      style={{'position': 'absolute', 'left':'50%','top':'50%','transform': 'translate(-50%,-50%)'}}
     >
       {mapAllPages}
     </Carousel>
