@@ -9,8 +9,8 @@ import Header from './components/Header.js';
 import StackCard from './components/StackCard.js';
 
 const App = () => {
-  const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
-  // const store = createStore(reducer, applyMiddleware(logger));
+  // const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+  const store = createStore(reducer, applyMiddleware(logger));
   return (
     <Provider store={store}>
       <div>
