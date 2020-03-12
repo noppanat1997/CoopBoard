@@ -1,4 +1,0 @@
-/* .right.carousel-control, .left.carousel-control {
-  display: none;
-} */
-.carousel .carousel-control { visibility: hidden; }

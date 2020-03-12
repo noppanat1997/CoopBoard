@@ -84,7 +84,7 @@ class Canvas extends Component {
 
   componentDidMount() {
     // Here we set up the properties of the canvas element. 
-    this.canvas.width = 1500;
+    this.canvas.width = 1400;
     this.canvas.height = 800;
     this.ctx = this.canvas.getContext('2d');
     this.ctx.lineJoin = 'round';
@@ -97,7 +97,7 @@ class Canvas extends Component {
       <canvas
         // We use the ref attribute to get direct access to the canvas element. 
         ref={(ref) => (this.canvas = ref)}
-        style={{ 'background': 'white', 'marginLeft': '11em', 'marginTop': '4em', 'border': '2px solid #eeeeee' }}
+        style={{'background': 'white', 'border': '2px solid #eeeeee'}}
         onMouseDown={this.onMouseDown}
         onMouseLeave={this.endPaintEvent}
         onMouseUp={this.endPaintEvent}

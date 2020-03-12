@@ -1,33 +1,42 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Navbar from 'react-bootstrap/Navbar'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 import Logo from '.././images/logo.svg';
 
 const Header = (props) => {
   const pageChangeHandler = (newPage) => {
-    if (newPage < 0) newPage = 0;
+    if (newPage < 1) newPage = 1;
     const newData = { curPage: newPage };
     props.setNewPage(newData);
   }
   return (
-    <Navbar bg="light" className="pt-0 pb-0" style={{ 'position': 'relatives' }}>
-      <Navbar.Brand href="#" className="pt-0 pb-0">
-        <img src={Logo} width="60" height="60" className="d-inline-block align-center" alt="CoopBoard" />
-        CoopBoard
-      </Navbar.Brand>
-      <div style={{ 'top': '50%', 'left': '50%', 'position': 'absolute', 'transform': 'translate(-50%,-50%)' }}>
-        <button
-          className="btn btn-light m-1"
-          disabled={props.curPage === 0}
-          onClick={() => pageChangeHandler(props.curPage - 1)}
-        >&#60;</button>
-        <button className="btn btn-light m-1">{props.curPage + 1}</button>
-        <button
-          className="btn btn-light m-1"
-          onClick={() => pageChangeHandler(props.curPage + 1)}
-        >&#62;</button>
-      </div>
-    </Navbar>
+    <div className="bg-light">
+      <Container className="m-0 p-0" style={{ "max-width": "100%", "width": "100%" }}>
+        <Row className="justify-content-center m-0 w-100">
+          <Col xs={2} className="text-center">
+            <img src={Logo} width="60" height="60" alt="CoopBoard" />
+          </Col>
+        </Row>
+        <Row className="justify-content-center m-0 w-100 border-top">
+          <Col xs={2} className="text-center">
+            <button
+              className="btn btn-light mt-1 mb-1 btn-sm"
+              onClick={() => pageChangeHandler(props.curPage - 1)}
+              style={{"width":"50px"}}
+            >&#60;</button>
+            <button className="btn btn-light mt-1 mb-1 border-right border-left btn-sm" style={{"width":"70px"}}>{props.curPage}</button>
+            <button
+              className="btn btn-light mt-1 mb-1 btn-sm"
+              onClick={() => pageChangeHandler(props.curPage + 1)}
+              style={{"width":"50px"}}
+            >&#62;</button>
+          </Col>
+        </Row>
+      </Container>
+    </div >
   );
 }
 const mapStateToProps = state => {

@@ -6,15 +6,18 @@ import '.././css/Carousel.css';
 
 const CarouselComponent = (props) => {
   const mapAllPages = props.stateFromStore.data.map(item => (
-    <Carousel.Item key={item.id}>
-      <Canvas data={item}/>
+    <Carousel.Item key={item.id}> 
+      <Canvas data={item} />
     </Carousel.Item>
   ));
   return (
-    <Carousel 
-      activeIndex={props.stateFromStore.curPage} 
+    <Carousel
+      activeIndex={props.stateFromStore.curPage}
       controls={false}
-      onSelect={() => {}}
+      indicators={false}
+      onSelect={() => { }}
+      className="mt-5"
+      style={{'position': 'absolute', 'left':'50%','top':'50%','transform': 'translate(-50%,-50%)'}}
     >
       {mapAllPages}
     </Carousel>
