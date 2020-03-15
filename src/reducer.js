@@ -5,7 +5,14 @@ const initialState = {
     { id: 2, line: [] },
     { id: 3, line: [] },
     { id: 4, line: [] }
-  ]
+  ],
+  buttonData: {
+    1:{ isActive: 0},
+    2:{ isActive: 0},
+    3:{ isActive: 1},
+    4:{ isActive: 0},
+    5:{ isActive: 0}
+  }
 }
 const reducer = (state = initialState, action) => {
   const newState = {...state};
@@ -25,6 +32,20 @@ const reducer = (state = initialState, action) => {
       newState.data[id].line.push(newLine)
 
       return newState;
+    case 'TOGGLE_BUTTON':
+      const { newId, newIsActive } = action.payload;
+      const newbuttonData = {
+        1:{ isActive: 0},
+        2:{ isActive: 0},
+        3:{ isActive: 0},
+        4:{ isActive: 0},
+        5:{ isActive: 0}
+      }
+      newbuttonData[newId].isActive = newIsActive
+      return {
+        ...state,
+        buttonData: newbuttonData
+      }
     default:
       break;
   }
