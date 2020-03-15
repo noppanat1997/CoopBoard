@@ -18,7 +18,7 @@ const ToolBox = (props) => {
   }
 
   return (
-    <div className="w-100" style={{ "paddingTop": "200px" }}>
+    <div className="w-10" style={{ "position":"absolute","zIndex":"2","paddingTop": "200px" }}>
       <Card className="ml-3 toolbox">
         <Card.Body>
           <div className={"mb-2 " + (props.stateFromStore.buttonData[1].isActive == 1? 'tool-active':'tool')}>

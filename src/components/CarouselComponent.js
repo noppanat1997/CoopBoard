@@ -15,7 +15,8 @@ const CarouselComponent = (props) => {
       controls={false}
       indicators={false}
       onSelect={() => { }}
-      className="mt-4"
+      className="mt-4 text-center"
+      style={{"position":"relative"}}
     >
       {mapAllPages}
     </Carousel>

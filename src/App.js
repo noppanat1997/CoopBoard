@@ -20,6 +20,8 @@ const App = () => {
       <div>
         <Header />
         <ToolBox />
+        <StackCard />
+        <CarouselComponent />
         {/* <Container className="m-0 p-0 w-100" style={{ "max-width": "100%", "width": "100%" }}>
           <Row className="justify-content-center m-0 w-100">
             <Col xs={1} className="p-0">

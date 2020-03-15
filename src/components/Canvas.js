@@ -84,7 +84,7 @@ class Canvas extends Component {
 
   componentDidMount() {
     // Here we set up the properties of the canvas element. 
-    this.canvas.width = 1400;
+    this.canvas.width = 1300;
     this.canvas.height = 700;
     this.ctx = this.canvas.getContext('2d');
     this.ctx.lineJoin = 'round';

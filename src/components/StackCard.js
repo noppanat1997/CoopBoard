@@ -61,7 +61,7 @@ class StackCard extends Component {
     const dragHandlers = { onStart: this.onStart, onStop: this.onStop };
     const { deltaPosition, controlledPosition } = this.state;
     return (
-      <div className="w-100 bg-primary" style={{ "overflow": "hidden" }}>
+      <div className="w-100 justify-content-end" style={{ "position":"absolute","zIndex":"2","overflow": "hidden","height":"88%"}}>
         <Draggable {...dragHandlers}>
           <div className="bg-light">I can be dragged anywhere</div>
         </Draggable>
