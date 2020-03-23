@@ -1,0 +1,31 @@
+.active-box {
+  width: 1500px;
+  height: 800px;
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 5px solid #7c7c7c;
+  background-color: #ffffff83;
+  border-style: dashed;
+  z-index:2;
+}
+.drag {
+  color: #7c7c7c;
+  position:absolute;
+  font-size: 500%;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.form-card {
+  width: 1500px;
+  height: 800px;
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+  transform: translate(-50%, -50%);
+  background-color: #80808083;
+}

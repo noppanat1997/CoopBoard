@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { v4 } from 'uuid';
 import { connect } from 'react-redux';
+import '.././css/CarouselComponent.css';
+import FormCard from './FormCard.js';
 
 class Canvas extends Component {
   constructor(props) {
@@ -84,8 +86,8 @@ class Canvas extends Component {
 
   componentDidMount() {
     // Here we set up the properties of the canvas element. 
-    this.canvas.width = 1300;
-    this.canvas.height = 700;
+    this.canvas.width = 1500;
+    this.canvas.height = 800;
     this.ctx = this.canvas.getContext('2d');
     this.ctx.lineJoin = 'round';
     this.ctx.lineCap = 'round';
@@ -93,16 +95,29 @@ class Canvas extends Component {
   }
 
   render() {
+
     return (
-      <canvas
-        // We use the ref attribute to get direct access to the canvas element. 
-        ref={(ref) => (this.canvas = ref)}
-        style={{'background': 'white', 'border': '2px solid #eeeeee'}}
-        onMouseDown={this.onMouseDown}
-        onMouseLeave={this.endPaintEvent}
-        onMouseUp={this.endPaintEvent}
-        onMouseMove={this.onMouseMove}
-      />
+      <div>
+        {this.props.stateFromStore.isHolding === true &&
+          <div className="active-box">
+            <h1 className="drag">DROP HERE</h1>
+          </div>}
+        {this.props.stateFromStore.onDropArea === true &&
+          this.props.stateFromStore.cardData &&
+          Object.entries(this.props.stateFromStore.cardData)
+            .filter(cardPair => cardPair[1].onFormSetting)
+            .map(cardPair => <div className="form-card"><FormCard key={cardPair[0]} id={cardPair[0]} /></div>)}
+        <canvas
+          // We use the ref attribute to get direct access to the canvas element. 
+          ref={(ref) => (this.canvas = ref)}
+          style={{ 'background': 'white', 'border': '2px solid #eeeeee', position: "relative" }}
+          onMouseDown={this.onMouseDown}
+          onMouseLeave={this.endPaintEvent}
+          onMouseUp={this.endPaintEvent}
+          onMouseMove={this.onMouseMove}
+        />
+      </div>
+
     );
   }
 }
@@ -115,8 +130,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     addLine: (addLine) => {
-      return dispatch({ type: 'ADD_LINE', payload: addLine});
+      return dispatch({ type: 'ADD_LINE', payload: addLine });
     }
   }
 }
-export default connect(mapStateToProps,mapDispatchToProps)(Canvas);
+export default connect(mapStateToProps, mapDispatchToProps)(Canvas);

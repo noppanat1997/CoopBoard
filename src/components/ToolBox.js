@@ -18,23 +18,23 @@ const ToolBox = (props) => {
   }
 
   return (
-    <div className="w-10" style={{ "position":"absolute","zIndex":"2","paddingTop": "200px" }}>
+    <div className="w-10" style={{ "position":"absolute","zIndex":"3","paddingTop": "200px" }}>
       <Card className="ml-3 toolbox">
         <Card.Body>
-          <div className={"mb-2 " + (props.stateFromStore.buttonData[1].isActive == 1? 'tool-active':'tool')}>
-            <img id="1" src={pencilIcon} onClick={toggleHandler} />
+          <div className={"mb-2 " + (props.stateFromStore.buttonData[1].isActive === 1? 'tool-active':'tool')}>
+            <img id="1" src={pencilIcon} alt="" onClick={toggleHandler} />
           </div>
-          <div className={"mb-2 " + (props.stateFromStore.buttonData[2].isActive == 1? 'tool-active':'tool')}>
-            <img id="2" src={erasorIcon} onClick={toggleHandler} />
+          <div className={"mb-2 " + (props.stateFromStore.buttonData[2].isActive === 1? 'tool-active':'tool')}>
+            <img id="2" src={erasorIcon} alt="" onClick={toggleHandler} />
           </div>
-          <div className={"mb-2 " + (props.stateFromStore.buttonData[3].isActive == 1? 'tool-active':'tool')}>
-            <img id="3" src={cursorIcon} onClick={toggleHandler} />
+          <div className={"mb-2 " + (props.stateFromStore.buttonData[3].isActive === 1? 'tool-active':'tool')}>
+            <img id="3" src={cursorIcon} alt="" onClick={toggleHandler} />
           </div>
-          <div className={"mb-2 " + (props.stateFromStore.buttonData[4].isActive == 1? 'tool-active':'tool')}>
-            <img id="4" src={imageIcon} onClick={toggleHandler} />
+          <div className={"mb-2 " + (props.stateFromStore.buttonData[4].isActive === 1? 'tool-active':'tool')}>
+            <img id="4" src={imageIcon} alt="" onClick={toggleHandler} />
           </div>
-          <div className={(props.stateFromStore.buttonData[5].isActive == 1? 'tool-active':'tool')}>
-            <img id="5" src={pointerIcon} onClick={toggleHandler} />
+          <div className={(props.stateFromStore.buttonData[5].isActive === 1? 'tool-active':'tool')}>
+            <img id="5" src={pointerIcon} alt="" onClick={toggleHandler} />
           </div>
         </Card.Body>
       </Card>

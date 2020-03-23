@@ -1,0 +1,17 @@
+.stack-card-end{
+  margin: 0% 0% 0% 90%;
+  padding: 6% 0% 0% 0%;
+  position: absolute;
+  z-index: 3;
+  overflow: hidden ;
+  height: 88%;
+  width: 10%;
+}
+.stack-card-start {
+  padding: 6% 0% 0% 90%;
+  position: absolute;
+  z-index: 3;
+  overflow: hidden ;
+  height: 88%;
+  width: 100%;
+}
