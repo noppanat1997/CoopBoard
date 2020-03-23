@@ -13,7 +13,7 @@ const Header = (props) => {
     props.setNewPage(newData);
   }
   return (
-    <div className="bg-light">
+    <div className="bg-light" >
       <Container className="m-0 p-0" style={{ "max-width": "100%", "width": "100%" }}>
         <Row className="justify-content-center m-0 w-100">
           <Col xs={2} className="text-center">

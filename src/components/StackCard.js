@@ -1,74 +1,96 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import EachCard from './EachCard.js';
-import Draggable, { DraggableCore } from 'react-draggable';
+import Draggable from 'react-draggable';
+import '.././css/StackCard.css';
+import { connect } from 'react-redux';
 
-class StackCard extends Component {
-  state = {
-    activeDrags: 0,
+const StackCard = (props) => {
+  const [state, setState] = useState({
+    isHolding: false,
     deltaPosition: {
-      x: 0, y: 0
-    },
-    controlledPosition: {
-      x: -400, y: 200
+      x: 0,
+      y: 0
     }
-  };
+  });
+  const onMouseMoveHandler = () => {
+    setState({ ...state, isHolding: true })
+  }
+  const onMouseUpHandler = (e) => {
+    setState({ ...state, isHolding: false, deltaPosition: { x: e.screenX, y: e.screenY } })
+    onDropAreaHandler(e.screenX, e.screenY)
+  }
+  const onDropAreaHandler = (x, y) => {
+    // y268 1068 x210 1710
+    if (y >= 268 && y <= 1068 && x <= 1710 && x >= 210) {
+      props.onDropAreaFn({ isHolding: false, onDropArea: true })
+    } else {
+      props.onDropAreaFn({ isHolding: false, onDropArea: false })
+    }
+  }
 
-  handleDrag = (e, ui) => {
-    const { x, y } = this.state.deltaPosition;
-    this.setState({
-      deltaPosition: {
-        x: x + ui.deltaX,
-        y: y + ui.deltaY,
-      }
-    });
-  };
+  return (
+    <div className={(state.isHolding === true ? 'stack-card-start' : 'stack-card-end')}
+      onMouseMove={onMouseMoveHandler}
+      onMouseUp={onMouseUpHandler}>
+      <Draggable position={{ x: 0, y: 0 }} onMouseDown={(e) => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}>
+        <div id="1" style={{ cursor: 'pointer' }} >
+          <EachCard id="1" name={"Post-It"} color={"#D4145A"} />
+        </div>
+      </Draggable>
+      <Draggable position={{ x: 0, y: -100 }} onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}>
+        <div style={{ cursor: 'pointer' }}>
+          <EachCard id="2" name={"To-Do-Lists"} color={"#0071BC"} />
+        </div>
+      </Draggable>
+      <Draggable position={{ x: 0, y: -200 }} onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}>
+        <div style={{ cursor: 'pointer' }}>
+          <EachCard id="3" name={"Calendar"} color={"#202C5D"} />
+        </div>
+      </Draggable>
+      <Draggable position={{ x: 0, y: -300 }} onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}>
+        <div style={{ cursor: 'pointer' }}>
+          <EachCard id="4" name={"Map"} color={"#D4145A"} />
+        </div>
+      </Draggable>
+      <Draggable position={{ x: 0, y: -400 }} onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}>
+        <div style={{ cursor: 'pointer' }}>
+          <EachCard id="5" name={"Table"} color={"#0071BC"} />
+        </div>
+      </Draggable>
+      <Draggable position={{ x: 0, y: -500 }} onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}>
+        <div style={{ cursor: 'pointer' }}>
+          <EachCard id="6" name={"Url"} color={"#202C5D"} />
+        </div>
+      </Draggable>
+      <Draggable position={{ x: 0, y: -600 }} onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}>
+        <div style={{ cursor: 'pointer' }}>
+          <EachCard id="7" name={"Code"} color={"#D4145A"} />
+        </div>
+      </Draggable>
+      <Draggable position={{ x: 0, y: -700 }} onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}>
+        <div style={{ cursor: 'pointer' }}>
+          <EachCard id="8" name={"Video"} color={"#0071BC"} />
+        </div>
+      </Draggable>
+      {/* <Draggable position={{ x: 0, y: -800 }} onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}>
+        <div style={{ cursor: 'pointer' }}>
+          <div className="text-light p-3">x: {state.deltaPosition.x.toFixed(0)}, y: {state.deltaPosition.y.toFixed(0)} {props.stateFromStore.onDropArea == true ? 1 : 0}</div>
+        </div>
+      </Draggable> */}
+    </div>
 
-  onStart = () => {
-    this.setState({ activeDrags: ++this.state.activeDrags });
-  };
-
-  onStop = () => {
-    this.setState({ activeDrags: --this.state.activeDrags });
-  };
-
-  // For controlled component
-  adjustXPos = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const { x, y } = this.state.controlledPosition;
-    this.setState({ controlledPosition: { x: x - 10, y } });
-  };
-
-  adjustYPos = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const { controlledPosition } = this.state;
-    const { x, y } = controlledPosition;
-    this.setState({ controlledPosition: { x, y: y - 10 } });
-  };
-
-  onControlledDrag = (e, position) => {
-    const { x, y } = position;
-    this.setState({ controlledPosition: { x, y } });
-  };
-
-  onControlledDragStop = (e, position) => {
-    this.onControlledDrag(e, position);
-    this.onStop();
-  };
-
-  render() {
-    const dragHandlers = { onStart: this.onStart, onStop: this.onStop };
-    const { deltaPosition, controlledPosition } = this.state;
-    return (
-      <div className="w-100 justify-content-end" style={{ "position":"absolute","zIndex":"2","overflow": "hidden","height":"88%"}}>
-        <Draggable {...dragHandlers}>
-          <div className="bg-light">I can be dragged anywhere</div>
-        </Draggable>
-        <EachCard />
-      </div>
-
-    );
+  );
+}
+const mapStateToProps = state => {
+  return {
+    stateFromStore: state
   }
 }
-export default StackCard;
+const mapDispatchToProps = dispatch => {
+  return {
+    onDropAreaFn: (onDropArea) => {
+      return dispatch({ type: 'UPDATE_ON_DROP_AREA', payload: onDropArea });
+    }
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(StackCard);

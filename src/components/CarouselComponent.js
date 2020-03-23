@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import Canvas from './Canvas.js';
 import { connect } from 'react-redux';
 import Carousel from 'react-bootstrap/Carousel';
+import '.././css/CarouselComponent.css';
 
 const CarouselComponent = (props) => {
   const mapAllPages = props.stateFromStore.data.map(item => (
-    <Carousel.Item key={item.id}> 
-      <Canvas data={item} />
+    <Carousel.Item key={item.id} className="text-center">
+      <Canvas />
     </Carousel.Item>
   ));
   return (
@@ -15,8 +16,8 @@ const CarouselComponent = (props) => {
       controls={false}
       indicators={false}
       onSelect={() => { }}
-      className="mt-4 text-center"
-      style={{"position":"relative"}}
+      className="mt-4"
+      style={{ position: "relative"}}
     >
       {mapAllPages}
     </Carousel>
