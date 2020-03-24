@@ -192,11 +192,11 @@ class Canvas extends Component {
           <div className="active-box">
             <h1 className="drag">DROP HERE</h1>
           </div>}
-        {this.props.stateFromStore.onDropArea === true &&
+        {/* {this.props.stateFromStore.onDropArea === true &&
           this.props.stateFromStore.cardData &&
           Object.entries(this.props.stateFromStore.cardData)
-            .filter(cardPair => cardPair[1].onFormSetting)
-            .map(cardPair => <div className="form-card"><FormCard key={cardPair[0]} id={cardPair[0]} /></div>)}
+            .filter(cardPair => cardPair[1].onFormSetting === 1)
+            .map(cardPair => <div className="form-card"><FormCard key={cardPair[0]} id={cardPair[0]} name={cardPair[1].name}/></div>)} */}
         <canvas
           // We use the ref attribute to get direct access to the canvas element. 
           ref={(ref) => (this.canvas = ref)}

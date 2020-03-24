@@ -1,0 +1,56 @@
+.postit-form {
+  width: 480px;
+  height: 320px;
+  top: 50%;
+  left: 50%;
+  position:absolute;
+  border: none;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  box-shadow: 0 0px 12px 0 rgba(0,0,0,0.2);
+}
+.card-header{
+  border: none;
+}
+.card-header:first-child{
+  border-radius: 10px;
+}
+.card-footer{
+  border: none;
+}
+.card-header:first-child{
+  border-radius: 10px;
+}
+.lightyellow{
+  padding: 10px;
+  background-color: #FDF21C;
+}
+.text-box{
+  outline: none;
+}
+textarea.form-control{
+  padding-top: 0px;
+  padding-bottom: 0px;
+  height: 6em;
+}
+textarea {
+  outline: none;
+  border: none;
+  overflow: hidden;
+  resize: none;
+  height: 6em;
+  font-size: 1.5rem;
+}
+.form-control{
+  border: none;
+  background-color: transparent;
+  font-size: 1.5rem;
+}
+.form-control:focus{
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border: none;
+  background-color: transparent;
+  font-size: 1.5rem;
+  height: 6em;
+}
