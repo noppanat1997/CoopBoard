@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Header from '.././components/Header.js';
-import MainBoard from '.././components/MainBoard.js';
-import FormCard from '.././components/FormCard.js';
+import Header from '../components/Header.js';
+import MainBoard from '../components/MainBoard.js';
+import FormCard from '../components/FormCard.js';
 import '.././css/BoardPages.css';
-import ChatBox from '.././components/ChatBox.js';
-const BoardPages = (props) => {
+import ChatBox from '../components/ChatBox.js';
+const BoardPage = (props) => {
   return (
     <div>
       <ChatBox />
@@ -32,4 +32,4 @@ const mapStateToProps = state => {
 //     }
 //   }
 // }
-export default connect(mapStateToProps, null)(BoardPages);
+export default connect(mapStateToProps, null)(BoardPage);
