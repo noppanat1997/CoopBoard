@@ -4,8 +4,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import logger from 'redux-logger';
 import reducer from './reducer.js';
-import Header from './components/Header.js';
-import MainBoard from './components/MainBoard.js';
+import BoardPages from './pages/BoardPages.js';
 
 const App = () => {
   // const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
@@ -14,8 +13,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <div>
-        <Header />
-        <MainBoard />
+        <BoardPages />
       </div>
     </Provider>
   );

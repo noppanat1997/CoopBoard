@@ -4,7 +4,7 @@
   position: absolute;
   z-index: 3;
   overflow: hidden ;
-  height: 88%;
+  height: 85%;
   width: 10%;
 }
 .stack-card-start {
@@ -12,6 +12,6 @@
   position: absolute;
   z-index: 3;
   overflow: hidden ;
-  height: 88%;
+  height: 85%;
   width: 100%;
 }
