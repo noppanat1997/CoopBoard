@@ -11,7 +11,8 @@ class ChatBox extends Component {
   }
 
   handleNewUserMessage = (newMessage) => {
-    console.log(`New message incoming! ${newMessage}`);
+    console.log(`5555! ${newMessage}`);
+    // console.log(`New message incoming! ${newMessage}`);
     // Now send the message throught the backend API
   }
 
