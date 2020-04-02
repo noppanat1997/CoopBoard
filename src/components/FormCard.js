@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import { connect } from 'react-redux';
 import '.././css/FormCard.css'
-import PostIt from './cards/PostIt.js';
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'

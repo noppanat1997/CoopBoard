@@ -8,3 +8,20 @@
   transform: translate(-50%, -50%);
   background-color: #ffffff83;
 }
+.chat-box {
+  position:absolute;
+  z-index: 11;
+}
+.rcw-launcher{
+  background-color: #0071BC !important;
+}
+.rcw-header {
+  background-color:#0071BC !important;
+}
+.rcw-client{
+  background-color: #0071BC !important;
+  color: white;
+}
+.rcw-message > .rcw-response {
+  background-color: rgb(228, 228, 228);
+}

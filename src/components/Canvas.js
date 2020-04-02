@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { v4 } from 'uuid';
 import { connect } from 'react-redux';
 import '.././css/CarouselComponent.css';
-import FormCard from './FormCard.js';
+import './cards/PostIt.js';
+import PostIt from './cards/PostIt.js';
 
 class Canvas extends Component {
   constructor(props) {
@@ -182,6 +183,13 @@ class Canvas extends Component {
     this.ctx.lineJoin = 'round';
     this.ctx.lineCap = 'round';
     this.ctx.lineWidth = 10;
+  }
+  renderCard(){
+    return(
+      <div>
+        <PostIt />
+      </div>
+    );
   }
 
   render() {
