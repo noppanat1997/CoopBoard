@@ -1,10 +1,11 @@
 const initialState = {
   curPage: 1,
+  //[{start: {offsetX: 325, offsetY: 180},stop: {offsetX: 340, offsetY: 180}}]
   data: [
-    { id: 1, line: [] },
-    { id: 2, line: [] },
-    { id: 3, line: [] },
-    { id: 4, line: [] }
+    { id: 1, line: [], marker: []},
+    { id: 2, line: [[{start: {offsetX: 325, offsetY: 180},stop: {offsetX: 340, offsetY: 180}}]], marker: []},
+    { id: 3, line: [], marker: []},
+    { id: 4, line: [[{start: {offsetX: 325, offsetY: 180},stop: {offsetX: 450, offsetY: 180}}]], marker: []}
   ],
   buttonData: {
     1: { isActive: 0 },
@@ -33,9 +34,8 @@ const reducer = (state = initialState, action) => {
       const changedPage = { curPage: action.payload.curPage }
       newState.curPage = changedPage.curPage;
       if (action.payload.curPage > state.data.length - 1) {
-        newState.data.push({ id: action.payload.curPage, line: [] })
+        newState.data.push({ id: action.payload.curPage, line: [] , marker: []})
       }
-
       console.log(newState)
       return newState
 
@@ -53,6 +53,14 @@ const reducer = (state = initialState, action) => {
         for(var i = updatedLineData.length; i > 0;i--){
           const t = updatedLineData.pop();
           newState.data[id].line.splice(t,1);
+        }
+      }
+      else if(mode == 3){
+        if(updatedLineData.length == 0){
+          newState.data[id].marker = [];
+        }
+        else{
+          newState.data[id].marker.push(updatedLineData)
         }
       }
       return newState;
