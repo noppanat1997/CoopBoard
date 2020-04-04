@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import '.././css/CarouselComponent.css';
 import './cards/PostIt.js';
 import PostIt from './cards/PostIt.js';
+import CardField from './CardField.js';
 
 class Canvas extends Component {
   constructor(props) {
@@ -278,8 +279,8 @@ class Canvas extends Component {
     this.ctx.lineWidth = 10;
     //console.log(this.lineCount)
   }
-  renderCard(){
-    return(
+  renderCard() {
+    return (
       <div>
         <PostIt />
       </div>
@@ -293,20 +294,21 @@ class Canvas extends Component {
           <div className="active-box">
             <h1 className="drag">DROP HERE</h1>
           </div>}
-        {/* {this.props.stateFromStore.onDropArea === true &&
-          this.props.stateFromStore.cardData &&
-          Object.entries(this.props.stateFromStore.cardData)
-            .filter(cardPair => cardPair[1].onFormSetting === 1)
-            .map(cardPair => <div className="form-card"><FormCard key={cardPair[0]} id={cardPair[0]} name={cardPair[1].name}/></div>)} */}
+        <div className={this.props.stateFromStore.buttonData[3].isActive == 1 ? "card-field-active":"card-field"}>
+          <CardField />
+        </div>
         <canvas
+
           // We use the ref attribute to get direct access to the canvas element. 
           ref={(ref) => (this.canvas = ref)}
-          style={{ 'background': 'white', 'border': '2px solid #eeeeee', position: "relative" }}
           onMouseDown={this.onMouseDown}
           onMouseLeave={this.endPaintEvent}
           onMouseUp={this.endPaintEvent}
           onMouseMove={this.onMouseMove}
+          className="canvas"
         />
+        <div className="paper"></div>
+        <div className="field"></div>
       </div>
 
     );
@@ -319,11 +321,6 @@ const mapStateToProps = state => {
   }
 }
 const mapDispatchToProps = dispatch => {
-  //return {
-  //  addLine: (addLine) => {
-  //    return dispatch({ type: 'ADD_LINE', payload: addLine});
-  //  }
-  //}
   return {
     updateLine: (updateLine) => {
       return dispatch({ type: 'UPDATE_LINE', payload: updateLine });

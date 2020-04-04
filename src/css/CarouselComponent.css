@@ -8,7 +8,7 @@
   border: 5px solid #7c7c7c;
   background-color: #ffffff83;
   border-style: dashed;
-  z-index:2;
+  z-index:3;
 }
 .drag {
   color: #7c7c7c;
@@ -18,4 +18,47 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+.canvas {
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+.field {
+  width: 1500px;
+  height: 800px;
+  position: relative;
+}
+.paper {
+  width: 1500px;
+  height: 800px;
+  border: 2px solid #eeeeee9d;
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  z-index: -1;
+  pointer-events: none;
+}
+.card-field {
+  width: 1500px;
+  height: 800px;
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  pointer-events: none;
+}
+.card-field-active {
+  width: 1500px;
+  height: 800px;
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
 }
