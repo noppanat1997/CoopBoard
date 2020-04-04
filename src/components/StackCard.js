@@ -29,16 +29,14 @@ const StackCard = (props) => {
     console.log(state.onCard)
     if (!state.onCard && e.screenY >= 268 && e.screenY <= 1068 && e.screenX <= 1710 && e.screenX >= 210) {
       setState({ ...state, isHolding: false })
+      props.onDropAreaFn({ ...state, isHolding: false, onDropArea: false })
     }
   }
   console.log(state.onCard)
   return (
     <div className={(state.isHolding === true ? 'stack-card-active' : 'stack-card')}
       // onMouseDown={() => { setState({ ...state, isHolding: true }) }}
-      onMouseOver={() => {
-        setState({ ...state, isHolding: true })
-        props.onDropAreaFn({ ...state, isHolding: false, onDropArea: false })
-      }}
+      onMouseOver={() => {setState({ ...state, isHolding: true })}}
       onMouseMove={onMouseMoveHandler}
       onMouseUp={onMouseUpHandler}
     // onMouseLeave={() => { setState({ ...state, isHolding: false }) }}
