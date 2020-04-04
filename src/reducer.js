@@ -15,19 +15,23 @@ const initialState = {
   },
   isHolding: false,
   onDropArea: false,
-  cardData: {
-    1: { onFormSetting: 0,name: 'Post-It', data: {} },
-    2: { onFormSetting: 0,name: 'To-Do-Lists', data: {} },
-    3: { onFormSetting: 0,name: 'Calendar', data: {} },
-    4: { onFormSetting: 0,name: 'Map', data: {} },
-    5: { onFormSetting: 0,name: 'Table', data: {} },
-    6: { onFormSetting: 0,name: 'Url', data: {} },
-    7: { onFormSetting: 0,name: 'Code', data: {} },
-    8: { onFormSetting: 0,name: 'Video', data: {} }
+  formCardData: {
+    1: { onFormSetting: 0,name: 'Post-It' },
+    2: { onFormSetting: 0,name: 'To-Do-Lists'},
+    3: { onFormSetting: 0,name: 'Calendar'},
+    4: { onFormSetting: 0,name: 'Map'},
+    5: { onFormSetting: 0,name: 'Table'},
+    6: { onFormSetting: 0,name: 'Url'},
+    7: { onFormSetting: 0,name: 'Code'},
+    8: { onFormSetting: 0,name: 'Video'}
   },
   msgData: {
     1: {id: 1, name: 'server', msg: ['I am server','I am 20 years old']},
     2: {id: 2, name: 'user1', msg: []}
+  },
+  cardData: {
+    1: {data:[]},
+    2: {data:[]}
   }
 }
 const reducer = (state = initialState, action) => {
@@ -84,12 +88,12 @@ const reducer = (state = initialState, action) => {
       }
     case 'UPDATE_ON_FORM_SETTING':{
       const cardId = action.payload
-      let newOnFormSetting = state.cardData
+      let newOnFormSetting = state.formCardData
       Object.keys(newOnFormSetting).map((key)=> newOnFormSetting[key].onFormSetting = 0)
       newOnFormSetting[cardId].onFormSetting = 1
       return {
         ...state,
-        cardData : newOnFormSetting
+        formCardData : newOnFormSetting
       }}
     case 'ADD_MSG':{
       const {userID, userMsg} = action.payload

@@ -14,8 +14,8 @@ const App = () => {
   return (
     <Provider store={store}>
       <div style={{width: '100%', height: '100%'}}>
-        <RegisterPages />
-        {/* <BoardPage /> */}
+        {/* <RegisterPages /> */}
+        <BoardPage />
       </div>
     </Provider>
   );
