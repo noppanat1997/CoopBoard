@@ -18,7 +18,7 @@ const ToolBox = (props) => {
   }
 
   return (
-    <div className="w-10" style={{ "position":"absolute","zIndex":"3","paddingTop": "200px" }}>
+    <div className="w-10 d-flex flex-row" style={{ "position":"absolute","zIndex":"3","paddingTop": "200px" }}>
       <Card className="ml-3 toolbox">
         <Card.Body>
           <div className={"mb-2 " + (props.stateFromStore.buttonData[1].isActive === 1? 'tool-active':'tool')}>
@@ -38,6 +38,21 @@ const ToolBox = (props) => {
           </div>
         </Card.Body>
       </Card>
+      {props.stateFromStore.buttonData[1].isActive === 1 ? 
+      <Card className="ml-2 pen-panel">
+        <Card.Body>
+          <div className="d-flex flex-row">
+            <div id="11" className = {(props.stateFromStore.color === 1 ? "color-1-active" : "color-1")
+            } onClick={toggleHandler}/>
+            <div id="12" className = {"ml-3 " + (props.stateFromStore.color === 2 ? "color-2-active" : "color-2")
+            } onClick={toggleHandler}/>
+            <div id="13" className = {"ml-3 " + (props.stateFromStore.color === 3 ? "color-3-active" : "color-3")
+            } onClick={toggleHandler}/>
+            <div id="14" className = {"ml-3 " + (props.stateFromStore.color === 4 ? "color-4-active" : "color-4")
+            } onClick={toggleHandler}/>
+          </div>
+        </Card.Body>
+      </Card> : <div />}
     </div>
   );
 }
