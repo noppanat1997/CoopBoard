@@ -18,7 +18,7 @@ const ToolBox = (props) => {
   }
 
   return (
-    <div className="w-10" style={{ "position":"absolute","zIndex":"3","paddingTop": "200px" }}>
+    <div className="w-10 toolbox-area d-flex flex-row">
       <Card className="ml-3 toolbox">
         <Card.Body>
           <div className={"mb-2 " + (props.stateFromStore.buttonData[1].isActive === 1? 'tool-active':'tool')}>
@@ -38,6 +38,39 @@ const ToolBox = (props) => {
           </div>
         </Card.Body>
       </Card>
+      {props.stateFromStore.buttonData[1].isActive === 1 ? 
+      <Card className="ml-2 panel">
+        <Card.Body>
+          <div className="d-flex flex-row">
+            <div id="11" className={(props.stateFromStore.color === 1? 'pallette-magenta-active' : 'pallette-magenta')} 
+            onClick={toggleHandler} />
+            <div id="12"className={"ml-3 " + (props.stateFromStore.color === 2? 'pallette-pink-active' : 'pallette-pink')} 
+            onClick={toggleHandler} />
+            <div id="13" className={"ml-3 " + (props.stateFromStore.color === 3? 'pallette-blue-active' : 'pallette-blue')} 
+            onClick={toggleHandler} />
+            <div id="14" className={"ml-3 " + (props.stateFromStore.color === 4? 'pallette-dark-blue-active' : 'pallette-dark-blue')}
+            onClick={toggleHandler} />
+          </div>
+          <div className="mt-3 d-flex flex-row">
+            <div id="21" className={(props.stateFromStore.size === 1? 'size-button-active':'size-button')}
+            onClick={toggleHandler}>
+              <div id="21" className='size-5' onClick={toggleHandler}/>
+            </div>
+            <div id="22" className={"ml-3 " + (props.stateFromStore.size === 2? 'size-button-active':'size-button')}
+            onClick={toggleHandler}>
+              <div id="22" className='size-10' onClick={toggleHandler}/>
+            </div>
+            <div id="23" className={"ml-3 " + (props.stateFromStore.size === 3? 'size-button-active':'size-button')}
+            onClick={toggleHandler}>
+              <div id="23" className='size-15' onClick={toggleHandler}/>
+            </div>
+            <div id="24" className={"ml-3 " + (props.stateFromStore.size === 4? 'size-button-active':'size-button')}
+            onClick={toggleHandler}>
+              <div id="24" className='size-20' onClick={toggleHandler}/>
+            </div>
+          </div>
+        </Card.Body>
+      </Card> : <div />}
     </div>
   );
 }
