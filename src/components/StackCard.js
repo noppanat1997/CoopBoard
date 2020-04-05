@@ -11,8 +11,7 @@ const StackCard = (props) => {
   });
   const onMouseUpHandler = (e) => {
     // console.log(e.screenX, e.screenY)
-    setState({ onCard: false })
-    setState({ ...state, isHolding: false })
+    setState({ ...state, isHolding: false, onCard: false })
     if (state.onCard) {
       onDropAreaHandler(e.screenX, e.screenY)
     }
@@ -37,6 +36,7 @@ const StackCard = (props) => {
     <div className={(state.isHolding === true ? 'stack-card-active' : 'stack-card')}
       onMouseOver={() => { setState({ ...state, isHolding: true }) }}
       onMouseMove={onMouseMoveHandler}
+      onMouseLeave={() => { setState({ ...state, isHolding: false}) }}
     >
       <Draggable position={{ x: 0, y: 0 }}
         onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}
