@@ -51,6 +51,24 @@ const ToolBox = (props) => {
             <div id="14" className = {"ml-3 " + (props.stateFromStore.color === 4 ? "color-4-active" : "color-4")
             } onClick={toggleHandler}/>
           </div>
+          <div className="mt-3 d-flex flex-row">
+            <div id="21" className = {(props.stateFromStore.size === 1 ? "size-button-active" : "size-button")
+            } onClick={toggleHandler}>
+              <div id="21" className = "size-5" onClick={toggleHandler} />
+            </div>
+            <div id="22" className = {"ml-3 " + (props.stateFromStore.size === 2 ? "size-button-active" : "size-button")
+            } onClick={toggleHandler}>
+              <div id="22" className = "size-10" onClick={toggleHandler} />
+            </div>
+            <div id="23" className = {"ml-3 " + (props.stateFromStore.size === 3 ? "size-button-active" : "size-button")
+            } onClick={toggleHandler}>
+              <div id="23" className = "size-15" onClick={toggleHandler} />
+            </div>
+            <div id="24" className = {"ml-3 " + (props.stateFromStore.size === 4 ? "size-button-active" : "size-button")
+            } onClick={toggleHandler}>
+              <div id="24" className = "size-20" onClick={toggleHandler} />
+            </div>
+          </div>
         </Card.Body>
       </Card> : <div />}
     </div>
