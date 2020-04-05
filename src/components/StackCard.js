@@ -11,6 +11,7 @@ const StackCard = (props) => {
   });
   const onMouseUpHandler = (e) => {
     // console.log(e.screenX, e.screenY)
+    setState({ onCard: false })
     setState({ ...state, isHolding: false })
     if (state.onCard) {
       onDropAreaHandler(e.screenX, e.screenY)
@@ -26,7 +27,6 @@ const StackCard = (props) => {
     }
   }
   const onMouseMoveHandler = (e) => {
-    console.log(state.onCard)
     if (!state.onCard && e.screenY >= 268 && e.screenY <= 1068 && e.screenX <= 1710 && e.screenX >= 210) {
       setState({ ...state, isHolding: false })
       props.onDropAreaFn({ ...state, isHolding: false, onDropArea: false })
@@ -35,73 +35,78 @@ const StackCard = (props) => {
   console.log(state.onCard)
   return (
     <div className={(state.isHolding === true ? 'stack-card-active' : 'stack-card')}
-      // onMouseDown={() => { setState({ ...state, isHolding: true }) }}
-      onMouseOver={() => {setState({ ...state, isHolding: true })}}
+      onMouseOver={() => { setState({ ...state, isHolding: true }) }}
       onMouseMove={onMouseMoveHandler}
-      onMouseUp={onMouseUpHandler}
-    // onMouseLeave={() => { setState({ ...state, isHolding: false }) }}
     >
-      <Draggable position={{ x: 0, y: 0 }} onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}>
-        <div
-          onMouseEnter={() => { setState({ onCard: true }) }}
-          onMouseLeave={() => { setState({ onCard: false }) }}
-        >
+      <Draggable position={{ x: 0, y: 0 }}
+        onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}
+        onStart={() => { setState({ onCard: true }) }}
+        onStop={onMouseUpHandler}
+      >
+        <div>
           <EachCard id="1" name={"Post-It"} color={"#D4145A"} />
         </div>
       </Draggable>
-      <Draggable position={{ x: 0, y: -100 }} onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}>
-        <div
-          onMouseEnter={() => { setState({ onCard: true }) }}
-          onMouseLeave={() => { setState({ onCard: false }) }}
-        >
+      <Draggable position={{ x: 0, y: -100 }}
+        onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}
+        onStart={() => { setState({ onCard: true }) }}
+        onStop={onMouseUpHandler}
+      >
+        <div>
           <EachCard id="2" name={"To-Do-Lists"} color={"#0071BC"} />
         </div>
       </Draggable>
-      <Draggable position={{ x: 0, y: -200 }} onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}>
-        <div
-          onMouseEnter={() => { setState({ onCard: true }) }}
-          onMouseLeave={() => { setState({ onCard: false }) }}
-        >
+      <Draggable position={{ x: 0, y: -200 }}
+        onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}
+        onStart={() => { setState({ onCard: true }) }}
+        onStop={onMouseUpHandler}
+      >
+        <div>
           <EachCard id="3" name={"Calendar"} color={"#202C5D"} />
         </div>
       </Draggable>
-      <Draggable position={{ x: 0, y: -300 }} onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}>
-        <div
-          onMouseEnter={() => { setState({ onCard: true }) }}
-          onMouseLeave={() => { setState({ onCard: false }) }}
-        >
+      <Draggable position={{ x: 0, y: -300 }}
+        onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}
+        onStart={() => { setState({ onCard: true }) }}
+        onStop={onMouseUpHandler}
+      >
+        <div>
           <EachCard id="4" name={"Map"} color={"#D4145A"} />
         </div>
       </Draggable>
-      <Draggable position={{ x: 0, y: -400 }} onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}>
-        <div
-          onMouseEnter={() => { setState({ onCard: true }) }}
-          onMouseLeave={() => { setState({ onCard: false }) }}
-        >
+      <Draggable position={{ x: 0, y: -400 }}
+        onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}
+        onStart={() => { setState({ onCard: true }) }}
+        onStop={onMouseUpHandler}
+      >
+        <div>
           <EachCard id="5" name={"Table"} color={"#0071BC"} />
         </div>
       </Draggable>
-      <Draggable position={{ x: 0, y: -500 }} onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}>
-        <div
-          onMouseEnter={() => { setState({ onCard: true }) }}
-          onMouseLeave={() => { setState({ onCard: false }) }}
-        >
+      <Draggable position={{ x: 0, y: -500 }}
+        onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}
+        onStart={() => { setState({ onCard: true }) }}
+        onStop={onMouseUpHandler}
+      >
+        <div>
           <EachCard id="6" name={"Url"} color={"#202C5D"} />
         </div>
       </Draggable>
-      <Draggable position={{ x: 0, y: -600 }} onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}>
-        <div
-          onMouseEnter={() => { setState({ onCard: true }) }}
-          onMouseLeave={() => { setState({ onCard: false }) }}
-        >
+      <Draggable position={{ x: 0, y: -600 }}
+        onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}
+        onStart={() => { setState({ onCard: true }) }}
+        onStop={onMouseUpHandler}
+      >
+        <div>
           <EachCard id="7" name={"Code"} color={"#D4145A"} />
         </div>
       </Draggable>
-      <Draggable position={{ x: 0, y: -700 }} onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}>
-        <div
-          onMouseEnter={() => { setState({ onCard: true }) }}
-          onMouseLeave={() => { setState({ onCard: false }) }}
-        >
+      <Draggable position={{ x: 0, y: -700 }}
+        onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}
+        onStart={() => { setState({ onCard: true }) }}
+        onStop={onMouseUpHandler}
+      >
+        <div>
           <EachCard id="8" name={"Video"} color={"#0071BC"} />
         </div>
       </Draggable>
