@@ -26,7 +26,8 @@ const initialState = {
     8: { onFormSetting: 0,name: 'Video', data: {} }
   },
   msgData: {
-    1: {id: 1, name: 'server', msg: ['I\'m server', 'I\'m 20 years old']}
+    1: {id: 1, name: 'server', msg: ['I am server','I am 20 years old']},
+    2: {id: 2, name: 'user1', msg: []}
   }
 }
 const reducer = (state = initialState, action) => {
@@ -90,12 +91,13 @@ const reducer = (state = initialState, action) => {
         ...state,
         cardData : newOnFormSetting
       }}
-    case 'ADD_MSG':
-      let {userID , userMsg} = action.payload
+    case 'ADD_MSG':{
+      const {userID, userMsg} = action.payload
       return {
         ...state,
-        msgData: {...state.msgData, userID: {...state.msgData[userID], msg: [...state,msgData[userID]]}
+        msgData: {...state.msgData, userID: {...state.msgData[userID], msg: state.msgData[userID].msg.push(userMsg)}}
       }
+    }
     default:
       break;
   }
