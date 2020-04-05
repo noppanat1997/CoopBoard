@@ -1,5 +1,4 @@
 .stack-card{
-  background-color: cadetblue;
   margin: 6% 0% 0% 90%;
   padding: 0% 0% 0% 0%;
   position: absolute;
@@ -9,7 +8,6 @@
   width: 10%;
 }
 .stack-card-active {
-  background-color: cadetblue;
   margin: 0% 0% 0% 10%;
   padding: 6% 0% 0% 80%;
   position: absolute;
