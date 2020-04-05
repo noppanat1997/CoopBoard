@@ -51,6 +51,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 3;
+  overflow: hidden;
   pointer-events: none;
 }
 .card-field-active {
@@ -60,5 +61,6 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  overflow: hidden;
   z-index: 3;
 }

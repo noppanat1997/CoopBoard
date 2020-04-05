@@ -201,7 +201,7 @@ class Canvas extends Component {
     this.ctx.moveTo(x, y);
     // Draw a line to the current position of the mouse
     this.ctx.lineTo(offsetX, offsetY);
-    // Visualize the line using the strokeStyle
+    // Visualize the line using the strokeStylSe
     this.ctx.stroke();
   }
   /*erase(prevPos, currPos, strokeStyle) {
@@ -295,7 +295,7 @@ class Canvas extends Component {
             <h1 className="drag">DROP HERE</h1>
           </div>}
         <div className={this.props.stateFromStore.buttonData[3].isActive == 1 ? "card-field-active":"card-field"}>
-          <CardField />
+          <CardField page={this.props.stateFromStore.curPage+1} />
         </div>
         <canvas
 
