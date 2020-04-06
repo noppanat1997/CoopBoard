@@ -10,7 +10,9 @@
   transform: translate(-50%,-50%);
 }
 .sumbit-btn {
-  background-color: #202C5D;
+  width: 200px;
+  height: 50px;
+  background-color: #202C5D !important;
   border-color: blue;
   display: inline-block;
   font-weight: 400;

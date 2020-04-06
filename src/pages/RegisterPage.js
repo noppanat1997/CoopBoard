@@ -7,15 +7,15 @@ import Col from 'react-bootstrap/Col';
 const RegisterPages = (props) => {
 
   const [state, setState] = useState({
-    firstname:"",
-    lastname:"",
-    email:"",
-    password:"",
-    error:{
-      firstname:"",
-      lastname:"",
-      email:"",
-      password:""
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+    error: {
+      firstname: "",
+      lastname: "",
+      email: "",
+      password: ""
     }
   })
 
@@ -23,42 +23,60 @@ const RegisterPages = (props) => {
     let name = event.target.name;
     let value = event.target.value;
     setState({
-      [name]:value
+      ...state,
+      [name]: value
     })
   }
 
-  const submitHandle = (event) => {
+  const onSubmitHandle = (event) => {
     event.preventDefault();
-    alert("You submitting " + state.firstname)
+    alert("submitting on " + state.firstname + " " + state.lastname)
   }
 
   return (
     <div className="bg">
       <Card className="register-card" style={{ width: '536px', height: '536px', color: '#C1C1C1' }}>
         <Card.Body>
-          <Form onSubmit={submitHandle}>
+          <Form onSubmit={e => onSubmitHandle(e)}>
             <h1 style={{ color: '#D4145A' }}>SIGN UP</h1>
             <h5 style={{ color: '#D4145A' }}>Please fill in this form to create an account!</h5>
             <Form.Row className="mb-2">
               <Col>
-              <input type="text" name="firstname" onChange={onChangeHandle} className="form-control" placeholder="First name" />
-                {/* <Form.Control placeholder="Fisrt name" /> */}
+                <input
+                  type="text"
+                  name="firstname"
+                  pattern="[A-Za-z].{2,}"
+                  title="3 or more character"
+                  onChange={onChangeHandle}
+                  className="form-control"
+                  placeholder="First name"
+                  required />
               </Col>
               <Col>
-              <input type="text" name="lastname" onChange={onChangeHandle} className="form-control" placeholder="Last name" />
+                <input
+                  type="text"
+                  name="lastname"
+                  pattern=".{2,}"
+                  title="3 or more character"
+                  onChange={onChangeHandle}
+                  className="form-control"
+                  placeholder="Last name"
+                  required />
               </Col>
             </Form.Row>
             <Form.Group className="mb-2">
-              <Form.Control type="email" placeholder="Email" />
+              <Form.Control 
+              type="email" 
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
+              placeholder="Email"
+              required />
             </Form.Group>
             <Form.Group>
               <Form.Control className="mb-2" type="password" placeholder="Password" />
               <Form.Control type="password" placeholder="Confirm password" />
             </Form.Group>
             <div className="text-center">
-              <div type="submit" className="btn btn-primary">
-                SIGN UP
-                  </div>
+            <button type="submit" className="btn btn-primary">Submit</button>
             </div>
             <h1>
               {state.firstname} {state.lastname}
