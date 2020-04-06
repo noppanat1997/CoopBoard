@@ -41,12 +41,14 @@ textarea {
   height: 6em;
   font-size: 1.5rem;
 }
-.form-control{
+.card-form-control{
   border: none;
   background-color: transparent;
+  box-shadow: none;
+  border: none !important;
   font-size: 1.5rem;
 }
-.form-control:focus{
+.card-form-control:focus{
   -webkit-box-shadow: none;
   box-shadow: none;
   border: none;

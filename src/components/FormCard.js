@@ -32,7 +32,7 @@ const FormCard = (props) => {
         </Card.Header>
         <Card.Body className="lightyellow">
           <Form.Group className="mb-0" controlId="exampleForm.ControlTextarea1">
-            <Form.Control maxlength="110" className="text-box" as="textarea" rows="3"
+            <Form.Control maxlength="110" className="text-box card-form-control" as="textarea" rows="3"
               onChange={(e) => setState({ textAreaCount: e.target.value.length })} />
           </Form.Group>
           <div className="d-flex justify-content-end pr-3">{state.textAreaCount}/110</div>
