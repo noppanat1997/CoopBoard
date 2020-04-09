@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { v4 } from 'uuid';
 import { connect } from 'react-redux';
 import '.././css/CarouselComponent.css';
-import '.././css/Canvas.css';
 import './cards/PostIt.js';
 import PostIt from './cards/PostIt.js';
 
