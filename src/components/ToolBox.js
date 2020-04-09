@@ -16,13 +16,20 @@ const ToolBox = (props) => {
     }
     props.toggleFn(newState)
   }
+  const downHandler = (e) =>{
+    console.log("chekchek");
+    const newState = {
+      newId: e.target.id+0, newIsActive : 1
+    }
+    props.toggleFn(newState)
+  }
 
   return (
     <div className="w-10 d-flex flex-row" style={{ "position":"absolute","zIndex":"3","paddingTop": "200px" }}>
       <Card className="ml-3 toolbox">
         <Card.Body>
           <div className={"mb-2 " + (props.stateFromStore.buttonData[1].isActive === 1? 'tool-active':'tool')}>
-            <img id="1" src={pencilIcon} alt="" onClick={toggleHandler} />
+            <img id="1" src={pencilIcon} alt="" onClick={toggleHandler} onMouseDown={downHandler}/>
           </div>
           <div className={"mb-2 " + (props.stateFromStore.buttonData[2].isActive === 1? 'tool-active':'tool')}>
             <img id="2" src={erasorIcon} alt="" onClick={toggleHandler} />
@@ -38,7 +45,7 @@ const ToolBox = (props) => {
           </div>
         </Card.Body>
       </Card>
-      {props.stateFromStore.buttonData[1].isActive === 1 ? 
+      {props.stateFromStore.buttonData[1].isActive & props.stateFromStore.toolbarOpen ? 
       <Card className="ml-2 pen-panel">
         <Card.Body>
           <div className="d-flex flex-row">

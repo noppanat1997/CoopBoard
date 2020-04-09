@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { v4 } from 'uuid';
 import { connect } from 'react-redux';
 import '.././css/CarouselComponent.css';
+import '.././css/Canvas.css';
 import './cards/PostIt.js';
 import PostIt from './cards/PostIt.js';
 
@@ -56,6 +57,7 @@ class Canvas extends Component {
       this.isMarking = true;
       this.prevPos = { offsetX, offsetY };
     }
+    this.props.panelCheck(1);
   }
 
   onMouseMove({ nativeEvent }) {
@@ -286,7 +288,9 @@ class Canvas extends Component {
 
   render() {
     return (
-      <div>
+      <div className={(this.props.stateFromStore.buttonData[1].isActive ? "pencilCursor" : "") + 
+      (this.props.stateFromStore.buttonData[2].isActive ? "erasorCursor" : "") + 
+      (this.props.stateFromStore.buttonData[5].isActive ? "pointerCursor" : "")}>
         {this.props.stateFromStore.isHolding === true &&
           <div className="active-box">
             <h1 className="drag">DROP HERE</h1>
@@ -295,7 +299,8 @@ class Canvas extends Component {
           this.props.stateFromStore.cardData &&
           Object.entries(this.props.stateFromStore.cardData)
             .filter(cardPair => cardPair[1].onFormSetting === 1)
-            .map(cardPair => <div className="form-card"><FormCard key={cardPair[0]} id={cardPair[0]} name={cardPair[1].name}/></div>)} */}
+            .map(cardPair => <div className="form-card"><FormCard key={cardPair[0]} id={cardPair[0]} name={cardPair[1].name}/></div>)} */
+        }
         <canvas
 
           // We use the ref attribute to get direct access to the canvas element. 
@@ -323,6 +328,9 @@ const mapDispatchToProps = dispatch => {
   return {
     updateLine: (updateLine) => {
       return dispatch({ type: 'UPDATE_LINE', payload: updateLine });
+    }
+    ,panelCheck: (check) => {
+      return dispatch({ type: 'CHECK_PANEL', payload: check});
     }
   }
 }

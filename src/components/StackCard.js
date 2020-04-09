@@ -31,7 +31,7 @@ const StackCard = (props) => {
       props.onDropAreaFn({ ...state, isHolding: false, onDropArea: false })
     }
   }
-  console.log(state.onCard)
+  //console.log(state.onCard)
   return (
     <div className={(state.isHolding === true ? 'stack-card-active' : 'stack-card')}
       onMouseOver={() => { setState({ ...state, isHolding: true }) }}

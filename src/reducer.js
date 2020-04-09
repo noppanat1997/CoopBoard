@@ -16,7 +16,7 @@ const initialState = {
     4: { isActive: 0 },
     5: { isActive: 0 }
   },
-  toolbarOpen: 0,
+  toolbarOpen: false,
   color: 1,
   size: 2,
   isHolding: false,
@@ -86,6 +86,10 @@ const reducer = (state = initialState, action) => {
           buttonData: newbuttonData
         }
       }
+      else if(newId == 10){
+        newState.toolbarOpen = !newState.toolbarOpen;
+        return newState;
+      }
       else if(newId > 10 & newId < 15){
         newState.color = newId - 10
         switch(newId){
@@ -131,6 +135,13 @@ const reducer = (state = initialState, action) => {
         ...state,
         msgData: {...state.msgData, userID: {...state.msgData[userID], msg: state.msgData[userID].msg.push(userMsg)}}
       }
+    }
+    case 'CHECK_PANEL':{
+      const check = action.payload
+      if(check == 1){
+        newState.toolbarOpen = false;
+      }
+      return newState;
     }
     default:
       break;
