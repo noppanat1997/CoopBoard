@@ -4,11 +4,11 @@ import Header from '../components/Header.js';
 import MainBoard from '../components/MainBoard.js';
 import FormCard from '../components/FormCard.js';
 import '.././css/BoardPages.css';
-import ChatBox from '../components/ChatBox.js';
+
 const BoardPage = (props) => {
   return (
     <div>
-      <ChatBox />
+      
       {props.stateFromStore.onDropArea === true &&
         props.stateFromStore.formCardData &&
         Object.entries(props.stateFromStore.formCardData)
