@@ -1,25 +1,33 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import '.././css/CarouselComponent.css';
-import Draggable from 'react-draggable';
-import EachCard from './EachCard.js';
 import '.././css/CardField.css';
 import { connect } from 'react-redux';
+import CardOnBoard from './CardOnBoard.js';
 
 const CardField = (props) => {
-  const cardDataList = props.stateFromStore.cardData[props.page].data
+  let cardDataList= []
+  if (props.stateFromStore.cardData[props.page].data !== null) {
+    cardDataList = props.stateFromStore.cardData[props.page].data
+  }
   let lists
-  if (cardDataList.length !== 0) {
+  if (cardDataList.length != 0) {
     lists = cardDataList.map(item =>
       (
-        <Draggable key={item.id}>
-          <div>
-            <EachCard id="1" name={item.text} color={"#D4145A"} />
-          </div>
-        </Draggable>
-      ))
+        <CardOnBoard key={item.id} id={item.id} size={item.size} color={item.color} text={item.text} position={item.position}/>
+      )
+    )
   }
+  useEffect(()=>{
+    if (cardDataList.length != 0) {
+      lists = cardDataList.map(item =>
+        (
+          <CardOnBoard key={item.id} id={item.id} text={item.text} position={item.position}/>
+        )
+      )
+    }
+  },[])
   return (
-    <div>
+    <div className="w-100 h-100">
       {lists}
     </div>
   );

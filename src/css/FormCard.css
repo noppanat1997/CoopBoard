@@ -21,10 +21,7 @@
 .card-header:first-child{
   border-radius: 10px;
 }
-.lightyellow{
-  padding: 10px;
-  background-color: #FDF21C;
-}
+
 .text-box{
   outline: none;
 }
@@ -53,4 +50,67 @@ textarea {
   background-color: transparent;
   font-size: 1.5rem;
   height: 6em;
+}
+.ball {
+  width: 4vh;
+  height: 4vh;
+  border-radius: 50%;
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+.ball:hover{
+  box-shadow: 0px 0px 0px 4px rgba(139, 139, 139, 0.185);
+}
+.yellow {
+  background-color: #FDF21C;
+}
+.pink {
+  background-color: #ff65a3;
+}
+.blue {
+  background-color: #7afcff;
+}
+.none {
+  background-color: none;
+  border: 1px dashed rgb(133, 133, 133);
+}
+.yellow-active {
+  background-color: #FDF21C;
+  box-shadow: 0px 0px 0px 4px rgba(139, 139, 139, 0.185);
+}
+.pink-active {
+  background-color: #ff65a3;
+  box-shadow: 0px 0px 0px 4px rgba(139, 139, 139, 0.185);
+}
+.blue-active {
+  background-color: #7afcff;
+  box-shadow: 0px 0px 0px 4px rgba(139, 139, 139, 0.185);
+}
+.none-active {
+  background-color: none;
+  box-shadow: 0px 0px 0px 4px rgba(139, 139, 139, 0.185);
+  border: 1px dashed rgb(133, 133, 133);
+}
+.text-area-bg{
+  padding: 10px;
+}
+
+.size-ball {
+  width: 4vh;
+  height: 3vh;
+  border-radius: 0.8vh;
+  cursor: pointer;
+}
+.size-ball:hover{
+  background-color: rgba(139, 139, 139, 0.185);
+}
+.size-ball-active {
+  width: 4vh;
+  height: 3vh;
+  border-radius: 0.8vh;
+  background-color: rgba(139, 139, 139, 0.185);
+  cursor: pointer;
 }

@@ -31,9 +31,10 @@ const initialState = {
     2: { id: 2, name: 'user1', msg: [] }
   },
   cardData: {
-    1:{ id: 1, data: [] },
-    2:{ id: 2, data: [{ id: 1, position: { x: 0, y: 0 }, text: 'Hello Post-It' }, { id: 2, position: { x: 0, y: 0 }, text: 'Hello Post-It2' }] },
-    3:{ id: 3, data: [] }
+    1: { id: 1, data: [] },
+    2: { id: 2, data: [{ id: 1, size: 'm', color: 'yellow', position: { x: 100, y: 100 }, text: 'Hello Post-It' }] },
+    3: { id: 3, data: [{ id: 1, size: 'm', color: 'yellow', position: { x: 100, y: 100 }, text: 'Hello Post-It3' }] },
+    4: { id: 4, data: [] },
   }
 }
 const reducer = (state = initialState, action) => {
@@ -113,10 +114,34 @@ const reducer = (state = initialState, action) => {
       }
     }
     case 'ADD_CARD': {
-      let { cardID, cardPosition } = action.payload
+      let { curPage, size, color, text } = action.payload
+      let newList = state.cardData[curPage + 1].data
+      newList = [...newList, { id: newList.length + 1, size: size, color: color, position: { x: 600, y: 300 }, text: text }]
       return {
         ...state,
-        cardData: [...state.cardData]
+        cardData: {
+          ...state.cardData,
+          [curPage + 1]: {
+            ...state.cardData[curPage],
+            data: newList
+          }
+        }
+      }
+    }
+    case 'UPDATE_POSITION': {
+      let { curPage, id, x, y } = action.payload
+      let newList = state.cardData[curPage + 1].data
+      newList[id - 1].position = { x: x, y: y }
+
+      return {
+        ...state,
+        cardData: {
+          ...state.cardData,
+          [curPage + 1]: {
+            ...state.cardData[curPage],
+            data: newList
+          }
+        }
       }
     }
     default:
