@@ -38,14 +38,14 @@ textarea {
   height: 6em;
   font-size: 1.5rem;
 }
-.card-form-control{
+.my-card-form-control{
   border: none;
   background-color: transparent;
   box-shadow: none;
   border: none !important;
   font-size: 1.5rem;
 }
-.card-form-control:focus{
+.my-card-form-control:focus{
   -webkit-box-shadow: none;
   box-shadow: none;
   border: none;

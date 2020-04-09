@@ -90,7 +90,7 @@ const FormCard = (props) => {
         </Card.Header>
         <Card.Body className={state.color + ' text-area-bg'}>
           <Form.Group className="mb-0" controlId="exampleForm.ControlTextarea1">
-            <Form.Control maxlength="40" className="text-box" as="textarea" rows="3"
+            <Form.Control maxlength="40" className="text-box my-card-form-control" as="textarea" rows="3"
               onChange={(e) => setState({ ...state, textAreaCount: e.target.value.length, text: e.target.value })} />
           </Form.Group>
           <div className="d-flex justify-content-end pr-3">{state.textAreaCount}/40</div>

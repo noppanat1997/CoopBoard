@@ -20,17 +20,15 @@ class Canvas extends Component {
   isMarking = false;
 
   /* All line size */
-  penWidth = 10;
-  eraserWidth = this.penWidth + 2;
+  penWidth = this.props.stateFromStore.penSize;
   markerWidth = 8;
-  unMarkWidth = this.markerWidth + 2;
+  unMarkWidth = 10;
 
   cPage = 0;//this.props.stateFromStore.curPage;
   pPage = 0;
   lineCount = 0;//this.props.stateFromStore.data[this.cPage].line.length;
   // Different stroke styles to be used for user and guest
-  userStrokeStyle = '#EE92C2';
-  guestStrokeStyle = '#F0C987';
+  userStrokeStyle = this.props.stateFromStore.penColor;
   eraserStyle = '#FFFFFF';
   markerStyle = '#FF0000';
   line = [];
@@ -39,6 +37,8 @@ class Canvas extends Component {
   prevPos = { offsetX: 0, offsetY: 0 };
 
   onMouseDown({ nativeEvent }) {
+    this.userStrokeStyle = this.props.stateFromStore.penColor;
+    this.penWidth = this.props.stateFromStore.penSize;
     const { offsetX, offsetY } = nativeEvent;
     if (this.props.stateFromStore.buttonData[1].isActive == 1){
       this.isPainting = true;
@@ -55,6 +55,7 @@ class Canvas extends Component {
       this.isMarking = true;
       this.prevPos = { offsetX, offsetY };
     }
+    this.props.panelCheck(1);
   }
 
   onMouseMove({ nativeEvent }) {
@@ -95,7 +96,7 @@ class Canvas extends Component {
         })
         if (this.foundCheck == 1) {
           lineData.line[i].forEach((val) => {
-            this.paint(val.start, val.stop, this.eraserStyle, this.eraserWidth);
+            this.paint(val.start, val.stop, this.eraserStyle, lineData.size[i]+2);
           })
           this.arrIndex.push(i);
           //console.log(this.arrIndex);
@@ -104,7 +105,7 @@ class Canvas extends Component {
       }
     }
     else if (this.isMarking & this.props.stateFromStore.buttonData[5].isActive == 1){
-      let markData = this.props.stateFromStore.data[this.cPage].marker
+      /*let markData = this.props.stateFromStore.data[this.cPage].marker
       if(markData.length != 0){
         markData[0].forEach((val) => {
           this.unmark(val.start, val.stop, this.eraserStyle, this.unMarkWidth);
@@ -115,7 +116,7 @@ class Canvas extends Component {
           mode: 3
         };
         this.props.updateLine(delMarker);
-      }
+      }*/
       const { offsetX, offsetY } = nativeEvent;
       const offSetData = { offsetX, offsetY };
       // Set the start and stop position of the paint event.
@@ -153,13 +154,11 @@ class Canvas extends Component {
     }
     else if (this.isMarking){
       this.isMarking = false;
-      let sendData = {
-        id: this.cPage,
-        data: this.line,
-        mode: 3
-      };
+      this.line.forEach((val) => {
+        this.paint(val.start, val.stop, this.eraserStyle, this.unMarkWidth);
+      })
       this.line = [];
-      this.props.updateLine(sendData);
+      this.redraw()
     }
   }
 
@@ -169,7 +168,7 @@ class Canvas extends Component {
     let lineCount = lineData.line.length;
     for (let k = 0; k < lineCount; k++) {
       lineData.line[k].forEach((val) => {
-        this.paint(val.start, val.stop, this.userStrokeStyle, this.penWidth);
+        this.paint(val.start, val.stop, lineData.color[k], lineData.size[k]);
       })
     }
   }
@@ -280,7 +279,9 @@ class Canvas extends Component {
 
   render() {
     return (
-      <div>
+      <div className={(this.props.stateFromStore.buttonData[1].isActive ? "pencilCursor" : "") + 
+      (this.props.stateFromStore.buttonData[2].isActive ? "erasorCursor" : "") + 
+      (this.props.stateFromStore.buttonData[5].isActive ? "pointerCursor" : "")}>
         {this.props.stateFromStore.isHolding === true &&
           <div className="active-box">
             <h1 className="drag">DROP HERE</h1>
@@ -315,6 +316,9 @@ const mapDispatchToProps = dispatch => {
   return {
     updateLine: (updateLine) => {
       return dispatch({ type: 'UPDATE_LINE', payload: updateLine });
+    }
+    ,panelCheck: (check) => {
+      return dispatch({ type: 'CHECK_PANEL', payload: check});
     }
   }
 }

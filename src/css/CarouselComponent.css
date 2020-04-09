@@ -64,3 +64,12 @@
   overflow: hidden;
   z-index: 3;
 }
+.pencilCursor{
+  cursor: url(.././images/pencil.svg), auto;
+}
+.erasorCursor{
+  cursor: url(.././images/erasor.svg), auto;
+}
+.pointerCursor{
+  cursor: url(.././images/pointer.svg), auto;
+}
