@@ -128,7 +128,7 @@ const LoginPage = (props) => {
             <center>
               <img src={Logo} width="200" height="200" alt="CoopBoard" />
             </center>
-            <h1 style={{ color: '#D4145A', textAlign: 'center', marginBottom: '30px' }}>SIGN IN</h1>
+            <h1 style={{ color: '#D4145A', textAlign: 'center', marginBottom: '30px' , fontWeight:'bold'}}>SIGN IN</h1>
             <Form.Group className="mb-3">
               <Form.Control
                 type="email"

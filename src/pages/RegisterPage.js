@@ -246,7 +246,7 @@ const RegisterPages = (props) => {
             <div className="text-center">
               <button
                 type="submit"
-                className="btn btn-primary">
+                className="btn-submit btn-primary">
                 Submit</button>
             </div>
           </Form>
