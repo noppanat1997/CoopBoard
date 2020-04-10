@@ -63,7 +63,7 @@ const ChatBox = ({ location }) => {
 
   return (
     // <div className="outerContainer">
-      <div className={!state.isShow ? 'my-chat-window' : 'my-chat-window-active'}>
+      <div className={!state.isShow ? 'my-chat-window' : 'my-chat-window-active'}  style={{ "position":"absolute","zIndex":"8" }}>
         {state.isShow ?
           <div className="my-container">
             <InfoBar room={room} users={users} />

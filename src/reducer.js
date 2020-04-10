@@ -1,11 +1,13 @@
 const initialState = {
   curPage: 1,
+  penColor: '#9E005D',
+  penSize: 10,
   //[{start: {offsetX: 325, offsetY: 180},stop: {offsetX: 340, offsetY: 180}}]
   data: [
-    { id: 1, line: [], marker: []},
-    { id: 2, line: [[{start: {offsetX: 325, offsetY: 180},stop: {offsetX: 340, offsetY: 180}}]], marker: []},
-    { id: 3, line: [], marker: []},
-    { id: 4, line: [[{start: {offsetX: 325, offsetY: 180},stop: {offsetX: 450, offsetY: 180}}]], marker: []}
+    { id: 1, line: [], color: [], size: []},
+    { id: 2, line: [], color: [], size: []},
+    { id: 3, line: [], color: [], size: []},
+    { id: 4, line: [], color: [], size: []}
   ],
   buttonData: {
     1: { isActive: 0 },
@@ -14,21 +16,30 @@ const initialState = {
     4: { isActive: 0 },
     5: { isActive: 0 }
   },
+  toolbarOpen: false,
+  color: 1,
+  size: 2,
   isHolding: false,
   onDropArea: false,
-  cardData: {
-    1: { onFormSetting: 0,name: 'Post-It', data: {} },
-    2: { onFormSetting: 0,name: 'To-Do-Lists', data: {} },
-    3: { onFormSetting: 0,name: 'Calendar', data: {} },
-    4: { onFormSetting: 0,name: 'Map', data: {} },
-    5: { onFormSetting: 0,name: 'Table', data: {} },
-    6: { onFormSetting: 0,name: 'Url', data: {} },
-    7: { onFormSetting: 0,name: 'Code', data: {} },
-    8: { onFormSetting: 0,name: 'Video', data: {} }
+  formCardData: {
+    1: { onFormSetting: 0, name: 'Post-It' },
+    2: { onFormSetting: 0, name: 'To-Do-Lists' },
+    3: { onFormSetting: 0, name: 'Calendar' },
+    4: { onFormSetting: 0, name: 'Map' },
+    5: { onFormSetting: 0, name: 'Table' },
+    6: { onFormSetting: 0, name: 'Url' },
+    7: { onFormSetting: 0, name: 'Code' },
+    8: { onFormSetting: 0, name: 'Video' }
   },
   msgData: {
-    1: {id: 1, name: 'server', msg: ['I am server','I am 20 years old']},
-    2: {id: 2, name: 'user1', msg: []}
+    1: { id: 1, name: 'server', msg: ['I am server', 'I am 20 years old'] },
+    2: { id: 2, name: 'user1', msg: [] }
+  },
+  cardData: {
+    1: { id: 1, data: [] },
+    2: { id: 2, data: [{ id: 1, size: 'm', color: 'yellow', position: { x: 100, y: 100 }, text: 'Hello Post-It' }] },
+    3: { id: 3, data: [{ id: 1, size: 'm', color: 'yellow', position: { x: 100, y: 100 }, text: 'Hello Post-It3' }] },
+    4: { id: 4, data: [] },
   }
 }
 const reducer = (state = initialState, action) => {
@@ -38,50 +49,71 @@ const reducer = (state = initialState, action) => {
       const changedPage = { curPage: action.payload.curPage }
       newState.curPage = changedPage.curPage;
       if (action.payload.curPage > state.data.length - 1) {
-        newState.data.push({ id: action.payload.curPage, line: [] , marker: []})
+        newState.data.push({ id: action.payload.curPage, line: [], marker: [] })
       }
       console.log(newState)
       return newState
 
-    //case 'ADD_LINE':
-    //  const { id, line: newLine } = action.payload;
-    //  newState.data[id].line.push(newLine)
-    //  return newState;
-      
     case 'UPDATE_LINE':
       const {id, data: updatedLineData , mode} = action.payload;
       if(mode == 1){
-        newState.data[id].line.push(updatedLineData)
+        newState.data[id].line.push(updatedLineData);
+        newState.data[id].color.push(newState.penColor);
+        newState.data[id].size.push(newState.penSize);
       }
-      else if(mode == 2){
-        for(var i = updatedLineData.length; i > 0;i--){
+      else if (mode == 2) {
+        for (var i = updatedLineData.length; i > 0; i--) {
           const t = updatedLineData.pop();
           newState.data[id].line.splice(t,1);
-        }
-      }
-      else if(mode == 3){
-        if(updatedLineData.length == 0){
-          newState.data[id].marker = [];
-        }
-        else{
-          newState.data[id].marker.push(updatedLineData)
+          newState.data[id].color.splice(t,1);
+          newState.data[id].size.splice(t,1);
         }
       }
       return newState;
+    
     case 'TOGGLE_BUTTON':
       const { newId, newIsActive } = action.payload;
-      const newbuttonData = {
-        1: { isActive: 0 },
-        2: { isActive: 0 },
-        3: { isActive: 0 },
-        4: { isActive: 0 },
-        5: { isActive: 0 }
+      //console.log(newId);
+      if(newId <= 5 & newId > 0){
+        const newbuttonData = {
+          1: { isActive: 0 },
+          2: { isActive: 0 },
+          3: { isActive: 0 },
+          4: { isActive: 0 },
+          5: { isActive: 0 }
+        }
+        newbuttonData[newId].isActive = newIsActive
+        return {
+          ...state,
+          buttonData: newbuttonData
+        }
       }
-      newbuttonData[newId].isActive = newIsActive
-      return {
-        ...state,
-        buttonData: newbuttonData
+      else if(newId == 10){
+        newState.toolbarOpen = !newState.toolbarOpen;
+        return newState;
       }
+      else if(newId > 10 & newId < 15){
+        newState.color = newId - 10
+        switch(newId){
+          case '11' : newState.penColor = '#9E005D'; break
+          case '12' : newState.penColor = '#D4145A'; break
+          case '13' : newState.penColor = '#0071BC'; break
+          case '14' : newState.penColor = '#202C5D'; break
+          default : console.log("bruh"); break
+        }
+        return newState
+      }
+      else if(newId > 20 & newId < 25){
+        newState.size = newId - 20
+        switch(newId){
+          case '21' : newState.penSize = 5; break
+          case '22' : newState.penSize = 10; break
+          case '23' : newState.penSize = 15; break
+          case '24' : newState.penSize = 20; break
+        }
+        return newState
+      }
+      
     case 'UPDATE_ON_DROP_AREA':
       const { onDropArea, isHolding } = action.payload
       console.log(action.payload)
@@ -90,21 +122,60 @@ const reducer = (state = initialState, action) => {
         isHolding: isHolding,
         onDropArea: onDropArea
       }
-    case 'UPDATE_ON_FORM_SETTING':{
+    case 'UPDATE_ON_FORM_SETTING': {
       const cardId = action.payload
-      let newOnFormSetting = state.cardData
-      Object.keys(newOnFormSetting).map((key)=> newOnFormSetting[key].onFormSetting = 0)
+      let newOnFormSetting = state.formCardData
+      Object.keys(newOnFormSetting).map((key) => newOnFormSetting[key].onFormSetting = 0)
       newOnFormSetting[cardId].onFormSetting = 1
       return {
         ...state,
-        cardData : newOnFormSetting
-      }}
-    case 'ADD_MSG':{
-      const {userID, userMsg} = action.payload
+        formCardData: newOnFormSetting
+      }
+    }
+    case 'ADD_MSG': {
+      let { userID, userMsg } = action.payload
       return {
         ...state,
-        msgData: {...state.msgData, userID: {...state.msgData[userID], msg: state.msgData[userID].msg.push(userMsg)}}
+        msgData: { ...state.msgData, userID: { ...state.msgData[userID], msg: state.msgData[userID].msg.push(userMsg) } }
       }
+    }
+    case 'ADD_CARD': {
+      let { curPage, size, color, text } = action.payload
+      let newList = state.cardData[curPage + 1].data
+      newList = [...newList, { id: newList.length + 1, size: size, color: color, position: { x: 600, y: 300 }, text: text }]
+      return {
+        ...state,
+        cardData: {
+          ...state.cardData,
+          [curPage + 1]: {
+            ...state.cardData[curPage],
+            data: newList
+          }
+        }
+      }
+    }
+    case 'UPDATE_POSITION': {
+      let { curPage, id, x, y } = action.payload
+      let newList = state.cardData[curPage + 1].data
+      newList[id - 1].position = { x: x, y: y }
+
+      return {
+        ...state,
+        cardData: {
+          ...state.cardData,
+          [curPage + 1]: {
+            ...state.cardData[curPage],
+            data: newList
+          }
+        }
+      }
+    }
+    case 'CHECK_PANEL':{
+      const check = action.payload
+      if(check == 1){
+        newState.toolbarOpen = false;
+      }
+      return newState;
     }
     default:
       break;
