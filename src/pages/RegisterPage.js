@@ -85,19 +85,19 @@ const RegisterPages = (props) => {
     }
   })
 
-  const onChangeHandle = (event) => {
-    let name = event.target.name;
-    let value = event.target.value;
-    setState({
-      ...state,
-      [name]: value
-    })
-  }
+  // const onChangeHandle = (event) => {
+  //   let name = event.target.name;
+  //   let value = event.target.value;
+  //   setState({
+  //     ...state,
+  //     [name]: value
+  //   })
+  // }
 
-  const onSubmitHandle = (event) => {
-    event.preventDefault();
-    alert("submitting on " + state.firstname + " " + state.lastname)
-  }
+  // const onSubmitHandle = (event) => {
+  //   event.preventDefault();
+  //   alert("submitting on " + state.firstname + " " + state.lastname)
+  // }
 
   const onFormChange = (event) => {
     const name = event.target.name;
@@ -151,10 +151,8 @@ const RegisterPages = (props) => {
     //   'form-control is-invalid':
     //   'form-control is-valid';
 
-    return state.formElements[name].touched
-      ? elementErrorStatus
-        ? 'form-control is-invalid'
-        : 'form-control is-valid'
+    return state.formElements[name].touched? 
+    elementErrorStatus ? 'form-control is-invalid' : 'form-control is-valid'
       : 'form-control';
   }
   const getErrorMessage = (name) => {

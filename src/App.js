@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import logger from 'redux-logger';
 import reducer from './reducer.js';
 import BoardPage from './pages/BoardPage.js';
+import LoginPage from './pages/LoginPage.js';
 import RegisterPages from './pages/RegisterPage.js';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
@@ -19,6 +20,7 @@ const App = () => {
         <BrowserRouter>
           <Route exact path="/boardpage" component={BoardPage} />
           <Route exact path="/register" component={RegisterPages} />
+          <Route exact path="/login" component={LoginPage} />
           <Route exact path="/" component={BoardPage} />
           {/* <Route component={PageNotFound} /> */}
         </BrowserRouter>
