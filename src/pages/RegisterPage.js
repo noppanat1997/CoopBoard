@@ -85,19 +85,19 @@ const RegisterPages = (props) => {
     }
   })
 
-  const onChangeHandle = (event) => {
-    let name = event.target.name;
-    let value = event.target.value;
-    setState({
-      ...state,
-      [name]: value
-    })
-  }
+  // const onChangeHandle = (event) => {
+  //   let name = event.target.name;
+  //   let value = event.target.value;
+  //   setState({
+  //     ...state,
+  //     [name]: value
+  //   })
+  // }
 
-  const onSubmitHandle = (event) => {
-    event.preventDefault();
-    alert("submitting on " + state.firstname + " " + state.lastname)
-  }
+  // const onSubmitHandle = (event) => {
+  //   event.preventDefault();
+  //   alert("submitting on " + state.firstname + " " + state.lastname)
+  // }
 
   const onFormChange = (event) => {
     const name = event.target.name;
@@ -163,7 +163,7 @@ const RegisterPages = (props) => {
   const onFromSubmit = (event) => {
     event.preventDefault();
     const formData = {};
-    console.log(state.formElements.password,state.formElements.cfpassword)
+    console.log(state.formElements.password, state.formElements.cfpassword)
     if (state.formElements.password.value !== state.formElements.cfpassword.value) {
       alert("Password not match")
       return false;
@@ -243,6 +243,8 @@ const RegisterPages = (props) => {
             </Form.Group>
             <div className="text-center">
               <button
+                disabled={!state.formElements.firstname.value, !state.formElements.lastname.value, !state.formElements.email.value
+                  , !state.formElements.password.value, !state.formElements.cfpassword.value}
                 type="submit"
                 className="btn btn-primary">
                 Submit</button>
