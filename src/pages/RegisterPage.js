@@ -102,14 +102,17 @@ const RegisterPages = (props) => {
   const onFormChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
+
     let updatedForm = { ...state.formElements };
     updatedForm[name].value = value;
     updatedForm[name].touched = true;
+
     const validatorObject = checkValidator(value, updatedForm[name].validator);
     updatedForm[name].error = {
       status: validatorObject.status,
       message: validatorObject.message
     }
+
     let formStatus = true;
     for (let name in updatedForm) {
       if (name !== 'formValid' && updatedForm[name].validator.required === true) {
@@ -122,6 +125,7 @@ const RegisterPages = (props) => {
       formValid: formStatus
     });
   }
+  
   const checkValidator = (value, rule) => {
     let valid = true;
     let message = '';
@@ -151,10 +155,8 @@ const RegisterPages = (props) => {
     //   'form-control is-invalid':
     //   'form-control is-valid';
 
-    return state.formElements[name].touched
-      ? elementErrorStatus
-        ? 'form-control is-invalid'
-        : 'form-control is-valid'
+    return state.formElements[name].touched? 
+    elementErrorStatus ? 'form-control is-invalid' : 'form-control is-valid'
       : 'form-control';
   }
   const getErrorMessage = (name) => {
@@ -181,7 +183,7 @@ const RegisterPages = (props) => {
       <Card className="register-card" style={{ width: '536px', height: '536px', color: '#C1C1C1' }}>
         <Card.Body>
           <Form onSubmit={e => onFromSubmit(e)}>
-            <h1 style={{ color: '#D4145A' }}>SIGN UP</h1>
+            <h1 style={{ color: '#D4145A', textAlign: 'center' }}>SIGN UP</h1>
             <h5 style={{ color: '#D4145A' }}>Please fill in this form to create an account!</h5>
             <Form.Row className="mb-2">
               <Col>
@@ -246,7 +248,7 @@ const RegisterPages = (props) => {
                 disabled={!state.formElements.firstname.value, !state.formElements.lastname.value, !state.formElements.email.value
                   , !state.formElements.password.value, !state.formElements.cfpassword.value}
                 type="submit"
-                className="btn btn-primary">
+                className="btn-submit btn-primary">
                 Submit</button>
             </div>
           </Form>
