@@ -126,11 +126,11 @@ const LoginPage = (props) => {
         <Card.Body>
           <Form onSubmit={e => onFromSubmit(e)}>
             <center>
-              <img src={Logo} width="200" height="200" alt="CoopBoard" />
+              <img src={Logo} width="200" height="180" alt="CoopBoard" />
             </center>
             <h1 style={{ color: '#D4145A', textAlign: 'center', marginBottom: '30px', fontWeight: 'bold' }}>SIGN IN</h1>
 
-            <Form.Group className="mb-3">
+            <Form.Group className="mb-0">
               <Form.Control
                 type="email"
                 id="email"
@@ -139,10 +139,10 @@ const LoginPage = (props) => {
                 placeholder="Email"
                 onChange={onFormChange}
                 className={getInputClass('email')} />
-              <div className="invalid-feedback">{getErrorMessage('email')}</div>
+              <div className="error-msg">{getErrorMessage('email')}<br></br></div>
             </Form.Group>
 
-            <Form.Group className="mb-4">
+            <Form.Group className="mb-2">
               <Form.Control
                 type="password"
                 id="password"
@@ -151,7 +151,7 @@ const LoginPage = (props) => {
                 onChange={onFormChange}
                 className={getInputClass('password')}
               />
-              <div className="invalid-feedback">{getErrorMessage('password')}</div>
+              <div className="error-msg">{getErrorMessage('password')}<br></br></div>
             </Form.Group>
 
             <div className="text-center mb-3">

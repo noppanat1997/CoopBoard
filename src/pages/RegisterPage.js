@@ -186,12 +186,13 @@ const RegisterPages = (props) => {
       <Card className="register-card" style={{ width: '536px', height: '536px', color: '#C1C1C1' }}>
         <Card.Body>
           <Form onSubmit={e => onFromSubmit(e)}>
-            <h1 style={{ color: '#D4145A', textAlign: 'center', marginBottom: '25px', fontWeight: 'bold', marginTop: '28px' }}>SIGN UP</h1>
+            <h1 style={{ color: '#D4145A', textAlign: 'center', marginBottom: '20px', fontWeight: 'bold', marginTop: '20px' }}>SIGN UP</h1>
             <h5 style={{ color: '#D4145A', marginBottom: '20px' }}>Please fill in this form to create an account!</h5>
             
-            <Form.Row className="mb-3">
+            <Form.Row className="mb-0">
               <Col>
                 <input
+                  size="50"
                   type="text"
                   id="firstname"
                   name="firstname"
@@ -200,7 +201,7 @@ const RegisterPages = (props) => {
                   // title="3 or more character"
                   onChange={onFormChange}
                   className={getInputClass('firstname')} />
-                <div className="invalid-feedback">{getErrorMessage('firstname')}</div>
+                <div className="error-msg">{getErrorMessage('firstname')}<br></br></div>
               </Col>
               <Col>
                 <input
@@ -212,11 +213,11 @@ const RegisterPages = (props) => {
                   // title="3 or more character"
                   onChange={onFormChange}
                   className={getInputClass('lastname')} />
-                <div className="invalid-feedback">{getErrorMessage('lastname')}</div>
+                <div className="error-msg">{getErrorMessage('lastname')}<br></br></div>
               </Col>
             </Form.Row>
             
-            <Form.Group className="mb-3">
+            <Form.Group className="mb-0">
               <Form.Control
                 type="email"
                 id="email"
@@ -225,20 +226,18 @@ const RegisterPages = (props) => {
                 placeholder="Email"
                 onChange={onFormChange}
                 className={getInputClass('email')} />
-              <div className="invalid-feedback">{getErrorMessage('email')}</div>
+              <div className="error-msg">{getErrorMessage('email')}<br></br></div>
             </Form.Group>
             
-            <Form.Group >
+            <Form.Group className="mb-1">
               <Form.Control
                 type="password"
                 id="password"
                 name="password"
                 placeholder="Password"
                 onChange={onFormChange}
-                className={getInputClass('password')}
-              />
-              <div className="invalid-feedback">{getErrorMessage('password')}</div>
-              <div className="mb-3"></div>
+                className={getInputClass('password')} />
+              <div className="error-msg">{getErrorMessage('password')}<br></br></div>
               <Form.Control
                 type="password"
                 id="cfpassword"
@@ -246,10 +245,10 @@ const RegisterPages = (props) => {
                 placeholder="Confirm password"
                 onChange={onFormChange}
                 className={getInputClass('cfpassword')} />
-              <div className="invalid-feedback">{getErrorMessage('cfpassword')}</div>
+              <div className="error-msg">{getErrorMessage('cfpassword')}<br></br></div>
             </Form.Group>
             
-            <div className="mb-4"></div>
+            <div className="mb-0"></div>
             <div className="text-center mb-2">
               <button
                 type="submit"
