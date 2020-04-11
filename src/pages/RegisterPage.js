@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 import '.././css/RegisterPage.css';
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col';
+
+import Logo from '.././images/logo.svg';
 
 const RegisterPages = (props) => {
 
@@ -125,7 +128,7 @@ const RegisterPages = (props) => {
       formValid: formStatus
     });
   }
-  
+
   const checkValidator = (value, rule) => {
     let valid = true;
     let message = '';
@@ -155,8 +158,8 @@ const RegisterPages = (props) => {
     //   'form-control is-invalid':
     //   'form-control is-valid';
 
-    return state.formElements[name].touched? 
-    elementErrorStatus ? 'form-control is-invalid' : 'form-control is-valid'
+    return state.formElements[name].touched ?
+      elementErrorStatus ? 'form-control is-invalid' : 'form-control is-valid'
       : 'form-control';
   }
   const getErrorMessage = (name) => {
@@ -165,7 +168,7 @@ const RegisterPages = (props) => {
   const onFromSubmit = (event) => {
     event.preventDefault();
     const formData = {};
-    console.log(state.formElements.password,state.formElements.cfpassword)
+    console.log(state.formElements.password, state.formElements.cfpassword)
     if (state.formElements.password.value !== state.formElements.cfpassword.value) {
       alert("Password not match")
       return false;
@@ -183,9 +186,10 @@ const RegisterPages = (props) => {
       <Card className="register-card" style={{ width: '536px', height: '536px', color: '#C1C1C1' }}>
         <Card.Body>
           <Form onSubmit={e => onFromSubmit(e)}>
-            <h1 style={{ color: '#D4145A', textAlign: 'center' }}>SIGN UP</h1>
-            <h5 style={{ color: '#D4145A' }}>Please fill in this form to create an account!</h5>
-            <Form.Row className="mb-2">
+            <h1 style={{ color: '#D4145A', textAlign: 'center', marginBottom: '25px', fontWeight: 'bold', marginTop: '28px' }}>SIGN UP</h1>
+            <h5 style={{ color: '#D4145A', marginBottom: '20px' }}>Please fill in this form to create an account!</h5>
+            
+            <Form.Row className="mb-3">
               <Col>
                 <input
                   type="text"
@@ -211,7 +215,8 @@ const RegisterPages = (props) => {
                 <div className="invalid-feedback">{getErrorMessage('lastname')}</div>
               </Col>
             </Form.Row>
-            <Form.Group className="mb-2">
+            
+            <Form.Group className="mb-3">
               <Form.Control
                 type="email"
                 id="email"
@@ -222,9 +227,9 @@ const RegisterPages = (props) => {
                 className={getInputClass('email')} />
               <div className="invalid-feedback">{getErrorMessage('email')}</div>
             </Form.Group>
-            <Form.Group>
+            
+            <Form.Group >
               <Form.Control
-                //className="mb-2" 
                 type="password"
                 id="password"
                 name="password"
@@ -233,7 +238,7 @@ const RegisterPages = (props) => {
                 className={getInputClass('password')}
               />
               <div className="invalid-feedback">{getErrorMessage('password')}</div>
-              <div className="mb-2"></div>
+              <div className="mb-3"></div>
               <Form.Control
                 type="password"
                 id="cfpassword"
@@ -243,11 +248,21 @@ const RegisterPages = (props) => {
                 className={getInputClass('cfpassword')} />
               <div className="invalid-feedback">{getErrorMessage('cfpassword')}</div>
             </Form.Group>
-            <div className="text-center">
+            
+            <div className="mb-4"></div>
+            <div className="text-center mb-2">
               <button
                 type="submit"
-                className="btn-submit btn-primary">
+                className="btn-submit-signup btn-primary">
                 Submit</button>
+            </div>
+
+            <div className="text-center">
+              <Link to={`/login`}>
+                <button
+                  className="btn-tosignin btn-link">
+                  Already have account?</button>
+              </Link>
             </div>
           </Form>
         </Card.Body>

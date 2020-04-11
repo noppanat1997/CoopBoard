@@ -128,7 +128,8 @@ const LoginPage = (props) => {
             <center>
               <img src={Logo} width="200" height="200" alt="CoopBoard" />
             </center>
-            <h1 style={{ color: '#D4145A', textAlign: 'center', marginBottom: '30px' , fontWeight:'bold'}}>SIGN IN</h1>
+            <h1 style={{ color: '#D4145A', textAlign: 'center', marginBottom: '30px', fontWeight: 'bold' }}>SIGN IN</h1>
+
             <Form.Group className="mb-3">
               <Form.Control
                 type="email"
@@ -140,6 +141,7 @@ const LoginPage = (props) => {
                 className={getInputClass('email')} />
               <div className="invalid-feedback">{getErrorMessage('email')}</div>
             </Form.Group>
+
             <Form.Group className="mb-4">
               <Form.Control
                 type="password"
@@ -152,19 +154,23 @@ const LoginPage = (props) => {
               <div className="invalid-feedback">{getErrorMessage('password')}</div>
             </Form.Group>
 
-            <div className="text-center mb-2">
+            <div className="text-center mb-3">
               <button
                 type="submit"
-                className="btn-submit btn-primary">
+                className="btn-submit-signin btn-primary">
                 Submit</button>
             </div>
-            <Link to={`/register`}>
-              <div className="text-center">
+
+            <div className="text-center " >
+             <font color="#0071BC" size="4px"> Don't have an account?&nbsp;
+              <Link to={`/register`}>
                 <button
-                  className="btn btn-link">
-                  Create a new account</button>
-              </div>
-            </Link>
+                  className="btn-tosignup btn-link">
+                  Sign Up</button>
+              </Link>
+              </font>
+            </div>
+
           </Form>
         </Card.Body>
       </Card>

@@ -9,22 +9,30 @@
   left: 50%;
   transform: translate(-50%,-50%);
 }
-.btn-submit {
+
+.btn-submit-signin {
   width: 200px;
   height: 50px;
-  background-color: #202C5D !important;
+  background-color: #202C5D;
+  border-color: #FFFFFF00;
 }
-.btn-submit:hover {
-  color: #D4145A;
+.btn-submit-signin:hover {
+  background-color: #D4145A;
+  border-color: #FFFFFF00;
 }
 
-.btn {
-  width: 180px;
-  height: 50px;
+.btn-tosignup {
   color: #0071BC;
+  text-decoration: underline;
+  background-color: #FFFFFF00;
+  border-color: #FFFFFF00;
+  outline:#FFFFFF00;
+  padding: 0%;
+
 }
 
-.btn:hover {
+.btn-tosignup:hover {
   color: #D4145A;
+  border-color: #FFFFFF00;
+  outline:#FFFFFF00;
 }
-

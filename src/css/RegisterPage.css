@@ -10,11 +10,30 @@
   transform: translate(-50%,-50%);
 }
 
-.btn-submit {
+.btn-submit-signup {
   width: 200px;
   height: 50px;
-  background-color: #202C5D !important;
+  background-color: #202C5D;
+  border-color: #FFFFFF00;
 }
-.btn-submit:hover {
+.btn-submit-signup:hover {
+  background-color: #D4145A;
+  border-color: #FFFFFF00;
+}
+
+.btn-tosignin {
+  width: 200px;
+  height: 50px;
+  color: #0071BC;
+  text-decoration: underline;
+  background-color: #FFFFFF00;
+  border-color: #FFFFFF00;
+  outline: #FFFFFF00;
+  padding: 0%;
+}
+
+.btn-tosignin:hover {
   color: #D4145A;
+  border-color: #FFFFFF00;
+  outline:#FFFFFF00;
 }
