@@ -4,6 +4,7 @@ import '.././css/RegisterPage.css';
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col';
+import fire from '../components/Fire.js'
 
 import Logo from '.././images/logo.svg';
 
@@ -168,7 +169,6 @@ const RegisterPages = (props) => {
   const onFromSubmit = (event) => {
     event.preventDefault();
     const formData = {};
-    console.log(state.formElements.password, state.formElements.cfpassword)
     if (state.formElements.password.value !== state.formElements.cfpassword.value) {
       alert("Password not match")
       return false;
@@ -177,8 +177,22 @@ const RegisterPages = (props) => {
       for (let name in state.formElements) {
         formData[name] = state.formElements[name].value;
       }
+      fire.auth().createUserWithEmailAndPassword(state.formElements.email.value, state.formElements.password.value).then((u) => {
+      }).then((u) => { console.log(u) })
+        .catch((error) => {
+          console.log(error);
+        })
     }
     console.log(formData);
+  }
+
+  const signup = (event) => {
+    event.preventDefault();
+    fire.auth().createUserWithEmailAndPassword(state.formElements.email.value, state.formElements.password.value).then((u) => {
+    }).then((u) => { console.log(u) })
+      .catch((error) => {
+        console.log(error);
+      })
   }
 
   return (
@@ -251,6 +265,8 @@ const RegisterPages = (props) => {
             <div className="mb-0"></div>
             <div className="text-center mb-2">
               <button
+                disabled={!state.formElements.firstname.value, !state.formElements.lastname.value, !state.formElements.email.value
+                  , !state.formElements.password.value, !state.formElements.cfpassword.value}
                 type="submit"
                 className="btn-submit-signup btn-primary">
                 Submit</button>
