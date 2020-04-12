@@ -3,6 +3,7 @@ import '.././css/RegisterPage.css';
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col';
+import fire from '../components/Fire.js'
 
 const RegisterPages = (props) => {
 
@@ -125,7 +126,7 @@ const RegisterPages = (props) => {
       formValid: formStatus
     });
   }
-  
+
   const checkValidator = (value, rule) => {
     let valid = true;
     let message = '';
@@ -155,8 +156,8 @@ const RegisterPages = (props) => {
     //   'form-control is-invalid':
     //   'form-control is-valid';
 
-    return state.formElements[name].touched? 
-    elementErrorStatus ? 'form-control is-invalid' : 'form-control is-valid'
+    return state.formElements[name].touched ?
+      elementErrorStatus ? 'form-control is-invalid' : 'form-control is-valid'
       : 'form-control';
   }
   const getErrorMessage = (name) => {
@@ -165,7 +166,6 @@ const RegisterPages = (props) => {
   const onFromSubmit = (event) => {
     event.preventDefault();
     const formData = {};
-    console.log(state.formElements.password, state.formElements.cfpassword)
     if (state.formElements.password.value !== state.formElements.cfpassword.value) {
       alert("Password not match")
       return false;
@@ -174,8 +174,22 @@ const RegisterPages = (props) => {
       for (let name in state.formElements) {
         formData[name] = state.formElements[name].value;
       }
+      fire.auth().createUserWithEmailAndPassword(state.formElements.email.value, state.formElements.password.value).then((u) => {
+      }).then((u) => { console.log(u) })
+        .catch((error) => {
+          console.log(error);
+        })
     }
     console.log(formData);
+  }
+
+  const signup = (event) => {
+    event.preventDefault();
+    fire.auth().createUserWithEmailAndPassword(state.formElements.email.value, state.formElements.password.value).then((u) => {
+    }).then((u) => { console.log(u) })
+      .catch((error) => {
+        console.log(error);
+      })
   }
 
   return (
@@ -183,7 +197,7 @@ const RegisterPages = (props) => {
       <Card className="register-card" style={{ width: '536px', height: '536px', color: '#C1C1C1' }}>
         <Card.Body>
           <Form onSubmit={e => onFromSubmit(e)}>
-            <h1 style={{ color: '#D4145A', textAlign: 'center' }}>SIGN UP</h1>
+            <h1 style={{ color: '#D4145A', fontWeight: 'bold' }}>SIGN UP</h1>
             <h5 style={{ color: '#D4145A' }}>Please fill in this form to create an account!</h5>
             <Form.Row className="mb-2">
               <Col>
@@ -248,7 +262,7 @@ const RegisterPages = (props) => {
                 disabled={!state.formElements.firstname.value, !state.formElements.lastname.value, !state.formElements.email.value
                   , !state.formElements.password.value, !state.formElements.cfpassword.value}
                 type="submit"
-                className="btn-submit btn-primary">
+                className="btn btn-primary">
                 Submit</button>
             </div>
           </Form>
