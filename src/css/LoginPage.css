@@ -15,6 +15,7 @@
   height: 50px;
   background-color: #202C5D;
   border-color: #FFFFFF00;
+  color: #FFFFFF;
 }
 .btn-submit-signin:hover {
   background-color: #D4145A;

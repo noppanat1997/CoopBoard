@@ -87,14 +87,17 @@ const LoginPage = (props) => {
   const onFormChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
+
     let updatedForm = { ...state.formElements };
     updatedForm[name].value = value;
     updatedForm[name].touched = true;
+
     const validatorObject = checkValidator(value, updatedForm[name].validator);
     updatedForm[name].error = {
       status: validatorObject.status,
       message: validatorObject.message
     }
+
     let formStatus = true;
     for (let name in updatedForm) {
       if (name !== 'formValid' && updatedForm[name].validator.required === true) {
@@ -156,18 +159,19 @@ const LoginPage = (props) => {
 
             <div className="text-center mb-3">
               <button
+                disabled={!state.formElements.email.value, !state.formElements.password.value}
                 type="submit"
-                className="btn-submit-signin btn-primary">
+                className="btn-submit-signin">
                 Submit</button>
             </div>
 
             <div className="text-center " >
-             <font color="#0071BC" size="4px"> Don't have an account?&nbsp;
+              <font color="#0071BC" size="4px"> Don't have an account?&nbsp;
               <Link to={`/register`}>
-                <button
-                  className="btn-tosignup btn-link">
-                  Sign Up</button>
-              </Link>
+                  <button
+                    className="btn-tosignup">
+                    Sign Up</button>
+                </Link>
               </font>
             </div>
 

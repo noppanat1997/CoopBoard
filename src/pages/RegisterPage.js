@@ -268,7 +268,7 @@ const RegisterPages = (props) => {
                 disabled={!state.formElements.firstname.value, !state.formElements.lastname.value, !state.formElements.email.value
                   , !state.formElements.password.value, !state.formElements.cfpassword.value}
                 type="submit"
-                className="btn-submit-signup btn-primary">
+                className="btn-submit-signup">
                 Submit</button>
             </div>
 
