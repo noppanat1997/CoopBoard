@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 const EachCard = (props) => {
   const clickHandler = () =>{
-    console.log(props.id);
     props.updateOnFormSettingFn(props.id);
   }
   return (

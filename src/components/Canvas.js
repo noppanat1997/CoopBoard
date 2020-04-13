@@ -40,18 +40,18 @@ class Canvas extends Component {
     this.userStrokeStyle = this.props.stateFromStore.penColor;
     this.penWidth = this.props.stateFromStore.penSize;
     const { offsetX, offsetY } = nativeEvent;
-    if (this.props.stateFromStore.buttonData[1].isActive == 1){
+    if (this.props.stateFromStore.buttonData[1].isActive == 1) {
       this.isPainting = true;
       this.prevPos = { offsetX, offsetY };
     }
-    else if (this.props.stateFromStore.buttonData[2].isActive == 1){
+    else if (this.props.stateFromStore.buttonData[2].isActive == 1) {
       this.isErasing = true;
       this.prevPos = { offsetX, offsetY };
     }
-    else if (this.props.stateFromStore.buttonData[3].isActive == 1){
+    else if (this.props.stateFromStore.buttonData[3].isActive == 1) {
       this.redraw();
     }
-    else if (this.props.stateFromStore.buttonData[5].isActive == 1){
+    else if (this.props.stateFromStore.buttonData[5].isActive == 1) {
       this.isMarking = true;
       this.prevPos = { offsetX, offsetY };
     }
@@ -96,7 +96,7 @@ class Canvas extends Component {
         })
         if (this.foundCheck == 1) {
           lineData.line[i].forEach((val) => {
-            this.paint(val.start, val.stop, this.eraserStyle, lineData.size[i]+2);
+            this.paint(val.start, val.stop, this.eraserStyle, lineData.size[i] + 2);
           })
           this.arrIndex.push(i);
           //console.log(this.arrIndex);
@@ -104,7 +104,7 @@ class Canvas extends Component {
         }
       }
     }
-    else if (this.isMarking & this.props.stateFromStore.buttonData[5].isActive == 1){
+    else if (this.isMarking & this.props.stateFromStore.buttonData[5].isActive == 1) {
       /*let markData = this.props.stateFromStore.data[this.cPage].marker
       if(markData.length != 0){
         markData[0].forEach((val) => {
@@ -152,7 +152,7 @@ class Canvas extends Component {
       this.arrIndex = [];
       this.redraw();
     }
-    else if (this.isMarking){
+    else if (this.isMarking) {
       this.isMarking = false;
       this.line.forEach((val) => {
         this.paint(val.start, val.stop, this.eraserStyle, this.unMarkWidth);
@@ -254,17 +254,12 @@ class Canvas extends Component {
     this.props.updateLine(dataLine);
     this.line = [];
   }
-  componentWillUpdate(){
 
-  }
-  componentDidUpdate(){
+  componentDidUpdate() {
     this.pPage = this.cPage;
     this.cPage = this.props.stateFromStore.curPage;
     this.lineCount = this.props.stateFromStore.data[this.cPage].line.length;
-    /*if(this.pPage == this.cPage){
-      this.redraw();
-    }*/
-    
+
   }
   componentDidMount() {
     // Here we set up the properties of the canvas element. 
@@ -279,15 +274,15 @@ class Canvas extends Component {
 
   render() {
     return (
-      <div className={(this.props.stateFromStore.buttonData[1].isActive ? "pencilCursor" : "") + 
-      (this.props.stateFromStore.buttonData[2].isActive ? "erasorCursor" : "") + 
-      (this.props.stateFromStore.buttonData[5].isActive ? "pointerCursor" : "")}>
+      <div className={(this.props.stateFromStore.buttonData[1].isActive ? "pencilCursor" : "") +
+        (this.props.stateFromStore.buttonData[2].isActive ? "erasorCursor" : "") +
+        (this.props.stateFromStore.buttonData[5].isActive ? "pointerCursor" : "")}>
         {this.props.stateFromStore.isHolding === true &&
           <div className="active-box">
             <h1 className="drag">DROP HERE</h1>
           </div>}
-        <div className={this.props.stateFromStore.buttonData[3].isActive == 1 ? "card-field-active":"card-field"}>
-          <CardField page={this.props.stateFromStore.curPage+1} />
+        <div className={this.props.stateFromStore.buttonData[3].isActive == 1 ? "card-field-active" : "card-field"}>
+          <CardField board={this.props.board} page={this.props.stateFromStore.curPage - 1} />
         </div>
         <canvas
 
@@ -317,8 +312,8 @@ const mapDispatchToProps = dispatch => {
     updateLine: (updateLine) => {
       return dispatch({ type: 'UPDATE_LINE', payload: updateLine });
     }
-    ,panelCheck: (check) => {
-      return dispatch({ type: 'CHECK_PANEL', payload: check});
+    , panelCheck: (check) => {
+      return dispatch({ type: 'CHECK_PANEL', payload: check });
     }
   }
 }
