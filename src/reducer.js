@@ -1,7 +1,5 @@
 const initialState = {
   curPage: 1,
-  penColor: '#9E005D',
-  penSize: 10,
   //[{start: {offsetX: 325, offsetY: 180},stop: {offsetX: 340, offsetY: 180}}]
   data: [
     { id: 1, line: [], color: [], size: [] },
@@ -16,11 +14,19 @@ const initialState = {
     4: { isActive: 0 },
     5: { isActive: 0 }
   },
+  penColor: '#9E005D',
+  penSize: 10,
   toolbarOpen: false,
   color: 1,
   size: 2,
   isHolding: false,
   onDropArea: false,
+  isPresent: false,
+  userData: {
+    Name: "Nontapat",
+    Surname: "Sirichuensuwan"
+  },
+  memberCount: 1,
   formCardData: {
     1: { onFormSetting: 0, name: 'Post-It' },
     2: { onFormSetting: 0, name: 'To-Do-Lists' },
@@ -56,7 +62,7 @@ const initialState = {
   boardData: [
     { id: 1, name: 'board A' },
     { id: 2, name: 'board B' },
-    { id: 3, name: 'board C' },
+    { id: 3, name: 'board C' }
   ]
 }
 const reducer = (state = initialState, action) => {
@@ -143,6 +149,19 @@ const reducer = (state = initialState, action) => {
         }
         return newState
       }
+    
+    case 'CHANGE_PRESENT':
+      const {present} = action.payload
+      newState.isPresent = !newState.isPresent;
+      return newState
+    
+    case 'INVITE_MEMBER':
+      const {member} = action.payload
+      if(newState.memberCount < 6){
+        newState.memberCount += 1;
+        console.log(newState.memberCount)
+      }
+      return newState
 
     case 'UPDATE_ON_DROP_AREA':
       const { onDropArea, isHolding } = action.payload

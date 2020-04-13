@@ -17,7 +17,6 @@ const ToolBox = (props) => {
     props.toggleFn(newState)
   }
   const downHandler = (e) =>{
-    console.log("chekchek");
     const newState = {
       newId: e.target.id+0, newIsActive : 1
     }
