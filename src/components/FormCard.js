@@ -26,14 +26,15 @@ const FormCard = (props) => {
     let text = state.text
     let size = state.size
     let color = state.color
-    console.log(size)
+    let board = props.board
+    // console.log(size)
     if (text.length !== 0) {
-      props.addCardFn({ curPage: curPage, size: size, color: color, text: text })
+      props.addCardFn({ board:board,curPage: curPage, size: size, color: color, text: text })
     }
     setState({ textAreaCount: 0, text: '' })
   }
   const colorHandler = (e) => {
-    console.log(e.target.getAttribute('name'))
+    // console.log(e.target.getAttribute('name'))
     setState({
       ...state,
       color: e.target.getAttribute('name'),

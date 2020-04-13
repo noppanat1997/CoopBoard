@@ -4,9 +4,12 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import logger from 'redux-logger';
 import reducer from './reducer.js';
-import BoardPage from './pages/BoardPage.js';
 import RegisterPages from './pages/RegisterPage.js';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
+import Header from './components/Header.js';
+import BoardPage from './pages/BoardPage.js';
+import BoardList from './pages/BoardList.js';
 
 
 const App = () => {
@@ -16,10 +19,34 @@ const App = () => {
   return (
     <Provider store={store}>
       <div style={{ width: '100%', height: '100%' }}>
+
         <BrowserRouter>
-          <Route exact path="/boardpage" component={BoardPage} />
-          <Route exact path="/register" component={RegisterPages} />
-          <Route exact path="/" component={BoardPage} />
+          <Header />
+          <Switch>
+            <Route
+              exact
+              path="/list/:id"
+              component={BoardPage}
+            />
+            <Route
+              exact
+              path="/list"
+              component={BoardList}
+            />
+            <Route
+              exact
+              path="/register"
+              component={RegisterPages}
+            />
+            <Route
+              exact
+              path="/"
+              component={RegisterPages}
+            />
+          </Switch>
+
+
+
           {/* <Route component={PageNotFound} /> */}
         </BrowserRouter>
       </div>
