@@ -5,7 +5,7 @@ import Carousel from 'react-bootstrap/Carousel';
 import '.././css/CarouselComponent.css';
 
 const CarouselComponent = (props) => {
-  const mapAllPages = props.stateFromStore.data.map(item => (
+  const mapAllPages = props.stateFromStore.lineData[props.board-1].data.map(item => (
     <Carousel.Item key={item.id} className="text-center">
       <Canvas board={props.board} />
     </Carousel.Item>

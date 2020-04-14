@@ -1,11 +1,25 @@
 const initialState = {
   curPage: 1,
   //[{start: {offsetX: 325, offsetY: 180},stop: {offsetX: 340, offsetY: 180}}]
-  data: [
-    { id: 1, line: [], color: [], size: [] },
-    { id: 2, line: [], color: [], size: [] },
-    { id: 3, line: [], color: [], size: [] },
-    { id: 4, line: [], color: [], size: [] }
+  lineData: [
+    { id: 1,
+      data: [{ id: 1, line: [], color: [], size: [] },
+      { id: 2, line: [], color: [], size: [] },
+      { id: 3, line: [], color: [], size: [] },
+      { id: 4, line: [], color: [], size: [] }]
+    },
+    { id: 2,
+      data: [{ id: 1, line: [], color: [], size: [] },
+      { id: 2, line: [], color: [], size: [] },
+      { id: 3, line: [], color: [], size: [] },
+      { id: 4, line: [], color: [], size: [] }]
+    },
+    { id: 3,
+      data: [{ id: 1, line: [], color: [], size: [] },
+      { id: 2, line: [], color: [], size: [] },
+      { id: 3, line: [], color: [], size: [] },
+      { id: 4, line: [], color: [], size: [] }]
+    },
   ],
   buttonData: {
     1: { isActive: 0 },
@@ -55,7 +69,18 @@ const initialState = {
       id: 2,
       data: [
         { id: 1, data: [{ id: 1, size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: 'Hello Post-It1', isNew: false }] },
-        { id: 2, data: [{ id: 1, size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: 'Hello Post-It2', isNew: false }] }
+        { id: 2, data: [{ id: 1, size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: 'Hello Post-It2', isNew: false }] },
+        { id: 3, data: []},
+        { id: 4, data: []}
+      ]
+    },
+    {
+      id: 3,
+      data: [
+        { id: 1, data: []},
+        { id: 2, data: []},
+        { id: 3, data: []},
+        { id: 4, data: []}
       ]
     }
   ],
@@ -69,8 +94,20 @@ const reducer = (state = initialState, action) => {
   const newState = { ...state };
   switch (action.type) {
     case 'CHANGE_PAGE':
-      const { curPage } = action.payload
-      if (curPage > state.data.length - 1) {
+      const { boardId : bId , curPage } = action.payload
+      let board = bId - 1;
+      if(curPage > state.lineData[board].data.length){
+        newState.lineData[board].data.push({id: curPage, line: [], color: [], size: [] });
+      }
+      if(curPage > state.cardData[board].data.length){
+        newState.cardData[board].data.push({id: curPage, data: []});
+      }
+      newState.curPage = curPage
+      console.log(newState.lineData)
+      return newState;
+     /* if (curPage > state.data.length - 1) {
+        newState.curPage = curPage;
+
         return {
           ...state,
           curPage: curPage,
@@ -81,28 +118,22 @@ const reducer = (state = initialState, action) => {
           ...state,
           curPage: curPage,
         }
-      }
-    // const changedPage = { curPage: action.payload.curPage }
-    // newState.curPage = changedPage.curPage;
-    // if (action.payload.curPage > state.data.length - 1) {
-    //   newState.data.push({ id: action.payload.curPage, line: [], marker: [] })
-    // }
-    // return newState
+      }*/
 
 
     case 'UPDATE_LINE':
-      const { id, data: updatedLineData, mode } = action.payload;
+      const { boardId, pageId, data: updatedLineData, mode } = action.payload;
       if (mode == 1) {
-        newState.data[id].line.push(updatedLineData);
-        newState.data[id].color.push(newState.penColor);
-        newState.data[id].size.push(newState.penSize);
+        newState.lineData[boardId-1].data[pageId].line.push(updatedLineData);
+        newState.lineData[boardId-1].data[pageId].color.push(newState.penColor);
+        newState.lineData[boardId-1].data[pageId].size.push(newState.penSize);
       }
       else if (mode == 2) {
         for (var i = updatedLineData.length; i > 0; i--) {
           const t = updatedLineData.pop();
-          newState.data[id].line.splice(t, 1);
-          newState.data[id].color.splice(t, 1);
-          newState.data[id].size.splice(t, 1);
+          newState.lineData[boardId-1].data[pageId].line.splice(t, 1);
+          newState.lineData[boardId-1].data[pageId].color.splice(t, 1);
+          newState.lineData[boardId-1].data[pageId].size.splice(t, 1);
         }
       }
       return newState;

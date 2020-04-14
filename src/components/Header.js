@@ -16,7 +16,7 @@ class Header extends Component {
   memberList = []
   pageChangeHandler(newPage) {
     if (newPage < 1) newPage = 1;
-    const newData = { curPage: newPage };
+    const newData = { boardId: this.props.board, curPage: newPage };
     this.props.setNewPage(newData);
   }
   togglePresent(e) {
@@ -48,14 +48,6 @@ class Header extends Component {
 
   }
   componentWillMount() {
-    /*var r = Math.floor(Math.random() * 4);
-     console.log(r)
-     switch(r){
-       case 0: this.str = "userBackground-1"; break;
-       case 1: this.str = "userBackground-2"; break;
-       case 2: this.str = "userBackground-3"; break;
-       case 3: this.str = "userBackground-4"; break;
-     }*/
     this.str = "user" + this.randomBackground()
   }
   render() {
@@ -76,7 +68,65 @@ class Header extends Component {
               </div>
             </Col>
           </Row>
+          { this.props.path != "list" ? 
           <Row className="justify-content-center m-0 w-100 border-top">
+          <Col xs={4} />
+          <Col xs={4} className="text-center">
+            <button
+              className="btn btn-light mt-1 mb-1 btn-sm"
+              onClick={() => this.pageChangeHandler(this.props.curPage - 1)}
+              style={{ "width": "50px" }}
+            >&#60;</button>
+            <button className="btn btn-light mt-1 mb-1 border-right border-left btn-sm" style={{ "width": "70px" }}>{this.props.curPage}</button>
+            <button
+              className="btn btn-light mt-1 mb-1 btn-sm"
+              onClick={() => this.pageChangeHandler(this.props.curPage + 1)}
+              style={{ "width": "50px" }}
+            >&#62;</button>
+          </Col>
+          <Col style={{ textAlign: 'right' }}>
+            <div className="d-flex flex-row">
+              {this.renderMember()}
+            </div>
+            <button type="button" class="pl-1 mt-1 btn btn-info btn-circle" onClick={this.inviteMember}>
+              +
+            </button>
+          </Col>
+          <Col style={{ textAlign: 'right' }}>
+            <button className={"mt-1 " + (this.props.stateFromStore.isPresent ? "ispresent-true" : "ispresent-false")}
+              onClick={this.togglePresent}>
+              {this.props.stateFromStore.isPresent ? "Stop Presentation" : "Start Presentation"}
+            </button>
+          </Col>
+        </Row> : <div />}
+        </Container>
+      </div >
+    );
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    stateFromStore: state,
+    curPage: state.curPage
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+    changePresent: (newPresent) => {
+      return dispatch({ type: 'CHANGE_PRESENT', payload: newPresent });
+    },
+    setNewPage: (newId) => {
+      return dispatch({ type: 'CHANGE_PAGE', payload: newId });
+    },
+    increaseMember: (newMember) => {
+      return dispatch({ type: 'INVITE_MEMBER', payload: newMember });
+    }
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
+
+/*<Row className="justify-content-center m-0 w-100 border-top">
             <Col xs={4} />
             <Col xs={4} className="text-center">
               <button
@@ -105,30 +155,4 @@ class Header extends Component {
                 {this.props.stateFromStore.isPresent ? "Stop Presentation" : "Start Presentation"}
               </button>
             </Col>
-          </Row>
-        </Container>
-      </div >
-    );
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    stateFromStore: state,
-    curPage: state.curPage
-  }
-}
-const mapDispatchToProps = dispatch => {
-  return {
-    changePresent: (newPresent) => {
-      return dispatch({ type: 'CHANGE_PRESENT', payload: newPresent });
-    },
-    setNewPage: (newId) => {
-      return dispatch({ type: 'CHANGE_PAGE', payload: newId });
-    },
-    increaseMember: (newMember) => {
-      return dispatch({ type: 'INVITE_MEMBER', payload: newMember });
-    }
-  }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+          </Row>*/

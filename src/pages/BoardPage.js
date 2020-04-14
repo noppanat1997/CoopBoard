@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import MainBoard from '../components/MainBoard.js';
 import FormCard from '../components/FormCard.js';
 import '.././css/BoardPages.css';
+import Header from '../components/Header.js';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -21,27 +22,9 @@ const BoardPage = (props) => {
         props.stateFromStore.formCardData &&
         Object.entries(props.stateFromStore.formCardData)
           .filter(cardPair => cardPair[1].onFormSetting === 1)
-          .map(cardPair => <div className="form-card"><FormCard board={props.match.params.id} key={cardPair[0]} id={cardPair[0]} name={cardPair[1].name} /></div>)}
-      <Container className="m-0 p-0" style={{ "max-width": "100%", "width": "100%" }}>
-        <Row className="justify-content-center m-0 w-100 border-top bg-light">
-          <Col xs={2} className="text-center">
-            <button
-              className="btn btn-light mt-1 mb-1 btn-sm"
-              onClick={() => pageChangeHandler(props.curPage - 1)}
-              style={{ "width": "50px" }}
-            >&#60;</button>
-            <button
-              className="btn btn-light mt-1 mb-1 border-right border-left btn-sm"
-              style={{ "width": "70px" }}
-            >{props.curPage}</button>
-            <button
-              className="btn btn-light mt-1 mb-1 btn-sm"
-              onClick={() => pageChangeHandler(props.curPage + 1)}
-              style={{ "width": "50px" }}
-            >&#62;</button>
-          </Col>
-        </Row>
-      </Container>
+          .map(cardPair => <div className="form-card"><FormCard board={props.match.params.id} key={cardPair[0]} id={cardPair[0]} name={cardPair[1].name} /></div>)
+      }
+      <Header path="board" board={props.match.params.id}/>
       {/* <h2>{props.match.params.id}</h2> */}
       <MainBoard board={props.match.params.id}/>
     </div>
@@ -62,3 +45,26 @@ const mapDispatchToProps = dispatch => {
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(BoardPage);
+
+/*Placeholder Zone
+<Container className="m-0 p-0" style={{ "max-width": "100%", "width": "100%" }}>
+        <Row className="justify-content-center m-0 w-100 border-top bg-light">
+          <Col xs={2} className="text-center">
+            <button
+              className="btn btn-light mt-1 mb-1 btn-sm"
+              onClick={() => pageChangeHandler(props.curPage - 1)}
+              style={{ "width": "50px" }}
+            >&#60;</button>
+            <button
+              className="btn btn-light mt-1 mb-1 border-right border-left btn-sm"
+              style={{ "width": "70px" }}
+            >{props.curPage}</button>
+            <button
+              className="btn btn-light mt-1 mb-1 btn-sm"
+              onClick={() => pageChangeHandler(props.curPage + 1)}
+              style={{ "width": "50px" }}
+            >&#62;</button>
+          </Col>
+        </Row>
+      </Container>
+*/
