@@ -180,6 +180,7 @@ const RegisterPages = (props) => {
       fire.auth().createUserWithEmailAndPassword(state.formElements.email.value, state.formElements.password.value).then((u) => {
       }).then((u) => { console.log(u) })
         .catch((error) => {
+          alert(error.message);
           console.log(error);
         })
     }

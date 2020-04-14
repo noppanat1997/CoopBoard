@@ -3,16 +3,15 @@ import { Link } from "react-router-dom";
 import '.././css/LoginPage.css';
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
+import fire from '../components/Fire.js'
 
 import Logo from '.././images/logo.svg';
 
 const LoginPage = (props) => {
 
   const [state, setState] = useState({
-    // firstname: "",
-    // lastname: "",
-    // email: "",
-    // password: "",
+
+    currentUser: null,
     formElements: {
       email: {
         type: 'email',
@@ -111,10 +110,17 @@ const LoginPage = (props) => {
     });
   }
 
+  const login = (event) =>{
+    event.preventDefault();
+        fire.auth().signInWithEmailAndPassword(state.formElements.email.value, state.formElements.password.value).then((u) => {
+        }).catch((error) => {
+            console.log(error);
+        });
+  }
+
   const onFromSubmit = (event) => {
     event.preventDefault();
     const formData = {};
-    console.log(state.formElements.password, state.formElements.cfpassword)
 
     for (let name in state.formElements) {
       formData[name] = state.formElements[name].value;
