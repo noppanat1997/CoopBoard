@@ -3,6 +3,7 @@ import Card from 'react-bootstrap/Card'
 import '.././css/BoardList.css';
 import { connect } from 'react-redux';
 import { useHistory } from "react-router-dom";
+import Header from '../components/Header.js';
 
 const BoardList = (props) => {
 
@@ -24,10 +25,13 @@ const BoardList = (props) => {
 
   
   return (
-    <div className="ml-5 p-5">
-      <div className="mb-3" >All CoopBoard</div>
-      <div className="d-flex flex-wrap flex-row">
-        {list}
+    <div>
+      <Header path="list"/>
+      <div className="ml-5 p-5">
+        <div className="mb-3" >All CoopBoard</div>
+          <div className="d-flex flex-wrap flex-row">
+          {list}
+          </div>
       </div>
     </div>
   );

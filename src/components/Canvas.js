@@ -74,7 +74,7 @@ class Canvas extends Component {
     }
     else if (this.isErasing & this.props.stateFromStore.buttonData[2].isActive == 1) {
       const { offsetX, offsetY } = nativeEvent;
-      const lineData = this.props.stateFromStore.data[this.cPage];
+      const lineData = this.props.stateFromStore.lineData[this.props.board-1].data[this.cPage-1];
       const offSetData = { offsetX, offsetY };
       // Set the start and stop position of the paint event.
       const positionData = {
@@ -82,15 +82,12 @@ class Canvas extends Component {
         stop: { ...offSetData },
       };
       this.prevPos = { offsetX, offsetY };
-      //console.log(positionData.start.offsetX);
       for (var i = 0; i < this.lineCount; i += 1) {
-        //console.log();
         lineData.line[i].forEach((val) => {
           if ((val.start.offsetX <= positionData.start.offsetX + 25 & val.start.offsetX >= positionData.start.offsetX - 25)
             & (val.start.offsetY <= positionData.start.offsetY + 25 & val.start.offsetY >= positionData.start.offsetY - 25)
             | (val.stop.offsetX <= positionData.stop.offsetX + 25 & val.stop.offsetX >= positionData.stop.offsetX - 25)
             & (val.stop.offsetY <= positionData.stop.offsetY + 25 & val.stop.offsetY >= positionData.stop.offsetY - 25)) {
-            //console.log("found");
             this.foundCheck = 1;
           }
         })
@@ -99,24 +96,11 @@ class Canvas extends Component {
             this.paint(val.start, val.stop, this.eraserStyle, lineData.size[i] + 2);
           })
           this.arrIndex.push(i);
-          //console.log(this.arrIndex);
           this.foundCheck = 0;
         }
       }
     }
     else if (this.isMarking & this.props.stateFromStore.buttonData[5].isActive == 1) {
-      /*let markData = this.props.stateFromStore.data[this.cPage].marker
-      if(markData.length != 0){
-        markData[0].forEach((val) => {
-          this.unmark(val.start, val.stop, this.eraserStyle, this.unMarkWidth);
-        })
-        let delMarker = {
-          id: this.cPage,
-          data: [],
-          mode: 3
-        };
-        this.props.updateLine(delMarker);
-      }*/
       const { offsetX, offsetY } = nativeEvent;
       const offSetData = { offsetX, offsetY };
       // Set the start and stop position of the paint event.
@@ -126,7 +110,6 @@ class Canvas extends Component {
       };
       // Add the position to the line array
       this.line = this.line.concat(positionData);
-      //this.line.push(positionData);
       this.paint(this.prevPos, offSetData, this.markerStyle, this.markerWidth);
     }
   }
@@ -134,7 +117,7 @@ class Canvas extends Component {
     if (this.isPainting) {
       this.isPainting = false;
       this.sendPaintData();
-      this.lineCount = this.props.stateFromStore.data[this.cPage].line.length;
+      this.lineCount = this.props.stateFromStore.lineData[this.props.board-1].data[this.cPage-1].line.length;
     }
     else if (this.isErasing) {
       this.isErasing = false;
@@ -144,7 +127,8 @@ class Canvas extends Component {
       });
       this.lineCount -= this.arrIndex.length;
       const sendData = {
-        id: this.cPage,
+        boardId: this.props.board,
+        pageId: this.cPage - 1,
         data: this.arrIndex,
         mode: 2
       };
@@ -163,8 +147,7 @@ class Canvas extends Component {
   }
 
   redraw() {
-    let lineData = this.props.stateFromStore.data[this.cPage];
-    console.log(lineData);
+    let lineData = this.props.stateFromStore.lineData[this.props.board-1].data[this.cPage-1];
     let lineCount = lineData.line.length;
     for (let k = 0; k < lineCount; k++) {
       lineData.line[k].forEach((val) => {
@@ -201,36 +184,6 @@ class Canvas extends Component {
     // Visualize the line using the strokeStylSe
     this.ctx.stroke();
   }
-  /*erase(prevPos, currPos, strokeStyle) {
-    const { offsetX, offsetY } = currPos;
-    const { offsetX: x, offsetY: y } = prevPos;
-    this.ctx.lineWidth = 12;
-    this.ctx.beginPath();
-    this.ctx.strokeStyle = strokeStyle;
-    // Move the the prevPosition of the mouse
-    this.ctx.moveTo(x, y);
-    // Draw a line to the current position of the mouse
-    this.ctx.lineTo(offsetX, offsetY);
-    // Visualize the line using the strokeStyle
-    this.ctx.stroke();
-    this.prevPos = { offsetX, offsetY };
-  }
-
-  mark(prevPos, currPos, strokeStyle) {
-    const { offsetX, offsetY } = currPos;
-    const { offsetX: x, offsetY: y } = prevPos;
-    this.ctx.lineWidth = 8;
-    this.ctx.beginPath();
-    this.ctx.strokeStyle = strokeStyle;
-    // Move the the prevPosition of the mouse
-    this.ctx.moveTo(x, y);
-    // Draw a line to the current position of the mouse
-    this.ctx.lineTo(offsetX, offsetY);
-    // Visualize the line using the strokeStyle
-    this.ctx.stroke();
-    this.prevPos = { offsetX, offsetY };
-  }*/
-
   async sendPaintData() {
     const body = {
       line: this.line,
@@ -247,7 +200,8 @@ class Canvas extends Component {
     //  const res = await req.json();
     //console.log(this.line)
     const dataLine = {
-      id: this.cPage,
+      boardId: this.props.board,
+      pageId: this.cPage - 1,
       data: this.line,
       mode: 1
     };
@@ -258,7 +212,7 @@ class Canvas extends Component {
   componentDidUpdate() {
     this.pPage = this.cPage;
     this.cPage = this.props.stateFromStore.curPage;
-    this.lineCount = this.props.stateFromStore.data[this.cPage].line.length;
+    this.lineCount = this.props.stateFromStore.lineData[this.props.board-1].data[this.cPage-1].line.length;
 
   }
   componentDidMount() {
@@ -311,8 +265,8 @@ const mapDispatchToProps = dispatch => {
   return {
     updateLine: (updateLine) => {
       return dispatch({ type: 'UPDATE_LINE', payload: updateLine });
-    }
-    , panelCheck: (check) => {
+    },
+    panelCheck: (check) => {
       return dispatch({ type: 'CHECK_PANEL', payload: check });
     }
   }
