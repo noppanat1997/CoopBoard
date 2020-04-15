@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -57,7 +58,14 @@ class Header extends Component {
           <Row className="justify-content-center m-0 w-100">
             <Col xs={4} />
             <Col xs={4} className="text-center">
-              <img src={Logo} width="60" height="60" alt="CoopBoard" />
+              <Link to='/list'>
+                <img
+                  src={Logo}
+                  width="60"
+                  height="60"
+                  alt="CoopBoard"
+                />
+              </Link>
             </Col>
             <Col style={{ textAlign: 'right' }}></Col>
             <Col>
@@ -68,37 +76,37 @@ class Header extends Component {
               </div>
             </Col>
           </Row>
-          { this.props.path != "list" ? 
-          <Row className="justify-content-center m-0 w-100 border-top">
-          <Col xs={4} />
-          <Col xs={4} className="text-center">
-            <button
-              className="btn btn-light mt-1 mb-1 btn-sm"
-              onClick={() => this.pageChangeHandler(this.props.curPage - 1)}
-              style={{ "width": "50px" }}
-            >&#60;</button>
-            <button className="btn btn-light mt-1 mb-1 border-right border-left btn-sm" style={{ "width": "70px" }}>{this.props.curPage}</button>
-            <button
-              className="btn btn-light mt-1 mb-1 btn-sm"
-              onClick={() => this.pageChangeHandler(this.props.curPage + 1)}
-              style={{ "width": "50px" }}
-            >&#62;</button>
-          </Col>
-          <Col style={{ textAlign: 'right' }}>
-            <div className="d-flex flex-row">
-              {this.renderMember()}
-            </div>
-            <button type="button" class="pl-1 mt-1 btn btn-info btn-circle" onClick={this.inviteMember}>
-              +
+          {this.props.path != "list" ?
+            <Row className="justify-content-center m-0 w-100 border-top">
+              <Col xs={4} />
+              <Col xs={4} className="text-center">
+                <button
+                  className="btn btn-light mt-1 mb-1 btn-sm"
+                  onClick={() => this.pageChangeHandler(this.props.curPage - 1)}
+                  style={{ "width": "50px" }}
+                >&#60;</button>
+                <button className="btn btn-light mt-1 mb-1 border-right border-left btn-sm" style={{ "width": "70px" }}>{this.props.curPage}</button>
+                <button
+                  className="btn btn-light mt-1 mb-1 btn-sm"
+                  onClick={() => this.pageChangeHandler(this.props.curPage + 1)}
+                  style={{ "width": "50px" }}
+                >&#62;</button>
+              </Col>
+              <Col style={{ textAlign: 'right' }}>
+                <div className="d-flex flex-row">
+                  {this.renderMember()}
+                </div>
+                <button type="button" class="pl-1 mt-1 btn btn-info btn-circle" onClick={this.inviteMember}>
+                  +
             </button>
-          </Col>
-          <Col style={{ textAlign: 'right' }}>
-            <button className={"mt-1 " + (this.props.stateFromStore.isPresent ? "ispresent-true" : "ispresent-false")}
-              onClick={this.togglePresent}>
-              {this.props.stateFromStore.isPresent ? "Stop Presentation" : "Start Presentation"}
-            </button>
-          </Col>
-        </Row> : <div />}
+              </Col>
+              <Col style={{ textAlign: 'right' }}>
+                <button className={"mt-1 " + (this.props.stateFromStore.isPresent ? "ispresent-true" : "ispresent-false")}
+                  onClick={this.togglePresent}>
+                  {this.props.stateFromStore.isPresent ? "Stop Presentation" : "Start Presentation"}
+                </button>
+              </Col>
+            </Row> : <div />}
         </Container>
       </div >
     );

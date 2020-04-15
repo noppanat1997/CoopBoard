@@ -74,7 +74,7 @@ class Canvas extends Component {
     }
     else if (this.isErasing & this.props.stateFromStore.buttonData[2].isActive == 1) {
       const { offsetX, offsetY } = nativeEvent;
-      const lineData = this.props.stateFromStore.lineData[this.props.board-1].data[this.cPage-1].line;
+      const lineData = this.props.stateFromStore.lineData[this.props.board-1].data[this.cPage-1];
       const offSetData = { offsetX, offsetY };
       // Set the start and stop position of the paint event.
       const positionData = {
@@ -147,7 +147,7 @@ class Canvas extends Component {
   }
 
   redraw() {
-    let lineData = this.props.stateFromStore.lineData[this.props.board-1].data[this.cPage-1].line;
+    let lineData = this.props.stateFromStore.lineData[this.props.board-1].data[this.cPage-1];
     let lineCount = lineData.line.length;
     for (let k = 0; k < lineCount; k++) {
       lineData.line[k].forEach((val) => {
