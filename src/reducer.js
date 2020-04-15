@@ -46,16 +46,19 @@ const initialState = {
       id: 1,
       data: [
         { id: 1, data: [{ id: 1, size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: 'Hello Post-It1', isNew: false }] },
-        { id: 2, data: [{ id: 1, size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: 'Hello Post-It2', isNew: false }] },
-        { id: 3, data: [{ id: 1, size: 'm', color: 'yellow', position: { x: 0, y: 0 }, text: 'Hello Post-It3', isNew: false }] },
-        { id: 4, data: [] }
+        { id: 1, data: [{ id: 1, size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: 'Hello Post-It2', isNew: false }] }
       ]
     },
     {
       id: 2,
       data: [
-        { id: 1, data: [{ id: 1, size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: 'Hello Post-It1', isNew: false }] },
-        { id: 2, data: [{ id: 1, size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: 'Hello Post-It2', isNew: false }] }
+        { id: 1, data: [{ id: 1, size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: 'Hello Post-It3', isNew: false }] },
+      ]
+    },
+    {
+      id: 3,
+      data: [
+        { id: 1, data: [{ id: 1, size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: 'Hello Post-It4', isNew: false }] },
       ]
     }
   ],

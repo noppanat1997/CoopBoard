@@ -42,7 +42,6 @@ const BoardPage = (props) => {
           </Col>
         </Row>
       </Container>
-      {/* <h2>{props.match.params.id}</h2> */}
       <MainBoard board={props.match.params.id}/>
     </div>
   );
