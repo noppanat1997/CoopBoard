@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 const EachCard = (props) => {
   const clickHandler = () =>{
-    console.log(props.id);
     props.updateOnFormSettingFn(props.id);
   }
   return (
@@ -13,9 +12,11 @@ const EachCard = (props) => {
       height: '10rem',
       borderRadius: '0.7rem', 
       backgroundColor: props.color,
-      boxShadow: "1px 1px 3px 0px rgba(78, 78, 78, 0.75)"
+      boxShadow: "1px 1px 3px 0px rgba(78, 78, 78, 0.75)",
+      cursor: 'pointer',
+      userSelect: 'none'
       }}>
-      <Card.Title className="pl-3 pt-2">{props.name}</Card.Title>
+      <Card.Title className="pl-3 pt-2" >{props.name}</Card.Title>
     </Card>
   );
 }

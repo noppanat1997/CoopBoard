@@ -1,0 +1,45 @@
+.default-card{
+  font-family: 'Roboto', sans-serif;
+  overflow: hidden;
+  border-radius: 0rem;
+  border: none;
+  box-shadow: 1px 1px 4px 0px rgba(78, 78, 78, 0.185);
+  cursor: pointer;
+}
+.small-card{
+  width: 150px;
+  height: 150px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  font-size: 1vw;
+}
+.medium-card{
+  width: 200px;
+  height: 200px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  font-size: 1.5vw;
+}
+.large-card{
+  width: 300px;
+  height: 300px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  font-size: 3vw;
+}
+.default-card:hover{
+  border: 2px solid rgb(126, 225, 255);
+}
+.yellow-post {
+  background-color: #FDF21C;
+}
+.pink-post {
+  background-color: #ff65a3;
+}
+.blue-post {
+  background-color: #7afcff;
+}
+.none-post {
+  background-color: transparent;
+  box-shadow: none;
+}

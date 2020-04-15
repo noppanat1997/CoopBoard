@@ -7,7 +7,7 @@ import '.././css/CarouselComponent.css';
 const CarouselComponent = (props) => {
   const mapAllPages = props.stateFromStore.data.map(item => (
     <Carousel.Item key={item.id} className="text-center">
-      <Canvas />
+      <Canvas board={props.board} />
     </Carousel.Item>
   ));
   return (
