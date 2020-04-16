@@ -41,7 +41,7 @@ class Header extends Component {
     let memberCount = this.props.stateFromStore.memberCount;
     console.log("render!")
     for (let i = this.memberList.length + 1; i < memberCount; i++) {
-      this.memberList.push(<div className={"member" + this.randomBackground()}>{i}</div>);
+      this.memberList.push(<div className={"mt-1 member" + this.randomBackground()}>{i}</div>);
     }
     return this.memberList
   }
@@ -96,11 +96,11 @@ class Header extends Component {
                 <div className="d-flex flex-row">
                   {this.renderMember()}
                 </div>
-                <button type="button" class="pl-1 mt-1 btn btn-info btn-circle" onClick={this.inviteMember}>
-                  +
-            </button>
               </Col>
               <Col style={{ textAlign: 'right' }}>
+                <button type="button" class="btn btn-info btn-circle" onClick={this.inviteMember}>
+                  +
+                </button>
                 <button className={"mt-1 " + (this.props.stateFromStore.isPresent ? "ispresent-true" : "ispresent-false")}
                   onClick={this.togglePresent}>
                   {this.props.stateFromStore.isPresent ? "Stop Presentation" : "Start Presentation"}
