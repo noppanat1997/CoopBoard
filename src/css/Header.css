@@ -86,3 +86,21 @@
     color : white;
     text-align: center;
 }
+.button-page{
+    background-color:'white';
+    box-shadow: none;
+}
+.button-page:hover{
+    transition: 0.1s ease-in-out;
+    background-color: rgb(216, 216, 216);
+    box-shadow: none;
+}
+.button-page:focus{
+    transition: 0.1s ease-in-out;
+    background-color: rgb(216, 216, 216);
+    box-shadow: none;
+}
+.roboto {
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+  }
