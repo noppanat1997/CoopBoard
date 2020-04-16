@@ -18,13 +18,14 @@ class Canvas extends Component {
   isPainting = false;
   isErasing = false;
   isMarking = false;
+  
 
   /* All line size */
   penWidth = this.props.stateFromStore.penSize;
   markerWidth = 8;
   unMarkWidth = 10;
 
-  cPage = 0;//this.props.stateFromStore.curPage;
+  cPage = 1;//this.props.stateFromStore.curPage;
   pPage = 0;
   lineCount = 0;//this.props.stateFromStore.data[this.cPage].line.length;
   // Different stroke styles to be used for user and guest
@@ -47,9 +48,6 @@ class Canvas extends Component {
     else if (this.props.stateFromStore.buttonData[2].isActive == 1) {
       this.isErasing = true;
       this.prevPos = { offsetX, offsetY };
-    }
-    else if (this.props.stateFromStore.buttonData[3].isActive == 1) {
-      this.redraw();
     }
     else if (this.props.stateFromStore.buttonData[5].isActive == 1) {
       this.isMarking = true;
@@ -93,7 +91,7 @@ class Canvas extends Component {
         })
         if (this.foundCheck == 1) {
           lineData.line[i].forEach((val) => {
-            this.paint(val.start, val.stop, this.eraserStyle, lineData.size[i] + 2);
+            this.repaint(val.start, val.stop, this.eraserStyle, lineData.size[i] + 2);
           })
           this.arrIndex.push(i);
           this.foundCheck = 0;
@@ -144,15 +142,18 @@ class Canvas extends Component {
       this.line = [];
       this.redraw()
     }
+    
   }
 
   redraw() {
     let lineData = this.props.stateFromStore.lineData[this.props.board-1].data[this.cPage-1];
-    let lineCount = lineData.line.length;
-    for (let k = 0; k < lineCount; k++) {
-      lineData.line[k].forEach((val) => {
-        this.paint(val.start, val.stop, lineData.color[k], lineData.size[k]);
-      })
+      if(typeof(lineData) !== 'undefined'){
+      let lineCount = lineData.line.length;
+      for (let k = 0; k < lineCount; k++) {
+        lineData.line[k].forEach((val) => {
+        this.repaint(val.start, val.stop, lineData.color[k], lineData.size[k]);
+        })
+      }
     }
   }
 
@@ -171,7 +172,7 @@ class Canvas extends Component {
     this.prevPos = { offsetX, offsetY };
   }
 
-  unmark(prevPos, currPos, strokeStyle, lineWidth) {
+  repaint(prevPos, currPos, strokeStyle, lineWidth) {
     const { offsetX, offsetY } = currPos;
     const { offsetX: x, offsetY: y } = prevPos;
     this.ctx.lineWidth = lineWidth;
@@ -208,12 +209,22 @@ class Canvas extends Component {
     this.props.updateLine(dataLine);
     this.line = [];
   }
-
+  componentWillUpdate() {
+    let lineData = this.props.stateFromStore.lineData[this.props.board-1].data[this.cPage-1];
+      if(typeof(lineData) !== 'undefined'){
+      let lineCount = lineData.line.length;
+      for (let k = 0; k < lineCount; k++) {
+        lineData.line[k].forEach((val) => {
+        this.repaint(val.start, val.stop, this.eraserStyle, lineData.size[k]+2);
+        })
+      }
+    }
+  }
   componentDidUpdate() {
     this.pPage = this.cPage;
     this.cPage = this.props.stateFromStore.curPage;
     this.lineCount = this.props.stateFromStore.lineData[this.props.board-1].data[this.cPage-1].line.length;
-
+    this.redraw()
   }
   componentDidMount() {
     // Here we set up the properties of the canvas element. 
@@ -224,6 +235,9 @@ class Canvas extends Component {
     this.ctx.lineCap = 'round';
     this.ctx.lineWidth = 10;
     //console.log(this.lineCount)
+    this.cPage = this.props.stateFromStore.curPage;
+    this.lineCount = this.props.stateFromStore.lineData[this.props.board-1].data[this.cPage-1].line.length;
+    this.redraw();
   }
 
   render() {
@@ -236,6 +250,7 @@ class Canvas extends Component {
             <h1 className="drag">DROP HERE</h1>
           </div>}
         <div className={this.props.stateFromStore.buttonData[3].isActive == 1 ? "card-field-active" : "card-field"}>
+          
           <CardField board={this.props.board} page={this.props.stateFromStore.curPage - 1} />
         </div>
         <canvas
