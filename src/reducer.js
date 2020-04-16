@@ -234,7 +234,7 @@ const reducer = (state = initialState, action) => {
 
       newList = [
         ...newList, {
-          id: newList.length > 0 ? newList[newList.length-1].id + 1: 1,
+          id: newList.length > 0 ? newList[newList.length - 1].id + 1 : 1,
           size: size,
           color: color,
           position: { x: 0, y: 0 },
@@ -282,17 +282,17 @@ const reducer = (state = initialState, action) => {
     }
     case 'ADD_BOARD': {
       let newLineData = {
-        id: state.lineData.length + 1,
+        id: state.lineData.length > 0 ? state.lineData[state.lineData.length - 1].id + 1 : 1,
         data: [{ id: 1, line: [], color: [], size: [] }]
       }
       let newCardData = {
-        id: state.cardData.length + 1,
+        id: state.cardData.length > 0 ? state.cardData[state.cardData.length - 1].id + 1 : 1,
         data: [
           { id: 1, data: [] },
         ]
       }
       let newBoardData = {
-        id: state.boardData.length + 1,
+        id: state.boardData.length > 0 ? state.boardData[state.boardData.length - 1].id + 1 : 1,
         name: 'Untitled Coop',
         img: ''
       }

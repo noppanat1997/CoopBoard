@@ -7,9 +7,6 @@ import html2canvas from 'html2canvas';
 
 
 const CardField = (props) => {
-  const [state, setState] = useState({
-    img: ''
-  })
 
   let cardDataList = []
   if (props.stateFromStore.cardData[props.board - 1].data[props.page].data !== null) {
