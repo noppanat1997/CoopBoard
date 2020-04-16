@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import '.././css/RegisterPage.css';
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
@@ -9,12 +9,9 @@ import fire from '../components/Fire.js'
 import Logo from '.././images/logo.svg';
 
 const RegisterPages = (props) => {
-
+  let history = useHistory();
   const [state, setState] = useState({
-    // firstname: "",
-    // lastname: "",
-    // email: "",
-    // password: "",
+
     formElements: {
       firstname: {
         type: 'text',
@@ -178,7 +175,10 @@ const RegisterPages = (props) => {
         formData[name] = state.formElements[name].value;
       }
       fire.auth().createUserWithEmailAndPassword(state.formElements.email.value, state.formElements.password.value).then((u) => {
-      }).then((u) => { console.log(u) })
+      }).then((u) => {
+        console.log(u);
+        history.push('/login')
+      })
         .catch((error) => {
           alert(error.message);
           console.log(error);
@@ -203,7 +203,7 @@ const RegisterPages = (props) => {
           <Form onSubmit={e => onFromSubmit(e)}>
             <h1 style={{ color: '#D4145A', textAlign: 'center', marginBottom: '20px', fontWeight: 'bold', marginTop: '20px' }}>SIGN UP</h1>
             <h5 style={{ color: '#D4145A', marginBottom: '20px' }}>Please fill in this form to create an account!</h5>
-            
+
             <Form.Row className="mb-0">
               <Col>
                 <input
@@ -231,7 +231,7 @@ const RegisterPages = (props) => {
                 <div className="error-msg">{getErrorMessage('lastname')}<br></br></div>
               </Col>
             </Form.Row>
-            
+
             <Form.Group className="mb-0">
               <Form.Control
                 type="email"
@@ -243,7 +243,7 @@ const RegisterPages = (props) => {
                 className={getInputClass('email')} />
               <div className="error-msg">{getErrorMessage('email')}<br></br></div>
             </Form.Group>
-            
+
             <Form.Group className="mb-1">
               <Form.Control
                 type="password"
@@ -262,7 +262,7 @@ const RegisterPages = (props) => {
                 className={getInputClass('cfpassword')} />
               <div className="error-msg">{getErrorMessage('cfpassword')}<br></br></div>
             </Form.Group>
-            
+
             <div className="mb-0"></div>
             <div className="text-center mb-2">
               <button
@@ -283,10 +283,6 @@ const RegisterPages = (props) => {
           </Form>
         </Card.Body>
       </Card>
-
-      {/* <Card>
-        <Card.Body>Hello</Card.Body>
-      </Card> */}
     </div>
   );
 }

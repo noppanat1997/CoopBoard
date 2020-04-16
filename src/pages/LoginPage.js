@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import '.././css/LoginPage.css';
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
@@ -9,9 +9,10 @@ import Logo from '.././images/logo.svg';
 
 const LoginPage = (props) => {
 
+  let history = useHistory();
   const [state, setState] = useState({
 
-    currentUser: null,
+    user: null,
     formElements: {
       email: {
         type: 'email',
@@ -110,12 +111,15 @@ const LoginPage = (props) => {
     });
   }
 
-  const login = (event) =>{
+  const login = (event) => {
     event.preventDefault();
-        fire.auth().signInWithEmailAndPassword(state.formElements.email.value, state.formElements.password.value).then((u) => {
-        }).catch((error) => {
-            console.log(error);
-        });
+    fire.auth().signInWithEmailAndPassword(state.formElements.email.value, state.formElements.password.value).then((u) => {
+      alert("complete");
+      history.push('/list');
+    }).catch((error) => {
+      alert(error.message);
+      console.log(error);
+    });
   }
 
   const onFromSubmit = (event) => {
@@ -125,8 +129,30 @@ const LoginPage = (props) => {
     for (let name in state.formElements) {
       formData[name] = state.formElements[name].value;
     }
-
     console.log(formData);
+    console.log(state.user);
+
+    fire.auth().signInWithEmailAndPassword(state.formElements.email.value, state.formElements.password.value).then((u) => {
+      alert("complete");
+      // history.push('/list');
+    })
+    .catch((error) => {
+      alert(error.message);
+      console.log(error);
+    });
+  }
+
+  const componentDidMount = () =>{
+    fire.auth().onAuthStateChanged((user) => {
+      console.log(user);
+      if (user) {
+        setState({ user });
+        localStorage.setItem('user', user.uid);
+      } else {
+        setState({ user: null });
+        localStorage.removeItem('user');
+      }
+    });
   }
 
   return (
