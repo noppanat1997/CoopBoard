@@ -39,21 +39,18 @@ class Header extends Component {
   }
   renderMember() {
     let memberCount = this.props.stateFromStore.memberCount;
-    console.log("render!")
+    // console.log("render!")
     for (let i = this.memberList.length + 1; i < memberCount; i++) {
       this.memberList.push(<div className={"mt-1 member" + this.randomBackground()}>{i}</div>);
     }
     return this.memberList
-  }
-  componentWillUpdate() {
-
   }
   componentWillMount() {
     this.str = "user" + this.randomBackground()
   }
   render() {
     return (
-      <div className="bg-light" >
+      <div className="roboto" style={{ backgroundColor: 'white' }}>
         <Container className="m-0 p-0" style={{ "max-width": "100%", "width": "100%" }}>
           <Row className="justify-content-center m-0 w-100">
             <Col xs={4} />
@@ -79,17 +76,20 @@ class Header extends Component {
           {this.props.path != "list" ?
             <Row className="justify-content-center m-0 w-100 border-top">
               <Col xs={4} />
-              <Col xs={4} className="text-center">
+              <Col xs={4} className="d-flex ot-1 flex-wrap flex-row justify-content-center">
                 <button
-                  className="btn btn-light mt-1 mb-1 btn-sm"
+                  className="btn button-page mt-1 pt-0 btn-sm"
                   onClick={() => this.pageChangeHandler(this.props.curPage - 1)}
-                  style={{ "width": "50px" }}
+                  style={{ "width": "50px", height: '32px', fontSize: '20px' }}
                 >&#60;</button>
-                <button className="btn btn-light mt-1 mb-1 border-right border-left btn-sm" style={{ "width": "70px" }}>{this.props.curPage}</button>
+                <div
+                  className="text-center mt-1 mb-1 border-right border-left btn-sm"
+                  style={{ "width": "70px", fontSize: '16px' }}
+                >{this.props.curPage}</div>
                 <button
-                  className="btn btn-light mt-1 mb-1 btn-sm"
+                  className="btn button-page mt-1 pt-0 btn-sm"
                   onClick={() => this.pageChangeHandler(this.props.curPage + 1)}
-                  style={{ "width": "50px" }}
+                  style={{ "width": "50px", height: '32px', fontSize: '20px' }}
                 >&#62;</button>
               </Col>
               <Col style={{ textAlign: 'right' }}>
