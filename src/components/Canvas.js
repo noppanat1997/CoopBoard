@@ -209,7 +209,7 @@ class Canvas extends Component {
     this.props.updateLine(dataLine);
     this.line = [];
   }
-  componentWillUpdate() {
+  /*componentWillUpdate() {
     let lineData = this.props.stateFromStore.lineData[this.props.board-1].data[this.cPage-1];
       if(typeof(lineData) !== 'undefined'){
       let lineCount = lineData.line.length;
@@ -219,12 +219,14 @@ class Canvas extends Component {
         })
       }
     }
-  }
+  }*/
   componentDidUpdate() {
-    this.pPage = this.cPage;
-    this.cPage = this.props.stateFromStore.curPage;
-    this.lineCount = this.props.stateFromStore.lineData[this.props.board-1].data[this.cPage-1].line.length;
-    this.redraw()
+    
+    //this.pPage = this.cPage;
+    //this.cPage = this.props.stateFromStore.curPage;
+    //this.lineCount = this.props.stateFromStore.lineData[this.props.board-1].data[this.cPage-1].line.length;
+    //this.redraw();
+    //setTimeout(() => {this.redraw()},1000)
   }
   componentDidMount() {
     // Here we set up the properties of the canvas element. 
@@ -235,9 +237,22 @@ class Canvas extends Component {
     this.ctx.lineCap = 'round';
     this.ctx.lineWidth = 10;
     //console.log(this.lineCount)
-    this.cPage = this.props.stateFromStore.curPage;
+    this.cPage = this.props.page;
     this.lineCount = this.props.stateFromStore.lineData[this.props.board-1].data[this.cPage-1].line.length;
+    console.log("mount")
     this.redraw();
+  }
+
+  componentWillUnmount(){
+    let lineData = this.props.stateFromStore.lineData[this.props.board-1].data[this.cPage-1];
+      if(typeof(lineData) !== 'undefined'){
+      let lineCount = lineData.line.length;
+      for (let k = 0; k < lineCount; k++) {
+        lineData.line[k].forEach((val) => {
+        this.repaint(val.start, val.stop, this.eraserStyle, lineData.size[k]+2);
+        })
+      }
+    }
   }
 
   render() {
