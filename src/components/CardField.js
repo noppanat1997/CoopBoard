@@ -3,8 +3,6 @@ import '.././css/CarouselComponent.css';
 import '.././css/CardField.css';
 import { connect } from 'react-redux';
 import CardOnBoard from './CardOnBoard.js';
-import html2canvas from 'html2canvas';
-
 
 const CardField = (props) => {
 
