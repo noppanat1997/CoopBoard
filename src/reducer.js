@@ -259,6 +259,7 @@ const reducer = (state = initialState, action) => {
       let newData = [...state.cardData]
 
       let newList = newData[board - 1].data[curPage - 1].data
+      console.log(position)
       newList[id - 1].position = { ...position }
       newList[id - 1].isNew = false
 
