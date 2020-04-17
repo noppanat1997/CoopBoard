@@ -29,37 +29,32 @@ const FormCard = (props) => {
     let color = state.color
     let board = props.board
     // console.log(size)
-    if (props.stateFromStore.cardData[board - 1].data[curPage - 1].data.length < 15) {
-      if (text.length !== 0) {
-        props.addCardFn({ board: board, curPage: curPage, size: size, color: color, text: text })
-      }
-      setTimeout(() => {
-        html2canvas(document.body).then((canvas) => {
-
-          let croppedCanvas = document.createElement('canvas')
-          let croppedCanvasContext = croppedCanvas.getContext('2d')
-  
-          croppedCanvas.width = 1500;
-          croppedCanvas.height = 800;
-  
-          croppedCanvasContext.drawImage(canvas, 210, 130, 1500, 800, 0, 0, 1500, 800);
-  
-          let base64image = croppedCanvas.toDataURL("image/png");
-          props.changeBoardImgFn({
-            board: board,
-            img: base64image
-          });
-  
-          props.addRecentBoardDataFn({
-            board: board
-          })
-  
-        });
-      }, 100);
-
-    } else {
-      alert("Can't add more card items")
+    if (text.length !== 0) {
+      props.addCardFn({ board: board, curPage: curPage, size: size, color: color, text: text })
     }
+    setTimeout(() => {
+      html2canvas(document.body).then((canvas) => {
+
+        let croppedCanvas = document.createElement('canvas')
+        let croppedCanvasContext = croppedCanvas.getContext('2d')
+
+        croppedCanvas.width = 1500;
+        croppedCanvas.height = 800;
+
+        croppedCanvasContext.drawImage(canvas, 210, 130, 1500, 800, 0, 0, 1500, 800);
+
+        let base64image = croppedCanvas.toDataURL("image/png");
+        props.changeBoardImgFn({
+          board: board,
+          img: base64image
+        });
+
+        props.addRecentBoardDataFn({
+          board: board
+        })
+
+      });
+    }, 100);
 
     setState({ ...state, textAreaCount: 0, text: '' })
 

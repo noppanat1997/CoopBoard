@@ -58,7 +58,6 @@ class CardOnBoard extends Component {
   }
 
   screenShot = () => {
-    setTimeout(() => {
       html2canvas(document.body).then((canvas) => {
 
         let croppedCanvas = document.createElement('canvas')
@@ -79,7 +78,7 @@ class CardOnBoard extends Component {
           board: this.props.board
         })
       });
-    }, 100)
+    
   }
   render() {
     return (
