@@ -5,6 +5,9 @@
   border: none;
   box-shadow: 1px 1px 4px 0px rgba(78, 78, 78, 0.185);
   cursor: pointer;
+  position: absolute;
+  top: 30%;
+  left: 40%; 
 }
 .small-card{
   width: 150px;

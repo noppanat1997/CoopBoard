@@ -29,6 +29,7 @@ class CardOnBoard extends Component {
       }
     });
   };
+
   handleStop = (e) => {
     let curPage = this.props.stateFromStore.curPage
     let id = this.props.id

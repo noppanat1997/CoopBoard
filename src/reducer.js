@@ -259,9 +259,12 @@ const reducer = (state = initialState, action) => {
       let newData = [...state.cardData]
 
       let newList = newData[board - 1].data[curPage - 1].data
-      console.log(position)
-      newList[id - 1].position = { ...position }
-      newList[id - 1].isNew = false
+      for (let i = 0; i < newList.length; i++) {
+        if (newList[i].id == id){
+          newList[i].position = {...position}
+          newList[i].isNew = false
+        }
+      }
 
       newData[board - 1].data[curPage - 1] = {
         ...newData[board - 1].data[curPage - 1],
