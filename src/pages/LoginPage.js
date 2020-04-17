@@ -3,11 +3,8 @@ import { Link, useHistory } from "react-router-dom";
 import '.././css/LoginPage.css';
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
-<<<<<<< HEAD
 import fire from '../components/Fire.js'
 
-=======
->>>>>>> 373234b6ca360c5b5da50b0e31b032a96983d0e9
 import Logo from '.././images/logo.svg';
 
 const LoginPage = (props) => {
@@ -137,7 +134,7 @@ const LoginPage = (props) => {
 
     fire.auth().signInWithEmailAndPassword(state.formElements.email.value, state.formElements.password.value).then((u) => {
       alert("complete");
-      // history.push('/list');
+      history.push('/list');
     })
     .catch((error) => {
       alert(error.message);
