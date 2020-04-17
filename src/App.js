@@ -46,7 +46,7 @@ const App = () => {
             <Route
               exact
               path="/"
-              component={RegisterPages}
+              component={LoginPage}
             />
           </Switch>
 
