@@ -50,7 +50,7 @@ class Header extends Component {
   }
   render() {
     return (
-      <div className="roboto" style={{ backgroundColor: 'white' }}>
+      <div className="roboto" style={{ backgroundColor: 'white',width: "100%" }}>
         <Container className="m-0 p-0" style={{ "max-width": "100%", "width": "100%" }}>
           <Row className="justify-content-center m-0 w-100">
             <Col xs={4} />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import '.././css/CarouselComponent.css';
 import '.././css/CardField.css';
 import { connect } from 'react-redux';

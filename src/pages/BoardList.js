@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React from 'react'
 import Card from 'react-bootstrap/Card'
 import '.././css/BoardList.css';
 import { connect } from 'react-redux';
