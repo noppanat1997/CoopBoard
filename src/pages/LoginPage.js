@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import '.././css/LoginPage.css';
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
-
 import Logo from '.././images/logo.svg';
 
 const LoginPage = (props) => {
@@ -129,7 +128,10 @@ const LoginPage = (props) => {
         <Card.Body>
           <Form onSubmit={e => onFromSubmit(e)}>
             <center>
-              <img src={Logo} width="200" height="180" alt="CoopBoard" />
+              <Link to="/list">
+                <img src={Logo} width="200" height="180" alt="CoopBoard" />
+              </Link>
+
             </center>
             <h1 style={{ color: '#D4145A', textAlign: 'center', marginBottom: '30px', fontWeight: 'bold' }}>SIGN IN</h1>
 
