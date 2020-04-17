@@ -5,6 +5,9 @@
   border: none;
   box-shadow: 1px 1px 4px 0px rgba(78, 78, 78, 0.185);
   cursor: pointer;
+  position: absolute;
+  top: 30%;
+  left: 40%; 
 }
 .small-card{
   width: 150px;
@@ -27,9 +30,6 @@
   font-weight: bold;
   font-size: 3vw;
 }
-.default-card:hover{
-  border: 2px solid rgb(126, 225, 255);
-}
 .yellow-post {
   background-color: #FDF21C;
 }
@@ -42,4 +42,33 @@
 .none-post {
   background-color: transparent;
   box-shadow: none;
+}
+.default-hover {
+  position: absolute;
+  z-index: 9;
+  border: 3px solid rgb(126, 225, 255);
+}
+.default-hover-active {
+  position: absolute;
+  z-index: 9;
+  border: 3px solid rgb(65, 117, 133);
+}
+.delete-button{
+  position: absolute;
+  z-index: 10;
+  user-select: none;
+  width: 25px;
+  height: 25px;
+  font-size: 15px;
+  border-bottom-left-radius: 100%;
+  color: rgb(53, 53, 53);
+  background-color:  rgb(126, 225, 255);
+}
+.delete-button-hover{
+  width: 25px;
+  height: 25px;
+  font-size: 15px;
+  border-bottom-left-radius: 100%;
+  color: rgb(255, 255, 255);
+  background-color:  rgb(65, 117, 133);
 }

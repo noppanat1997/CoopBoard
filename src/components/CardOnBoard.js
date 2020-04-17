@@ -3,6 +3,7 @@ import Card from 'react-bootstrap/Card';
 import Draggable from 'react-draggable';
 import { connect } from 'react-redux';
 import '.././css/CardOnBoard.css';
+import html2canvas from 'html2canvas';
 
 class CardOnBoard extends Component {
   constructor(props) {
@@ -13,6 +14,8 @@ class CardOnBoard extends Component {
         x: this.props.position.x,
         y: this.props.position.y
       },
+      isHover: false,
+      onDelete: false
     }
   }
 
@@ -26,19 +29,58 @@ class CardOnBoard extends Component {
       }
     });
   };
+
   handleStop = (e) => {
     let curPage = this.props.stateFromStore.curPage
     let id = this.props.id
     let position = this.state.deltaPosition
     let board = this.props.board
-    this.props.updatePositionFn({
+    if (this.state.onDelete == false) {
+      this.props.updatePositionFn({
+        board: board,
+        curPage: curPage,
+        id: id,
+        position: position
+      });
+      this.screenShot()
+    }
+  }
+
+  onDelete = () => {
+    let curPage = this.props.stateFromStore.curPage
+    let id = this.props.id
+    let board = this.props.board
+    this.props.deleteCardFn({
       board: board,
       curPage: curPage,
-      id: id,
-      position: position
+      id: id
     });
   }
 
+  screenShot = () => {
+    setTimeout(() => {
+      html2canvas(document.body).then((canvas) => {
+
+        let croppedCanvas = document.createElement('canvas')
+        let croppedCanvasContext = croppedCanvas.getContext('2d')
+
+        croppedCanvas.width = 1500;
+        croppedCanvas.height = 800;
+
+        croppedCanvasContext.drawImage(canvas, 210, 130, 1500, 800, 0, 0, 1500, 800);
+
+        let base64image = croppedCanvas.toDataURL("image/png");
+        this.props.changeBoardImgFn({
+          board: this.props.board,
+          img: base64image
+        });
+
+        this.props.addRecentBoardDataFn({
+          board: this.props.board
+        })
+      });
+    }, 100)
+  }
   render() {
     return (
       <Draggable
@@ -48,13 +90,29 @@ class CardOnBoard extends Component {
         position={{ x: this.props.position.x, y: this.props.position.y }}
       >
         <Card
+          onMouseEnter={() => this.setState({ ...this.state, isHover: true })}
+          onMouseLeave={() => this.setState({ ...this.state, isHover: false })}
           className={"default-card " + (this.props.color) + '-post' +
             (this.props.size === 's' ? ' small-card' : this.props.size === 'm' ? ' medium-card' : ' large-card')
           }
         >
-          <Card.Text className="p-2" >{this.props.text}</Card.Text>
+          {this.state.isHover == true ?
+            <div
+              className={"d-flex justify-content-end w-100 h-100 "
+                + (this.state.onDelete == true ? "default-hover-active" : "default-hover")
+              }
+            >
+              <div
+                className={"pl-2 pb-2 " + (this.state.onDelete == true ? "delete-button-hover" : "delete-button")}
+                onPointerOver={() => this.setState({ ...this.state, onDelete: true })}
+                onPointerOut={() => this.setState({ ...this.state, onDelete: false })}
+                onClick={this.onDelete}
+              >x</div>
+            </div>
+            : <div></div>}
+          <Card.Text className="p-2" style={{ position: 'relative' }}>{this.props.text}</Card.Text>
         </Card>
-      </Draggable >
+      </Draggable>
     );
   }
 
@@ -68,6 +126,15 @@ const mapDispatchToProps = (dispatch) => {
   return {
     updatePositionFn: (data) => {
       return dispatch({ type: 'UPDATE_POSITION', payload: data });
+    },
+    changeBoardImgFn: (data) => {
+      return dispatch({ type: 'CHANGE_BOARD_IMG', payload: data });
+    },
+    addRecentBoardDataFn: (data) => {
+      return dispatch({ type: 'ADD_RECENT_BOARD', payload: data });
+    },
+    deleteCardFn: (data) => {
+      return dispatch({ type: 'DELETE_CARD', payload: data });
     }
   }
 }

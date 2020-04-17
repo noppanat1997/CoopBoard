@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import Card from 'react-bootstrap/Card'
 import '.././css/BoardList.css';
 import { connect } from 'react-redux';
 import { useHistory } from "react-router-dom";
+import Header from '../components/Header.js';
 
 const BoardList = (props) => {
-
   let history = useHistory();
 
   const selectHandler = (id) => {
@@ -15,19 +15,56 @@ const BoardList = (props) => {
   const list = props.stateFromStore.boardData.map(
     item =>
       <Card id={item.id} className="card-list m-3" onClick={() => selectHandler(item.id)}>
-        <img
-          src="https://q-cf.bstatic.com/images/hotel/max1024x768/223/223087771.jpg"
-        />
-        <Card.Footer>{item.name}</Card.Footer>
+        {item.img == "" ? <div className="w-100 h-100" /> : <img src={item.img} />}
+        <Card.Footer
+          className="footer-hover"
+        >
+          {item.name}
+        </Card.Footer>
       </Card>
   )
 
-  
+  const listRecent = props.stateFromStore.recentBoardData.map(
+    item =>
+      <Card id={item.id} className="card-list m-3" onClick={() => selectHandler(item.id)}>
+        {item.img == "" ? <div className="w-100 h-100" /> : <img src={item.img} />}
+        <Card.Footer
+          className="footer-hover"
+        >
+          {item.name}
+        </Card.Footer>
+      </Card>
+  )
   return (
-    <div className="ml-5 p-5">
-      <div className="mb-3" >All CoopBoard</div>
-      <div className="d-flex flex-wrap flex-row">
-        {list}
+    <div>
+      <Header path="list" />
+      <div className="ml-5 p-5">
+        <div className="mb-3 roboto" >Recent CoopBoards</div>
+        <div className="d-flex flex-wrap flex-row">
+          {listRecent}
+        </div>
+        <div className="mb-3 roboto" >All CoopBoards</div>
+        <div className="d-flex flex-wrap flex-row">
+          <Card
+            id="1"
+            className="add-card-list m-3"
+          >
+            <Card.Body className="text-center pt-5">
+              <div
+                className="text-secondary"
+                style={{ fontSize: "60px", userSelect: "none" }}
+                onClick={() => {
+                  props.addBoardFn();
+                }}
+              >
+                +
+              </div>
+            </Card.Body>
+          </Card>
+
+          {list}
+
+        </div>
       </div>
     </div>
   );
@@ -35,8 +72,14 @@ const BoardList = (props) => {
 
 const mapStateToProps = state => {
   return {
-    stateFromStore: state,
-    curPage: state.curPage
+    stateFromStore: state
   }
 }
-export default connect(mapStateToProps, null)(BoardList);
+const mapDispatchToProps = dispatch => {
+  return {
+    addBoardFn: (data) => {
+      return dispatch({ type: 'ADD_BOARD', payload: data })
+    }
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(BoardList);

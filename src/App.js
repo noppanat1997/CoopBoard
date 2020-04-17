@@ -12,7 +12,6 @@ import Header from './components/Header.js';
 import BoardPage from './pages/BoardPage.js';
 import BoardList from './pages/BoardList.js';
 
-
 const App = () => {
   // const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
   const store = createStore(reducer, applyMiddleware(logger));
@@ -22,7 +21,7 @@ const App = () => {
       <div style={{ width: '100%', height: '100%' }}>
 
         <BrowserRouter>
-          <Header />
+          
           <Switch>
             <Route
               exact
