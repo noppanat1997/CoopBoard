@@ -17,7 +17,7 @@ const RegisterPages = (props) => {
         validator: {
           required: true,
           minLength: 3,
-          macLength: 20
+          maxLength: 20
         },
         touched: false,
         error: {
@@ -31,7 +31,7 @@ const RegisterPages = (props) => {
         validator: {
           required: true,
           minLength: 3,
-          macLength: 20
+          maxsLength: 20
         },
         touched: false,
         error: {
