@@ -96,13 +96,13 @@ const RegisterPages = (props) => {
       status: validatorObject.status,
       message: validatorObject.message
     }
-    if( (name == 'password'||name == 'cfpassword') && state.formElements.cfpassword.value!==state.formElements.password.value) {
+    if ((name == 'password' || name == 'cfpassword') && state.formElements.cfpassword.value !== state.formElements.password.value) {
       updatedForm['cfpassword'].error = {
         status: true,
         message: 'The password confirmation does not match.'
       }
     }
-    else if(value == ''){
+    else if (value == '') {
       updatedForm['cfpassword'].error = {
         status: true,
         message: 'The cfpassword is cannot be empty.'
@@ -143,7 +143,7 @@ const RegisterPages = (props) => {
         message = 'The E-mail is invalid format.';
       }
     }
-  
+
     return { status: !valid, message: message };
   }
   const getInputClass = (name) => {
@@ -159,25 +159,19 @@ const RegisterPages = (props) => {
   const onFromSubmit = (event) => {
     event.preventDefault();
     const formData = {};
-    if (state.formElements.password.value !== state.formElements.cfpassword.value) {
-      alert("Password not match")
-      return false;
+    for (let name in state.formElements) {
+      formData[name] = state.formElements[name].value;
     }
-    else {
-      for (let name in state.formElements) {
-        formData[name] = state.formElements[name].value;
-      }
-      fire.auth().createUserWithEmailAndPassword(state.formElements.email.value, state.formElements.password.value).then((u) => {
-      }).then((u) => {
-        console.log(u);
-        history.push('/login')
+    fire.auth().createUserWithEmailAndPassword(state.formElements.email.value, state.formElements.password.value).then((u) => {
+    }).then((u) => {
+      console.log(u);
+      setTimeout(function(){alert("SIGN UP Successful!")}, 100);
+      history.push('/login')
+    })
+      .catch((error) => {
+        alert(error.message);
+        console.log(error);
       })
-        .catch((error) => {
-          alert(error.message);
-          console.log(error);
-        })
-    }
-    console.log(formData);
   }
 
   return (
