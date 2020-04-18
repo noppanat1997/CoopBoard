@@ -31,7 +31,7 @@ const RegisterPages = (props) => {
         validator: {
           required: true,
           minLength: 3,
-          maxsLength: 20
+          maxLength: 20
         },
         touched: false,
         error: {
@@ -96,13 +96,13 @@ const RegisterPages = (props) => {
       status: validatorObject.status,
       message: validatorObject.message
     }
-    if ((name == 'password' || name == 'cfpassword') && state.formElements.cfpassword.value !== state.formElements.password.value) {
+    if ( (name == 'password' || name == 'cfpassword') && state.formElements.cfpassword.value !== state.formElements.password.value ) {
       updatedForm['cfpassword'].error = {
         status: true,
         message: 'The password confirmation does not match.'
       }
     }
-    else if (value == '') {
+    else if ( (name == 'password' || name == 'cfpassword') && value == '') {
       updatedForm['cfpassword'].error = {
         status: true,
         message: 'The cfpassword is cannot be empty.'
@@ -255,7 +255,7 @@ const RegisterPages = (props) => {
               <Link to={`/login`}>
                 <button
                   className="btn-tosignin btn-link">
-                  Already have account?</button>
+                  Already have an account?</button>
               </Link>
             </div>
           </Form>
