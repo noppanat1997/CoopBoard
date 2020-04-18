@@ -9,7 +9,8 @@ const BoardPage = (props) => {
 
   return (
     <div >
-      {props.stateFromStore.onDropArea === true &&
+      {
+        props.stateFromStore.onDropArea === true &&
         props.stateFromStore.formCardData &&
         Object.entries(props.stateFromStore.formCardData)
           .filter(cardPair => cardPair[1].onFormSetting === 1)
