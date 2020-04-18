@@ -6,8 +6,6 @@ import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col';
 import fire from '../components/Fire.js'
 
-import Logo from '.././images/logo.svg';
-
 const RegisterPages = (props) => {
   let history = useHistory();
   const [state, setState] = useState({
@@ -86,32 +84,29 @@ const RegisterPages = (props) => {
     }
   })
 
-  // const onChangeHandle = (event) => {
-  //   let name = event.target.name;
-  //   let value = event.target.value;
-  //   setState({
-  //     ...state,
-  //     [name]: value
-  //   })
-  // }
-
-  // const onSubmitHandle = (event) => {
-  //   event.preventDefault();
-  //   alert("submitting on " + state.firstname + " " + state.lastname)
-  // }
-
   const onFormChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-
     let updatedForm = { ...state.formElements };
     updatedForm[name].value = value;
     updatedForm[name].touched = true;
 
-    const validatorObject = checkValidator(value, updatedForm[name].validator);
+    const validatorObject = checkValidator(value, updatedForm[name].validator, name);
     updatedForm[name].error = {
       status: validatorObject.status,
       message: validatorObject.message
+    }
+    if( (name == 'password'||name == 'cfpassword') && state.formElements.cfpassword.value!==state.formElements.password.value) {
+      updatedForm['cfpassword'].error = {
+        status: true,
+        message: 'The password confirmation does not match.'
+      }
+    }
+    else if(value == ''){
+      updatedForm['cfpassword'].error = {
+        status: true,
+        message: 'The cfpassword is cannot be empty.'
+      }
     }
 
     let formStatus = true;
@@ -127,34 +122,32 @@ const RegisterPages = (props) => {
     });
   }
 
-  const checkValidator = (value, rule) => {
+  const checkValidator = (value, rule, name) => {
     let valid = true;
     let message = '';
     if (value.trim().length === 0 && rule.required) {
       valid = false;
-      message = 'จำเป็นต้องกรอก';
+      message = `The ${name} is cannot be empty.`;
     }
-    if (value.length < rule.minLength && valid) {
+    else if (value.length < rule.minLength && valid) {
       valid = false;
-      message = `น้อยกว่า ${rule.minLength} ตัวอักษร`;
+      message = `The ${name} is less than ${rule.minLength} characters.`;
     }
-    if (value.length > rule.maxLength && valid) {
+    else if (value.length > rule.maxLength && valid) {
       valid = false;
-      message = `มากกว่า ${rule.maxLength} ตัวอักษร`;
+      message = `The ${name} is greater than ${rule.maxLength} characters.`;
     }
-    if (rule.pattern === 'email' && valid) {
+    else if (rule.pattern === 'email' && valid) {
       if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) === false) {
         valid = false;
-        message = 'กรอกอีเมลไม่ถูกต้อง';
+        message = 'The E-mail is invalid format.';
       }
     }
+  
     return { status: !valid, message: message };
   }
   const getInputClass = (name) => {
     const elementErrorStatus = state.formElements[name].error.status;
-    // return elementErrorStatus && this.state.formElements[name].touched ?
-    //   'form-control is-invalid':
-    //   'form-control is-valid';
 
     return state.formElements[name].touched ?
       elementErrorStatus ? 'form-control is-invalid' : 'form-control is-valid'
@@ -185,15 +178,6 @@ const RegisterPages = (props) => {
         })
     }
     console.log(formData);
-  }
-
-  const signup = (event) => {
-    event.preventDefault();
-    fire.auth().createUserWithEmailAndPassword(state.formElements.email.value, state.formElements.password.value).then((u) => {
-    }).then((u) => { console.log(u) })
-      .catch((error) => {
-        console.log(error);
-      })
   }
 
   return (
@@ -266,8 +250,8 @@ const RegisterPages = (props) => {
             <div className="mb-0"></div>
             <div className="text-center mb-2">
               <button
-                disabled={!state.formElements.firstname.value, !state.formElements.lastname.value, !state.formElements.email.value
-                  , !state.formElements.password.value, !state.formElements.cfpassword.value}
+                disabled={state.formElements.firstname.error.status, state.formElements.lastname.error.status, state.formElements.email.error.status
+                  , state.formElements.password.error.status, state.formElements.cfpassword.error.status}
                 type="submit"
                 className="btn-submit-signup">
                 Submit</button>

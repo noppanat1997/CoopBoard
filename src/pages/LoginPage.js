@@ -3,6 +3,8 @@ import { Link, useHistory } from "react-router-dom";
 import '.././css/LoginPage.css';
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
+import fire from '../components/Fire.js'
+
 import Logo from '.././images/logo.svg';
 
 const LoginPage = (props) => {
@@ -43,25 +45,25 @@ const LoginPage = (props) => {
     }
   })
 
-  const checkValidator = (value, rule) => {
+  const checkValidator = (value, rule, name) => {
     let valid = true;
     let message = '';
     if (value.trim().length === 0 && rule.required) {
       valid = false;
-      message = 'จำเป็นต้องกรอก';
+      message = `The ${name} is cannot be empty.`;
     }
-    if (value.length < rule.minLength && valid) {
+    else if (value.length < rule.minLength && valid) {
       valid = false;
-      message = `น้อยกว่า ${rule.minLength} ตัวอักษร`;
+      message = `The ${name} is less than ${rule.minLength} characters.`;
     }
-    if (value.length > rule.maxLength && valid) {
+    else if (value.length > rule.maxLength && valid) {
       valid = false;
-      message = `มากกว่า ${rule.maxLength} ตัวอักษร`;
+      message = `The ${name} is greater than ${rule.maxLength} characters.`;
     }
-    if (rule.pattern === 'email' && valid) {
+    else if (rule.pattern === 'email' && valid) {
       if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) === false) {
         valid = false;
-        message = 'กรอกอีเมลไม่ถูกต้อง';
+        message = 'The E-mail is invalid format.';
       }
     }
     return { status: !valid, message: message };
@@ -69,9 +71,6 @@ const LoginPage = (props) => {
 
   const getInputClass = (name) => {
     const elementErrorStatus = state.formElements[name].error.status;
-    // return elementErrorStatus && this.state.formElements[name].touched ?
-    //   'form-control is-invalid':
-    //   'form-control is-valid';
 
     return state.formElements[name].touched ?
       elementErrorStatus ? 'form-control is-invalid' : 'form-control is-valid'
@@ -90,7 +89,7 @@ const LoginPage = (props) => {
     updatedForm[name].value = value;
     updatedForm[name].touched = true;
 
-    const validatorObject = checkValidator(value, updatedForm[name].validator);
+    const validatorObject = checkValidator(value, updatedForm[name].validator, name);
     updatedForm[name].error = {
       status: validatorObject.status,
       message: validatorObject.message
@@ -109,17 +108,6 @@ const LoginPage = (props) => {
     });
   }
 
-  const login = (event) => {
-    event.preventDefault();
-    fire.auth().signInWithEmailAndPassword(state.formElements.email.value, state.formElements.password.value).then((u) => {
-      alert("complete");
-      history.push('/list');
-    }).catch((error) => {
-      alert(error.message);
-      console.log(error);
-    });
-  }
-
   const onFromSubmit = (event) => {
     event.preventDefault();
     const formData = {};
@@ -131,25 +119,12 @@ const LoginPage = (props) => {
     console.log(state.user);
 
     fire.auth().signInWithEmailAndPassword(state.formElements.email.value, state.formElements.password.value).then((u) => {
-      alert("complete");
-      // history.push('/list');
+      setTimeout(function(){alert("Welcome " + formData.email)}, 100);
+      history.push('/list');
     })
     .catch((error) => {
-      alert(error.message);
+      alert("The e-mail address or password you entered was incorrect. Please retry...!");
       console.log(error);
-    });
-  }
-
-  const componentDidMount = () =>{
-    fire.auth().onAuthStateChanged((user) => {
-      console.log(user);
-      if (user) {
-        setState({ user });
-        localStorage.setItem('user', user.uid);
-      } else {
-        setState({ user: null });
-        localStorage.removeItem('user');
-      }
     });
   }
 
@@ -192,7 +167,7 @@ const LoginPage = (props) => {
 
             <div className="text-center mb-3">
               <button
-                disabled={!state.formElements.email.value, !state.formElements.password.value}
+                disabled={state.formElements.email.error.status, state.formElements.password.error.status}
                 type="submit"
                 className="btn-submit-signin">
                 Submit</button>
