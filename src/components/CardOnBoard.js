@@ -31,7 +31,7 @@ class CardOnBoard extends Component {
   };
 
   handleStop = (e) => {
-    let curPage = this.props.stateFromStore.curPage
+    let curPage = this.props.page
     let id = this.props.id
     let position = this.state.deltaPosition
     let board = this.props.board
@@ -58,28 +58,27 @@ class CardOnBoard extends Component {
   }
 
   screenShot = () => {
-    setTimeout(() => {
-      html2canvas(document.body).then((canvas) => {
+    html2canvas(document.body).then((canvas) => {
 
-        let croppedCanvas = document.createElement('canvas')
-        let croppedCanvasContext = croppedCanvas.getContext('2d')
+      let croppedCanvas = document.createElement('canvas')
+      let croppedCanvasContext = croppedCanvas.getContext('2d')
 
-        croppedCanvas.width = 1500;
-        croppedCanvas.height = 800;
+      croppedCanvas.width = 1500;
+      croppedCanvas.height = 800;
 
-        croppedCanvasContext.drawImage(canvas, 210, 130, 1500, 800, 0, 0, 1500, 800);
+      croppedCanvasContext.drawImage(canvas, 210, 130, 1500, 800, 0, 0, 1500, 800);
 
-        let base64image = croppedCanvas.toDataURL("image/png");
-        this.props.changeBoardImgFn({
-          board: this.props.board,
-          img: base64image
-        });
-
-        this.props.addRecentBoardDataFn({
-          board: this.props.board
-        })
+      let base64image = croppedCanvas.toDataURL("image/png");
+      this.props.changeBoardImgFn({
+        board: this.props.board,
+        img: base64image
       });
-    }, 100)
+
+      this.props.addRecentBoardDataFn({
+        board: this.props.board
+      })
+    });
+
   }
   render() {
     return (

@@ -246,7 +246,7 @@ class Canvas extends Component {
           </div>}
         <div className={this.props.stateFromStore.buttonData[3].isActive == 1 ? "card-field-active" : "card-field"}>
           
-          <CardField board={this.props.board} page={this.props.stateFromStore.curPage - 1} />
+          <CardField board={this.props.board} page={this.props.page} />
         </div>
         <canvas
 

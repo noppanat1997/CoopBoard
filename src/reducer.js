@@ -65,9 +65,9 @@ const initialState = {
       id: 1,
       data: [
         { id: 1, data: [] },
-        { id: 1, data: [{ id: 1, size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: 'Hello Post-It2', isNew: false }] },
-        { id: 1, data: [{ id: 1, size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: 'Hello Post-It2', isNew: false }] },
-        { id: 1, data: [{ id: 1, size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: 'Hello Post-It2', isNew: false }] }
+        { id: 2, data: [{ id: 1, size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: '2', isNew: false }] },
+        { id: 3, data: [{ id: 1, size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: '3', isNew: false }] },
+        { id: 4, data: [{ id: 1, size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: '4', isNew: false }] }
       ]
     },
     {
@@ -127,7 +127,6 @@ const reducer = (state = initialState, action) => {
          curPage: curPage,
        }
      }*/
-
 
     case 'UPDATE_LINE':
       const { boardId, pageId, data: updatedLineData, mode } = action.payload;
@@ -255,9 +254,7 @@ const reducer = (state = initialState, action) => {
     }
     case 'UPDATE_POSITION': {
       let { board, curPage, id, position } = action.payload
-
       let newData = [...state.cardData]
-
       let newList = newData[board - 1].data[curPage - 1].data
       for (let i = 0; i < newList.length; i++) {
         if (newList[i].id == id){

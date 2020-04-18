@@ -9,7 +9,7 @@ const BoardList = (props) => {
   let history = useHistory();
 
   const selectHandler = (id) => {
-    history.push('/list/' + id)
+    history.push('/list/' + id +'/1')
   }
 
   const list = props.stateFromStore.boardData.map(
