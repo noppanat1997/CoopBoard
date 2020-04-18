@@ -13,33 +13,27 @@ const StackCard = (props) => {
     // console.log(e.screenX, e.screenY)
     setState({ ...state, isHolding: false, onCard: false })
     if (state.onCard) {
-      onDropAreaHandler(e.screenX, e.screenY)
+      onDropAreaHandler()
     }
   }
-  const onDropAreaHandler = (x, y) => {
-    // y268 1068 x210 1710
-    // console.log(x, y)
-    if (y >= 268 && y <= 1068 && x <= 1710 && x >= 210) {
-      props.onDropAreaFn({ ...state, isHolding: false, onDropArea: true })
-    } else {
-      props.onDropAreaFn({ ...state, isHolding: false, onDropArea: false })
-    }
+  const onDropAreaHandler = () => {
+    props.onDropAreaFn({ isHolding: false, isDrop: true })
   }
   const onMouseMoveHandler = (e) => {
     if (!state.onCard && e.screenY >= 268 && e.screenY <= 1068 && e.screenX <= 1710 && e.screenX >= 210) {
       setState({ ...state, isHolding: false })
-      props.onDropAreaFn({ ...state, isHolding: false, onDropArea: false })
+      props.onDropAreaFn({ isHolding: false, isDrop: false })
     }
   }
   return (
     <div className={(state.isHolding === true ? 'stack-card-active' : 'stack-card')}
       onMouseOver={() => { setState({ ...state, isHolding: true }) }}
       onMouseMove={onMouseMoveHandler}
-      onMouseLeave={() => { setState({ ...state, isHolding: false}) }}
+      onMouseLeave={() => { setState({ ...state, isHolding: false }) }}
     >
       <Draggable position={{ x: 0, y: 0 }}
-        onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}
-        onStart={() => { setState({ onCard: true }) }}
+        onMouseDown={() => { props.onDropAreaFn({ isHolding: true, isDrop: false }) }}
+        onStart={() => { setState({ ...state, isHolding: true, onCard: true }) }}
         onStop={onMouseUpHandler}
       >
         <div>
@@ -47,8 +41,8 @@ const StackCard = (props) => {
         </div>
       </Draggable>
       <Draggable position={{ x: 0, y: -100 }}
-        onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}
-        onStart={() => { setState({ onCard: true }) }}
+        onMouseDown={() => { props.onDropAreaFn({ isHolding: true, isDrop: false }) }}
+        onStart={() => { setState({ ...state, isHolding: true, onCard: true }) }}
         onStop={onMouseUpHandler}
       >
         <div>
@@ -56,8 +50,8 @@ const StackCard = (props) => {
         </div>
       </Draggable>
       <Draggable position={{ x: 0, y: -200 }}
-        onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}
-        onStart={() => { setState({ onCard: true }) }}
+        onMouseDown={() => { props.onDropAreaFn({ isHolding: true, isDrop: false }) }}
+        onStart={() => { setState({ ...state, isHolding: true, onCard: true }) }}
         onStop={onMouseUpHandler}
       >
         <div>
@@ -65,8 +59,8 @@ const StackCard = (props) => {
         </div>
       </Draggable>
       <Draggable position={{ x: 0, y: -300 }}
-        onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}
-        onStart={() => { setState({ onCard: true }) }}
+        onMouseDown={() => { props.onDropAreaFn({ isHolding: true, isDrop: false }) }}
+        onStart={() => { setState({ ...state, isHolding: true, onCard: true }) }}
         onStop={onMouseUpHandler}
       >
         <div>
@@ -74,8 +68,8 @@ const StackCard = (props) => {
         </div>
       </Draggable>
       <Draggable position={{ x: 0, y: -400 }}
-        onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}
-        onStart={() => { setState({ onCard: true }) }}
+        onMouseDown={() => { props.onDropAreaFn({ isHolding: true, isDrop: false }) }}
+        onStart={() => { setState({ ...state, isHolding: true, onCard: true }) }}
         onStop={onMouseUpHandler}
       >
         <div>
@@ -83,8 +77,8 @@ const StackCard = (props) => {
         </div>
       </Draggable>
       <Draggable position={{ x: 0, y: -500 }}
-        onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}
-        onStart={() => { setState({ onCard: true }) }}
+        onMouseDown={() => { props.onDropAreaFn({ isHolding: true, isDrop: false }) }}
+        onStart={() => { setState({ ...state, isHolding: true, onCard: true }) }}
         onStop={onMouseUpHandler}
       >
         <div>
@@ -92,8 +86,8 @@ const StackCard = (props) => {
         </div>
       </Draggable>
       <Draggable position={{ x: 0, y: -600 }}
-        onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}
-        onStart={() => { setState({ onCard: true }) }}
+        onMouseDown={() => { props.onDropAreaFn({ isHolding: true, isDrop: false }) }}
+        onStart={() => { setState({ ...state, isHolding: true, onCard: true }) }}
         onStop={onMouseUpHandler}
       >
         <div>
@@ -101,8 +95,8 @@ const StackCard = (props) => {
         </div>
       </Draggable>
       <Draggable position={{ x: 0, y: -700 }}
-        onMouseDown={() => { props.onDropAreaFn({ isHolding: true, onDropArea: false }) }}
-        onStart={() => { setState({ onCard: true }) }}
+        onMouseDown={() => { props.onDropAreaFn({ isHolding: true, isDrop: false }) }}
+        onStart={() => { setState({ ...state, isHolding: true, onCard: true }) }}
         onStop={onMouseUpHandler}
       >
         <div>

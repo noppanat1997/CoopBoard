@@ -7,8 +7,8 @@ import CardOnBoard from './CardOnBoard.js';
 const CardField = (props) => {
 
   let cardDataList = []
-  if (props.stateFromStore.cardData[props.board - 1].data[props.page].data !== null) {
-    cardDataList = props.stateFromStore.cardData[props.board - 1].data[props.page].data
+  if (props.stateFromStore.cardData[props.board - 1].data[props.page-1].data !== null) {
+    cardDataList = props.stateFromStore.cardData[props.board - 1].data[props.page-1].data
   }
 
   let lists

@@ -18,7 +18,7 @@ class Canvas extends Component {
   isPainting = false;
   isErasing = false;
   isMarking = false;
-  
+
 
   /* All line size */
   penWidth = this.props.stateFromStore.penSize;
@@ -72,7 +72,7 @@ class Canvas extends Component {
     }
     else if (this.isErasing & this.props.stateFromStore.buttonData[2].isActive == 1) {
       const { offsetX, offsetY } = nativeEvent;
-      const lineData = this.props.stateFromStore.lineData[this.props.board-1].data[this.cPage-1];
+      const lineData = this.props.stateFromStore.lineData[this.props.board - 1].data[this.props.page - 1];
       const offSetData = { offsetX, offsetY };
       // Set the start and stop position of the paint event.
       const positionData = {
@@ -115,7 +115,7 @@ class Canvas extends Component {
     if (this.isPainting) {
       this.isPainting = false;
       this.sendPaintData();
-      this.lineCount = this.props.stateFromStore.lineData[this.props.board-1].data[this.cPage-1].line.length;
+      this.lineCount = this.props.stateFromStore.lineData[this.props.board - 1].data[this.props.page - 1].line.length;
     }
     else if (this.isErasing) {
       this.isErasing = false;
@@ -142,16 +142,16 @@ class Canvas extends Component {
       this.line = [];
       this.redraw()
     }
-    
+
   }
 
   redraw() {
-    let lineData = this.props.stateFromStore.lineData[this.props.board-1].data[this.cPage-1];
-      if(typeof(lineData) !== 'undefined'){
+    let lineData = this.props.stateFromStore.lineData[this.props.board - 1].data[this.props.page - 1];
+    if (typeof (lineData) !== 'undefined') {
       let lineCount = lineData.line.length;
       for (let k = 0; k < lineCount; k++) {
         lineData.line[k].forEach((val) => {
-        this.repaint(val.start, val.stop, lineData.color[k], lineData.size[k]);
+          this.repaint(val.start, val.stop, lineData.color[k], lineData.size[k]);
         })
       }
     }
@@ -210,12 +210,12 @@ class Canvas extends Component {
     this.line = [];
   }
   componentWillUpdate() {
-    let lineData = this.props.stateFromStore.lineData[this.props.board-1].data[this.cPage-1];
-      if(typeof(lineData) !== 'undefined'){
+    let lineData = this.props.stateFromStore.lineData[this.props.board - 1].data[this.props.page - 1];
+    if (typeof (lineData) !== 'undefined') {
       let lineCount = lineData.line.length;
       for (let k = 0; k < lineCount; k++) {
         lineData.line[k].forEach((val) => {
-        this.repaint(val.start, val.stop, this.eraserStyle, lineData.size[k]+2);
+          this.repaint(val.start, val.stop, this.eraserStyle, lineData.size[k] + 2);
         })
       }
     }
@@ -223,7 +223,7 @@ class Canvas extends Component {
   componentDidUpdate() {
     this.pPage = this.cPage;
     this.cPage = this.props.stateFromStore.curPage;
-    this.lineCount = this.props.stateFromStore.lineData[this.props.board-1].data[this.cPage-1].line.length;
+    this.lineCount = this.props.stateFromStore.lineData[this.props.board - 1].data[this.props.page - 1].line.length;
     this.redraw()
   }
   componentDidMount() {
@@ -236,7 +236,7 @@ class Canvas extends Component {
     this.ctx.lineWidth = 10;
     //console.log(this.lineCount)
     this.cPage = this.props.stateFromStore.curPage;
-    this.lineCount = this.props.stateFromStore.lineData[this.props.board-1].data[this.cPage-1].line.length;
+    this.lineCount = this.props.stateFromStore.lineData[this.props.board - 1].data[this.props.page - 1].line.length;
     this.redraw();
   }
 
@@ -249,12 +249,19 @@ class Canvas extends Component {
           <div className="active-box">
             <h1 className="drag">DROP HERE</h1>
           </div>}
-        <div className={this.props.stateFromStore.buttonData[3].isActive == 1 ? "card-field-active" : "card-field"}>
-          
-          <CardField board={this.props.board} page={this.props.stateFromStore.curPage - 1} />
+        <div
+          onMouseEnter={() => {
+            if (this.props.stateFromStore.isDrop)
+              this.props.onCanvasFn(true)
+          }}
+          onMouseLeave={() => {
+            if (this.props.stateFromStore.isDrop)
+              this.props.onCanvasFn(false)
+          }}
+          className={this.props.stateFromStore.buttonData[3].isActive == 1 ? "card-field-active" : "card-field"}>
+          <CardField board={this.props.board} page={this.props.page} />
         </div>
         <canvas
-
           // We use the ref attribute to get direct access to the canvas element. 
           ref={(ref) => (this.canvas = ref)}
           onMouseDown={this.onMouseDown}
@@ -283,6 +290,9 @@ const mapDispatchToProps = dispatch => {
     },
     panelCheck: (check) => {
       return dispatch({ type: 'CHECK_PANEL', payload: check });
+    },
+    onCanvasFn: (data) => {
+      return dispatch({ type: 'ON_CANVAS', payload: data });
     }
   }
 }

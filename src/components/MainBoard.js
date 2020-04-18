@@ -10,7 +10,7 @@ const MainBoard = (props) => {
       <ChatBox />
       <ToolBox />
       <StackCard />
-      <CarouselComponent board={props.board}/>
+      <CarouselComponent board={props.board} page={props.page} />
       
     </div>
   );

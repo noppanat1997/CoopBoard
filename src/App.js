@@ -25,7 +25,7 @@ const App = () => {
           <Switch>
             <Route
               exact
-              path="/list/:id"
+              path="/list/:id/:page"
               component={BoardPage}
             />
             <Route

@@ -19,10 +19,12 @@ const FormCard = (props) => {
     sizeSelected: 1
   });
   const cancelHendler = () => {
-    props.onDropAreaFn({ isHolding: false, onDropArea: false })
+    props.onDropAreaFn({ isHolding: false,  isDrop: false })
+    props.onCanvasFn(false);
   }
   const saveHendler = (e) => {
-    props.onDropAreaFn({ isHolding: false, onDropArea: false })
+    props.onDropAreaFn({ isHolding: false, isDrop: false })
+    props.onCanvasFn(false);
     let curPage = props.stateFromStore.curPage
     let text = state.text
     let size = state.size
@@ -149,6 +151,9 @@ const mapDispatchToProps = dispatch => {
     },
     addRecentBoardDataFn: (data) => {
       return dispatch({ type: 'ADD_RECENT_BOARD', payload: data });
+    },
+    onCanvasFn: (data) => {
+      return dispatch({ type: 'ON_CANVAS', payload: data });
     }
   }
 }

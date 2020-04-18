@@ -50,7 +50,7 @@ class Header extends Component {
   }
   render() {
     return (
-      <div className="roboto" style={{ backgroundColor: 'white',width: "100%" }}>
+      <div className="roboto" style={{ backgroundColor: 'white', width: "100%" }}>
         <Container className="m-0 p-0" style={{ "max-width": "100%", "width": "100%" }}>
           <Row className="justify-content-center m-0 w-100">
             <Col xs={4} />
@@ -77,20 +77,24 @@ class Header extends Component {
             <Row className="justify-content-center m-0 w-100 border-top">
               <Col xs={4} />
               <Col xs={4} className="d-flex ot-1 flex-wrap flex-row justify-content-center">
-                <button
-                  className="btn button-page mt-1 pt-0 btn-sm"
-                  onClick={() => this.pageChangeHandler(this.props.curPage - 1)}
-                  style={{ "width": "50px", height: '32px', fontSize: '20px' }}
-                >&#60;</button>
+                <Link>
+                  <button
+                    className="btn button-page mt-1 pt-0 btn-sm"
+                    onClick={this.pageChangeHandler(this.props.page - 1)}
+                    style={{ "width": "50px", height: '32px', fontSize: '20px' }}
+                  >&#60;</button>
+                </Link>
                 <div
                   className="text-center mt-1 mb-1 border-right border-left btn-sm"
                   style={{ "width": "70px", fontSize: '16px' }}
-                >{this.props.curPage}</div>
-                <button
-                  className="btn button-page mt-1 pt-0 btn-sm"
-                  onClick={() => this.pageChangeHandler(this.props.curPage + 1)}
-                  style={{ "width": "50px", height: '32px', fontSize: '20px' }}
-                >&#62;</button>
+                >{this.props.page}</div>
+                <Link>
+                  <button
+                    className="btn button-page mt-1 pt-0 btn-sm"
+                    onClick={this.pageChangeHandler(this.props.page + 1)}
+                    style={{ "width": "50px", height: '32px', fontSize: '20px' }}
+                  >&#62;</button>
+                </Link>
               </Col>
               <Col style={{ textAlign: 'right' }}>
                 <div className="d-flex flex-row">

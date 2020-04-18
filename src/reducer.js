@@ -39,7 +39,9 @@ const initialState = {
   color: 1,
   size: 2,
   isHolding: false,
+  isDrop: false,
   onDropArea: false,
+  onCanvas: false,
   isPresent: false,
   userData: {
     Name: "Nontapat",
@@ -203,12 +205,12 @@ const reducer = (state = initialState, action) => {
       return newState
 
     case 'UPDATE_ON_DROP_AREA':
-      const { onDropArea, isHolding } = action.payload
+      const { isHolding, isDrop } = action.payload
       console.log(action.payload)
       return {
         ...state,
         isHolding: isHolding,
-        onDropArea: onDropArea
+        isDrop: isDrop
       }
     case 'UPDATE_ON_FORM_SETTING': {
       const cardId = action.payload
@@ -260,8 +262,8 @@ const reducer = (state = initialState, action) => {
 
       let newList = newData[board - 1].data[curPage - 1].data
       for (let i = 0; i < newList.length; i++) {
-        if (newList[i].id == id){
-          newList[i].position = {...position}
+        if (newList[i].id == id) {
+          newList[i].position = { ...position }
           newList[i].isNew = false
         }
       }
@@ -363,7 +365,16 @@ const reducer = (state = initialState, action) => {
         cardData: newData
       }
     }
-
+    case 'ON_CANVAS': {
+      let onCanvas = action.payload
+      let onDropArea = state.isDrop && onCanvas
+      return {
+        ...state,
+        onCanvas: onCanvas,
+        isDrop: false,
+        onDropArea: onDropArea
+      }
+    }
     default:
       break;
   }
