@@ -6,11 +6,12 @@ import logger from 'redux-logger';
 import reducer from './reducer.js';
 import LoginPage from './pages/LoginPage.js';
 import RegisterPages from './pages/RegisterPage.js';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 
 import Header from './components/Header.js';
 import BoardPage from './pages/BoardPage.js';
 import BoardList from './pages/BoardList.js';
+import history from './history'
 
 const App = () => {
   // const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
@@ -19,9 +20,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <div style={{ width: '100%', height: '100%' }}>
-
-        <BrowserRouter>
-          
+        <Router history={history}>
           <Switch>
             <Route
               exact
@@ -49,11 +48,8 @@ const App = () => {
               component={LoginPage}
             />
           </Switch>
-
-
-
           {/* <Route component={PageNotFound} /> */}
-        </BrowserRouter>
+        </Router>
       </div>
     </Provider>
 

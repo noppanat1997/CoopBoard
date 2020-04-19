@@ -56,7 +56,7 @@ class CardOnBoard extends Component {
     });
   }
 
-  
+
   render() {
     return (
       <Draggable
@@ -79,11 +79,15 @@ class CardOnBoard extends Component {
               }
             >
               <div
-                className={"pl-2 pb-2 " + (this.state.onDelete == true ? "delete-button-hover" : "delete-button")}
+                className={" " + (this.state.onDelete == true ? "delete-button-hover" : "delete-button")}
                 onPointerOver={() => this.setState({ ...this.state, onDelete: true })}
                 onPointerOut={() => this.setState({ ...this.state, onDelete: false })}
                 onClick={this.onDelete}
-              >x</div>
+              >
+                <div className="w-100 h-100" >
+                  ✖
+                </div>
+              </div>
             </div>
             : <div></div>}
           <Card.Text className="p-2" style={{ position: 'relative' }}>{this.props.text}</Card.Text>

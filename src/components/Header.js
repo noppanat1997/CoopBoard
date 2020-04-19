@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Logo from '.././images/logo.svg';
 import html2canvas from 'html2canvas';
+import history from '.././history';
 import '.././css/Header.css';
 
 class Header extends Component {
@@ -13,6 +14,9 @@ class Header extends Component {
     super(props);
     this.togglePresent = this.togglePresent.bind(this);
     this.inviteMember = this.inviteMember.bind(this);
+    this.state = {
+      boardName: this.props.path != "list" ? this.props.stateFromStore.boardData[this.props.board - 1].name : ""
+    }
   }
   str = ""
   memberList = []
@@ -71,12 +75,52 @@ class Header extends Component {
       })
     });
   }
+  deleteFrameHandler = () => {
+    let pageLength = this.props.stateFromStore.lineData[this.props.board - 1].data.length
+    if (this.props.page === pageLength) {
+      this.pageChangeHandler(this.props.page - 1)
+      history.push('/list/' + this.props.board + '/' + (this.props.page - 1));
+    }
+    this.props.deletePageFn({
+      board: this.props.board,
+      page: this.props.page
+    })
+  }
+  clearFrameHandler = () => {
+    this.props.clearFrameFn({
+      board: this.props.board,
+      page: this.props.page
+    })
+  }
+
   render() {
     return (
       <div className="roboto" style={{ backgroundColor: 'white', width: "100%" }}>
         <Container className="m-0 p-0" style={{ "max-width": "100%", "width": "100%" }}>
           <Row className="justify-content-center m-0 w-100">
-            <Col xs={4} />
+            <Col xs={4} style={{ fontSize: '35px' }}>
+              {
+                this.props.path != "list" ?
+                  <input
+                    type="text"
+                    className="form-control board-name ml-4 mt-3 pl-0"
+                    style={{ width: '100%' }}
+                    maxlength="24"
+                    onBlur={()=>{
+                      this.props.changeBoardNameFn({
+                        board: this.props.board,
+                        name: this.state.boardName
+                      })
+                    }}
+                    onChange={(e) => this.setState({
+                      ...this.state,
+                      boardName: e.target.value
+                    })}
+                    value={this.state.boardName}
+                  ></input>
+                  : <div></div>
+              }
+            </Col>
             <Col xs={4} className="text-center">
               <Link to='/list'>
                 <img
@@ -84,7 +128,7 @@ class Header extends Component {
                   width="60"
                   height="60"
                   alt="CoopBoard"
-                  onClick={()=>{ if(this.props.path != "list") this.screenShot()}}
+                  onClick={() => { if (this.props.path != "list") this.screenShot() }}
                 />
               </Link>
             </Col>
@@ -99,7 +143,22 @@ class Header extends Component {
           </Row>
           {this.props.path != "list" ?
             <Row className="justify-content-center m-0 w-100 border-top">
-              <Col xs={4} />
+              <Col xs={4}>
+                <button
+                  className="btn button-page mt-1 ml-3 btn-sm border-right"
+                  style={{ fontSize: '16px' }}
+                  onClick={this.deleteFrameHandler}
+                >
+                  Delete frame
+                </button>
+                <button
+                  className="btn button-page mt-1 btn-sm"
+                  style={{ fontSize: '16px' }}
+                  onClick={this.clearFrameHandler}
+                >
+                  Clear frame
+                </button>
+              </Col>
               <Col xs={4} className="d-flex ot-1 flex-wrap flex-row justify-content-center">
                 <Link to={'/list/' + this.props.board + '/' + (this.props.page > 1 ? (this.props.page - 1) : (this.props.page))}>
                   <button
@@ -162,38 +221,16 @@ const mapDispatchToProps = dispatch => {
     },
     addRecentBoardDataFn: (data) => {
       return dispatch({ type: 'ADD_RECENT_BOARD', payload: data });
+    },
+    deletePageFn: (data) => {
+      return dispatch({ type: 'DELETE_PAGE', payload: data });
+    },
+    clearFrameFn: (data) => {
+      return dispatch({ type: 'CLEAR_FRAME', payload: data });
+    },
+    changeBoardNameFn: (data) => {
+      return dispatch({ type: 'CHANGE_BOARD_NAME', payload: data });
     }
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
-
-/*<Row className="justify-content-center m-0 w-100 border-top">
-            <Col xs={4} />
-            <Col xs={4} className="text-center">
-              <button
-                className="btn btn-light mt-1 mb-1 btn-sm"
-                onClick={() => this.pageChangeHandler(this.props.curPage - 1)}
-                style={{ "width": "50px" }}
-              >&#60;</button>
-              <button className="btn btn-light mt-1 mb-1 border-right border-left btn-sm" style={{ "width": "70px" }}>{this.props.curPage}</button>
-              <button
-                className="btn btn-light mt-1 mb-1 btn-sm"
-                onClick={() => this.pageChangeHandler(this.props.curPage + 1)}
-                style={{ "width": "50px" }}
-              >&#62;</button>
-            </Col>
-            <Col style={{ textAlign: 'right' }}>
-              <div className="d-flex flex-row">
-                {this.renderMember()}
-              </div>
-              <button type="button" class="pl-1 mt-1 btn btn-info btn-circle" onClick={this.inviteMember}>
-                +
-              </button>
-            </Col>
-            <Col style={{ textAlign: 'right' }}>
-              <button className={"mt-1 " + (this.props.stateFromStore.isPresent ? "ispresent-true" : "ispresent-false")}
-                onClick={this.togglePresent}>
-                {this.props.stateFromStore.isPresent ? "Stop Presentation" : "Start Presentation"}
-              </button>
-            </Col>
-          </Row>*/
