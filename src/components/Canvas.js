@@ -10,6 +10,15 @@ class Canvas extends Component {
     this.onMouseDown = this.onMouseDown.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.endPaintEvent = this.endPaintEvent.bind(this);
+    let boardIndex
+    for (let i = 0; i < this.props.stateFromStore.boardData.length; i++) {
+      if (this.props.stateFromStore.boardData[i].id === this.props.board) {
+        boardIndex = i
+      }
+    }
+    this.state = {
+      boardIndex: boardIndex
+    }
   }
   arrIndex = [];
   foundCheck = 0;
@@ -72,7 +81,7 @@ class Canvas extends Component {
     }
     else if (this.isErasing & this.props.stateFromStore.buttonData[2].isActive == 1) {
       const { offsetX, offsetY } = nativeEvent;
-      const lineData = this.props.stateFromStore.lineData[this.props.board - 1].data[this.props.page - 1];
+      const lineData = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.props.page - 1];
       const offSetData = { offsetX, offsetY };
       // Set the start and stop position of the paint event.
       const positionData = {
@@ -115,7 +124,7 @@ class Canvas extends Component {
     if (this.isPainting) {
       this.isPainting = false;
       this.sendPaintData();
-      this.lineCount = this.props.stateFromStore.lineData[this.props.board - 1].data[this.props.page - 1].line.length;
+      this.lineCount = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.props.page - 1].line.length;
     }
     else if (this.isErasing) {
       this.isErasing = false;
@@ -146,7 +155,7 @@ class Canvas extends Component {
   }
 
   redraw() {
-    let lineData = this.props.stateFromStore.lineData[this.props.board - 1].data[this.props.page - 1];
+    let lineData = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.props.page - 1];
     if (typeof (lineData) !== 'undefined') {
       let lineCount = lineData.line.length;
       for (let k = 0; k < lineCount; k++) {
@@ -219,17 +228,17 @@ class Canvas extends Component {
     this.ctx.lineWidth = 10;
     //console.log(this.lineCount)
     this.cPage = this.props.page;
-    this.lineCount = this.props.stateFromStore.lineData[this.props.board-1].data[this.cPage-1].line.length;
+    this.lineCount = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.cPage - 1].line.length;
     console.log("mount")
     this.redraw();
   }
-  componentWillUnmount(){
-    let lineData = this.props.stateFromStore.lineData[this.props.board-1].data[this.cPage-1];
-      if(typeof(lineData) !== 'undefined'){
+  componentWillUnmount() {
+    let lineData = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.cPage - 1];
+    if (typeof (lineData) !== 'undefined') {
       let lineCount = lineData.line.length;
       for (let k = 0; k < lineCount; k++) {
         lineData.line[k].forEach((val) => {
-        this.repaint(val.start, val.stop, this.eraserStyle, lineData.size[k]+2);
+          this.repaint(val.start, val.stop, this.eraserStyle, lineData.size[k] + 2);
         })
       }
     }
