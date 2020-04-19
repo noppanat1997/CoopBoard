@@ -5,10 +5,15 @@ import { connect } from 'react-redux';
 import CardOnBoard from './CardOnBoard.js';
 
 const CardField = (props) => {
-
+  let boardIndex
+  for (let i = 0; i < props.stateFromStore.lineData.length; i++) {
+    if (props.stateFromStore.lineData[i].id === props.board) {
+      boardIndex = i
+    }
+  }
   let cardDataList = []
-  if (props.stateFromStore.cardData[props.board - 1].data[props.page - 1].data !== null) {
-    cardDataList = props.stateFromStore.cardData[props.board - 1].data[props.page - 1].data
+  if (props.stateFromStore.cardData[boardIndex].data[props.page - 1].data !== null) {
+    cardDataList = props.stateFromStore.cardData[boardIndex].data[props.page - 1].data
   }
 
   let lists

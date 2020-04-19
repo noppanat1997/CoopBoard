@@ -18,7 +18,7 @@ const FormCard = (props) => {
     sizeSelected: 1
   });
   const cancelHendler = () => {
-    props.onDropAreaFn({ isHolding: false,  isDrop: false })
+    props.onDropAreaFn({ isHolding: false, isDrop: false })
     props.onCanvasFn(false);
   }
   const saveHendler = (e) => {
