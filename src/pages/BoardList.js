@@ -46,7 +46,7 @@ const BoardList = (props) => {
           <div className="roboto pt-1" style={{ cursor: 'default' }}>
             {item.name}
           </div>
-          <OverlayTrigger trigger="click" placement="bottom" overlay={popover}>
+          <OverlayTrigger trigger="focus" placement="bottom" overlay={popover}>
             <button className="btn button-el" onClick={() => setState({ curBoard: item.id })}><FaEllipsisV /></button>
           </OverlayTrigger>
         </Card.Footer>
@@ -68,7 +68,7 @@ const BoardList = (props) => {
           <div className="roboto pt-1" style={{ cursor: 'default' }}>
             {item.name}
           </div>
-          <OverlayTrigger trigger="click" placement="bottom" overlay={popover}>
+          <OverlayTrigger trigger="focus" placement="bottom" overlay={popover}>
             <button className="btn button-el" onClick={() => setState({ curBoard: item.id })}><FaEllipsisV /></button>
           </OverlayTrigger>
         </Card.Footer>
