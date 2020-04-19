@@ -7,7 +7,6 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
-import html2canvas from 'html2canvas';
 
 const FormCard = (props) => {
   const [state, setState] = useState({
@@ -34,29 +33,6 @@ const FormCard = (props) => {
     if (text.length !== 0) {
       props.addCardFn({ board: board, curPage: curPage, size: size, color: color, text: text })
     }
-    setTimeout(() => {
-      html2canvas(document.body).then((canvas) => {
-
-        let croppedCanvas = document.createElement('canvas')
-        let croppedCanvasContext = croppedCanvas.getContext('2d')
-
-        croppedCanvas.width = 1500;
-        croppedCanvas.height = 800;
-
-        croppedCanvasContext.drawImage(canvas, 210, 130, 1500, 800, 0, 0, 1500, 800);
-
-        let base64image = croppedCanvas.toDataURL("image/png");
-        props.changeBoardImgFn({
-          board: board,
-          img: base64image
-        });
-
-        props.addRecentBoardDataFn({
-          board: board
-        })
-
-      });
-    }, 100);
 
     setState({ ...state, textAreaCount: 0, text: '' })
 
@@ -145,12 +121,6 @@ const mapDispatchToProps = dispatch => {
     },
     addCardFn: (data) => {
       return dispatch({ type: 'ADD_CARD', payload: data });
-    },
-    changeBoardImgFn: (data) => {
-      return dispatch({ type: 'CHANGE_BOARD_IMG', payload: data });
-    },
-    addRecentBoardDataFn: (data) => {
-      return dispatch({ type: 'ADD_RECENT_BOARD', payload: data });
     },
     onCanvasFn: (data) => {
       return dispatch({ type: 'ON_CANVAS', payload: data });

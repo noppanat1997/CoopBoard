@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card';
 import Draggable from 'react-draggable';
 import { connect } from 'react-redux';
 import '.././css/CardOnBoard.css';
-import html2canvas from 'html2canvas';
+
 
 class CardOnBoard extends Component {
   constructor(props) {
@@ -42,7 +42,6 @@ class CardOnBoard extends Component {
         id: id,
         position: position
       });
-      this.screenShot()
     }
   }
 
@@ -57,29 +56,7 @@ class CardOnBoard extends Component {
     });
   }
 
-  screenShot = () => {
-    html2canvas(document.body).then((canvas) => {
-
-      let croppedCanvas = document.createElement('canvas')
-      let croppedCanvasContext = croppedCanvas.getContext('2d')
-
-      croppedCanvas.width = 1500;
-      croppedCanvas.height = 800;
-
-      croppedCanvasContext.drawImage(canvas, 210, 130, 1500, 800, 0, 0, 1500, 800);
-
-      let base64image = croppedCanvas.toDataURL("image/png");
-      this.props.changeBoardImgFn({
-        board: this.props.board,
-        img: base64image
-      });
-
-      this.props.addRecentBoardDataFn({
-        board: this.props.board
-      })
-    });
-
-  }
+  
   render() {
     return (
       <Draggable

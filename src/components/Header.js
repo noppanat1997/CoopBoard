@@ -5,6 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Logo from '.././images/logo.svg';
+import html2canvas from 'html2canvas';
 import '.././css/Header.css';
 
 class Header extends Component {
@@ -48,6 +49,28 @@ class Header extends Component {
   componentWillMount() {
     this.str = "user" + this.randomBackground()
   }
+  screenShot = () => {
+    html2canvas(document.body).then((canvas) => {
+
+      let croppedCanvas = document.createElement('canvas')
+      let croppedCanvasContext = croppedCanvas.getContext('2d')
+
+      croppedCanvas.width = 1500;
+      croppedCanvas.height = 800;
+
+      croppedCanvasContext.drawImage(canvas, 210, 130, 1500, 800, 0, 0, 1500, 800);
+
+      let base64image = croppedCanvas.toDataURL("image/png");
+      this.props.changeBoardImgFn({
+        board: this.props.board,
+        img: base64image
+      });
+
+      this.props.addRecentBoardDataFn({
+        board: this.props.board
+      })
+    });
+  }
   render() {
     return (
       <div className="roboto" style={{ backgroundColor: 'white', width: "100%" }}>
@@ -61,6 +84,7 @@ class Header extends Component {
                   width="60"
                   height="60"
                   alt="CoopBoard"
+                  onClick={()=>{ if(this.props.path != "list") this.screenShot()}}
                 />
               </Link>
             </Col>
@@ -132,6 +156,12 @@ const mapDispatchToProps = dispatch => {
     },
     increaseMember: (newMember) => {
       return dispatch({ type: 'INVITE_MEMBER', payload: newMember });
+    },
+    changeBoardImgFn: (data) => {
+      return dispatch({ type: 'CHANGE_BOARD_IMG', payload: data });
+    },
+    addRecentBoardDataFn: (data) => {
+      return dispatch({ type: 'ADD_RECENT_BOARD', payload: data });
     }
   }
 }
