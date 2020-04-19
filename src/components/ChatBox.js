@@ -63,23 +63,23 @@ const ChatBox = ({ location }) => {
 
   return (
     // <div className="outerContainer">
-      <div className={!state.isShow ? 'my-chat-window' : 'my-chat-window-active'}  style={{ "position":"absolute","zIndex":"8" }}>
-        {state.isShow ?
-          <div className="my-container">
-            <InfoBar room={room} users={users} />
-            <Messages messages={messages} name={name} />
-            <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
-          </div>
-          : null
-        }
-        {/* <TextContainer users={users}/> */}
-        <div
-          className={(!state.isShow ? 'my-button' : 'my-button-active')}
-          onClick={toggleHandler}
-        >
-          
+    <div className={!state.isShow ? 'my-chat-window' : 'my-chat-window-active'} style={{ "position": "absolute", "zIndex": "8" }}>
+      {state.isShow ?
+        <div className="my-container">
+          <InfoBar room={room} users={users} />
+          <Messages messages={messages} name={name} />
+          <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
         </div>
+        : null
+      }
+      {/* <TextContainer users={users}/> */}
+      <div
+        className={(!state.isShow ? 'my-button' : 'my-button-active')}
+        onClick={toggleHandler}
+      >
+
       </div>
+    </div>
     // </div>
   );
 }
