@@ -76,7 +76,7 @@ class Header extends Component {
       <div className="roboto" style={{ backgroundColor: 'white', width: "100%" }}>
         <Container className="m-0 p-0" style={{ "max-width": "100%", "width": "100%" }}>
           <Row className="justify-content-center m-0 w-100">
-            <Col xs={4} />
+            <Col xs={4}></Col>
             <Col xs={4} className="text-center">
               <Link to='/list'>
                 <img
@@ -84,7 +84,7 @@ class Header extends Component {
                   width="60"
                   height="60"
                   alt="CoopBoard"
-                  onClick={()=>{ if(this.props.path != "list") this.screenShot()}}
+                  onClick={() => { if (this.props.path != "list") this.screenShot() }}
                 />
               </Link>
             </Col>
@@ -99,7 +99,13 @@ class Header extends Component {
           </Row>
           {this.props.path != "list" ?
             <Row className="justify-content-center m-0 w-100 border-top">
-              <Col xs={4} />
+              <Col xs={4}>
+                <button
+                  className={"mt-1 " + (this.props.stateFromStore.isPresent ? "ispresent-true" : "ispresent-false")}
+                    >
+                    delete
+                </button>
+              </Col>
               <Col xs={4} className="d-flex ot-1 flex-wrap flex-row justify-content-center">
                 <Link to={'/list/' + this.props.board + '/' + (this.props.page > 1 ? (this.props.page - 1) : (this.props.page))}>
                   <button
