@@ -13,7 +13,7 @@
   border-bottom: 1px solid rgb(223, 223, 223);
 }
 
-.card-list:hover {
+.card-list:hover :first-child {
   cursor: pointer;
 }
 
@@ -48,4 +48,48 @@
 .roboto {
   font-family: 'Roboto', sans-serif;
   font-size: 20px;
+}
+.button-el{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-family: 'Roboto', sans-serif;
+  background-color:'white';
+  box-shadow: none;
+}
+.button-el:hover{
+  transition: 0.1s ease-in-out;
+  background-color: rgb(216, 216, 216);
+  box-shadow: none;
+}
+.button-el:focus{
+  transition: 0.1s ease-in-out;
+  background-color: rgb(216, 216, 216);
+  box-shadow: none;
+}
+.button-pop{
+  width: 90px;
+  height: 30px;
+  font-size: 15px;
+  color: rgb(73, 73, 73);
+  font-family: 'Roboto', sans-serif;
+  background-color:'white';
+  box-shadow: none;
+  cursor: pointer;
+}
+.button-pop:hover{
+  cursor: pointer;
+  transition: 0.1s ease-in-out;
+  background-color: rgb(216, 216, 216);
+  box-shadow: none;
+}
+.button-pop:focus{
+  cursor: pointer;
+  transition: 0.1s ease-in-out;
+  background-color: rgb(216, 216, 216);
+  box-shadow: none;
+}
+.popover-dec {
+  border: none;
+  box-shadow: 0 0 5px 0 rgb(131, 131, 131);
 }

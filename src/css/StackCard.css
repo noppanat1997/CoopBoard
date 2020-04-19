@@ -6,7 +6,7 @@
   overflow: hidden ;
   height: 62%;
   width: 10%;
-  background-color: green;
+  /* background-color: green; */
 }
 .stack-card-active {
   margin: 0% 0% 0% 10%;
@@ -16,5 +16,5 @@
   overflow: hidden ;
   height: 85%;
   width: 90%;
-  background-color: rgb(193, 105, 255);
+  /* background-color: rgb(193, 105, 255); */
 }

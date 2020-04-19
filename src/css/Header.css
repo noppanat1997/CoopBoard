@@ -88,6 +88,7 @@
     text-align: center;
 }
 .button-page{
+    font-family: 'Roboto', sans-serif;
     background-color:'white';
     box-shadow: none;
 }
@@ -104,4 +105,10 @@
 .roboto {
     font-family: 'Roboto', sans-serif;
     font-size: 20px;
-  }
+}
+.board-name {
+    border: none;
+    height: 35px;
+    padding: 5px 0px 5px 10px;
+    font-size: 35px;
+}
