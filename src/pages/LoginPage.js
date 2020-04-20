@@ -116,19 +116,22 @@ const LoginPage = (props) => {
       formData[name] = state.formElements[name].value;
     }
     console.log(formData);
-    console.log(state.user);
 
     fire.auth().signInWithEmailAndPassword(state.formElements.email.value, state.formElements.password.value).then((u) => {
-      setTimeout(function(){alert("Welcome " + formData.email)}, 100);
+      setTimeout(function () { alert("Welcome " + formData.email) }, 100);
+      setState({
+        currentUser: u.user
+      })
+      console.log(state.currentUser);
       history.push('/list');
     })
-    .catch((error) => {
-      alert("The e-mail address or password you entered was incorrect. Please retry...!");
-      console.log(error);
-    });
+      .catch((error) => {
+        alert("The e-mail address or password you entered was incorrect. Please retry...!");
+        console.log(error);
+      });
   }
 
-  const componentDidMount = () =>{
+  const componentDidMount = () => {
     fire.auth().onAuthStateChanged((user) => {
       console.log(user);
       if (user) {
@@ -141,66 +144,76 @@ const LoginPage = (props) => {
     });
   }
 
-  return (
-    <div className="background">
-      <Card className="login-card" style={{ width: '536px', height: '536px', color: '#C1C1C1' }}>
-        <Card.Body>
-          <Form onSubmit={e => onFromSubmit(e)}>
-            <center>
-              <Link to="/list">
-                <img src={Logo} width="200" height="180" alt="CoopBoard" />
-              </Link>
-
-            </center>
-            <h1 style={{ color: '#D4145A', textAlign: 'center', marginBottom: '30px', fontWeight: 'bold' }}>SIGN IN</h1>
-
-            <Form.Group className="mb-0">
-              <Form.Control
-                type="email"
-                id="email"
-                name="email"
-                // pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                placeholder="Email"
-                onChange={onFormChange}
-                className={getInputClass('email')} />
-              <div className="error-msg">{getErrorMessage('email')}<br></br></div>
-            </Form.Group>
-
-            <Form.Group className="mb-2">
-              <Form.Control
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Password"
-                onChange={onFormChange}
-                className={getInputClass('password')}
-              />
-              <div className="error-msg">{getErrorMessage('password')}<br></br></div>
-            </Form.Group>
-
-            <div className="text-center mb-3">
-              <button
-                disabled={state.formElements.email.error.status, state.formElements.password.error.status}
-                type="submit"
-                className="btn-submit-signin">
-                Submit</button>
-            </div>
-
-            <div className="text-center " >
-              <font color="#0071BC" size="4px"> Don't have an account?&nbsp;
-              <Link to={`/register`}>
-                  <button
-                    className="btn-tosignup">
-                    Sign Up</button>
+  if (state.currentUser) {
+    return (
+      <div>
+        history.push('/list')
+      </div>
+    )
+  }
+  else {
+    return (
+      <div className="background">
+        <Card className="login-card" style={{ width: '536px', height: '536px', color: '#C1C1C1' }}>
+          <Card.Body>
+            <Form onSubmit={e => onFromSubmit(e)}>
+              <center>
+                <Link to="/list">
+                  <img src={Logo} width="200" height="180" alt="CoopBoard" />
                 </Link>
-              </font>
-            </div>
 
-          </Form>
-        </Card.Body>
-      </Card>
-    </div>
-  );
+              </center>
+              <h1 style={{ color: '#D4145A', textAlign: 'center', marginBottom: '30px', fontWeight: 'bold' }}>SIGN IN</h1>
+
+              <Form.Group className="mb-0">
+                <Form.Control
+                  type="email"
+                  id="email"
+                  name="email"
+                  // pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                  placeholder="Email"
+                  onChange={onFormChange}
+                  className={getInputClass('email')} />
+                <div className="error-msg">{getErrorMessage('email')}<br></br></div>
+              </Form.Group>
+
+              <Form.Group className="mb-2">
+                <Form.Control
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Password"
+                  onChange={onFormChange}
+                  className={getInputClass('password')}
+                />
+                <div className="error-msg">{getErrorMessage('password')}<br></br></div>
+              </Form.Group>
+
+              <div className="text-center mb-3">
+                <button
+                  disabled={state.formElements.email.error.status, state.formElements.password.error.status}
+                  type="submit"
+                  className="btn-submit-signin">
+                  Submit</button>
+              </div>
+
+              <div className="text-center " >
+                <font color="#0071BC" size="4px"> Don't have an account?&nbsp;
+                <Link to={`/register`}>
+                    <button
+                      className="btn-tosignup">
+                      Sign Up</button>
+                  </Link>
+                </font>
+              </div>
+
+            </Form>
+          </Card.Body>
+        </Card>
+      </div>
+    );
+  }
+
 
 }
 
