@@ -24,7 +24,7 @@ class CardOnBoard extends Component {
   videoOnReady(event) {
     event.target.pauseVideo()
   }
-  handleDrag = (e, ui) => {
+  handleDrag(e, ui) {
     const { x, y } = this.state.deltaPosition;
     this.setState({
       ...this.state,
@@ -35,7 +35,7 @@ class CardOnBoard extends Component {
     });
   };
 
-  handleStop = (e) => {
+  handleStop(e) {
     let curPage = this.props.page
     let id = this.props.id
     let position = this.state.deltaPosition
@@ -50,7 +50,7 @@ class CardOnBoard extends Component {
     }
   }
 
-  onDelete = () => {
+  onDelete() {
     let curPage = this.props.stateFromStore.curPage
     let id = this.props.id
     let board = this.props.board

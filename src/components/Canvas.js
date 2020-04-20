@@ -17,138 +17,134 @@ class Canvas extends Component {
       }
     }
     this.state = {
-      boardIndex: boardIndex
+      boardIndex: boardIndex,
+      arrIndex: [],
+      foundCheck: 0,
+      /* State */
+      isPainting: false,
+      isErasing: false,
+      isMarking: false,
+      /* All line size */
+      penWidth: this.props.stateFromStore.penSize,
+      markerWidth: 8,
+      unMarkWidth: 10,
+      cPage: 1,  //this.props.stateFromStore.curPage;
+      pPage: 0,
+      lineCount: 0,//this.props.stateFromStore.data[this.state.cPage].line.length;
+      // Different stroke styles to be used for user and guest
+      userStrokeStyle: this.props.stateFromStore.penColor,
+      eraserStyle: '#FFFFFF',
+      markerStyle: '#FF0000',
+      line: [],
+      userId: v4(),
+      // v4 creates a unique id for each user. We used this since there's no auth to tell users apart
+      prevPos: { offsetX: 0, offsetY: 0 }
     }
   }
-  arrIndex = [];
-  foundCheck = 0;
-
-  /* State */
-  isPainting = false;
-  isErasing = false;
-  isMarking = false;
-
-
-  /* All line size */
-  penWidth = this.props.stateFromStore.penSize;
-  markerWidth = 8;
-  unMarkWidth = 10;
-
-  cPage = 1;//this.props.stateFromStore.curPage;
-  pPage = 0;
-  lineCount = 0;//this.props.stateFromStore.data[this.cPage].line.length;
-  // Different stroke styles to be used for user and guest
-  userStrokeStyle = this.props.stateFromStore.penColor;
-  eraserStyle = '#FFFFFF';
-  markerStyle = '#FF0000';
-  line = [];
-  // v4 creates a unique id for each user. We used this since there's no auth to tell users apart
-  userId = v4();
-  prevPos = { offsetX: 0, offsetY: 0 };
 
   onMouseDown({ nativeEvent }) {
-    this.userStrokeStyle = this.props.stateFromStore.penColor;
-    this.penWidth = this.props.stateFromStore.penSize;
+    this.state.userStrokeStyle = this.props.stateFromStore.penColor;
+    this.state.penWidth = this.props.stateFromStore.penSize;
     const { offsetX, offsetY } = nativeEvent;
     if (this.props.stateFromStore.buttonData[1].isActive == 1) {
-      this.isPainting = true;
-      this.prevPos = { offsetX, offsetY };
+      this.state.isPainting = true;
+      this.state.prevPos = { offsetX, offsetY };
     }
     else if (this.props.stateFromStore.buttonData[2].isActive == 1) {
-      this.isErasing = true;
-      this.prevPos = { offsetX, offsetY };
+      this.state.isErasing = true;
+      this.state.prevPos = { offsetX, offsetY };
     }
     else if (this.props.stateFromStore.buttonData[5].isActive == 1) {
-      this.isMarking = true;
-      this.prevPos = { offsetX, offsetY };
+      this.state.isMarking = true;
+      this.state.prevPos = { offsetX, offsetY };
     }
     this.props.panelCheck(1);
   }
 
   onMouseMove({ nativeEvent }) {
-    if (this.isPainting & this.props.stateFromStore.buttonData[1].isActive == 1) {
+    if (this.state.isPainting & this.props.stateFromStore.buttonData[1].isActive == 1) {
       const { offsetX, offsetY } = nativeEvent;
       const offSetData = { offsetX, offsetY };
       // Set the start and stop position of the paint event.
       const positionData = {
-        start: { ...this.prevPos },
+        start: { ...this.state.prevPos },
         stop: { ...offSetData },
       };
       // Add the position to the line array
-      this.line = this.line.concat(positionData);
-      //this.line.push(positionData);
-      this.paint(this.prevPos, offSetData, this.userStrokeStyle, this.penWidth);
+      this.state.line = this.state.line.concat(positionData);
+      //this.state.line.push(positionData);
+      this.paint(this.state.prevPos, offSetData, this.state.userStrokeStyle, this.state.penWidth);
     }
-    else if (this.isErasing & this.props.stateFromStore.buttonData[2].isActive == 1) {
+    else if (this.state.isErasing & this.props.stateFromStore.buttonData[2].isActive == 1) {
       const { offsetX, offsetY } = nativeEvent;
       const lineData = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.props.page - 1];
       const offSetData = { offsetX, offsetY };
       // Set the start and stop position of the paint event.
       const positionData = {
-        start: { ...this.prevPos },
+        start: { ...this.state.prevPos },
         stop: { ...offSetData },
       };
-      this.prevPos = { offsetX, offsetY };
-      for (var i = 0; i < this.lineCount; i += 1) {
+      this.state.prevPos = { offsetX, offsetY };
+      for (var i = 0; i < this.state.lineCount; i += 1) {
         lineData.line[i].forEach((val) => {
           if ((val.start.offsetX <= positionData.start.offsetX + 25 & val.start.offsetX >= positionData.start.offsetX - 25)
             & (val.start.offsetY <= positionData.start.offsetY + 25 & val.start.offsetY >= positionData.start.offsetY - 25)
             | (val.stop.offsetX <= positionData.stop.offsetX + 25 & val.stop.offsetX >= positionData.stop.offsetX - 25)
             & (val.stop.offsetY <= positionData.stop.offsetY + 25 & val.stop.offsetY >= positionData.stop.offsetY - 25)) {
-            this.foundCheck = 1;
+            this.state.foundCheck = 1;
           }
         })
-        if (this.foundCheck == 1) {
+        if (this.state.foundCheck == 1) {
           lineData.line[i].forEach((val) => {
-            this.repaint(val.start, val.stop, this.eraserStyle, lineData.size[i] + 2);
+            this.repaint(val.start, val.stop, this.state.eraserStyle, lineData.size[i] + 2);
           })
-          this.arrIndex.push(i);
-          this.foundCheck = 0;
+          this.state.arrIndex.push(i);
+          this.state.foundCheck = 0;
         }
       }
     }
-    else if (this.isMarking & this.props.stateFromStore.buttonData[5].isActive == 1) {
+    else if (this.state.isMarking & this.props.stateFromStore.buttonData[5].isActive == 1) {
       const { offsetX, offsetY } = nativeEvent;
       const offSetData = { offsetX, offsetY };
       // Set the start and stop position of the paint event.
       const positionData = {
-        start: { ...this.prevPos },
+        start: { ...this.state.prevPos },
         stop: { ...offSetData },
       };
       // Add the position to the line array
-      this.line = this.line.concat(positionData);
-      this.paint(this.prevPos, offSetData, this.markerStyle, this.markerWidth);
+      this.state.line = this.state.line.concat(positionData);
+      this.paint(this.state.prevPos, offSetData, this.state.markerStyle, this.state.markerWidth);
     }
   }
   endPaintEvent() {
-    if (this.isPainting) {
-      this.isPainting = false;
+    if (this.state.isPainting) {
+      this.state.isPainting = false;
       this.sendPaintData();
-      this.lineCount = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.props.page - 1].line.length;
+      this.state.lineCount = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.props.page - 1].line.length;
     }
-    else if (this.isErasing) {
-      this.isErasing = false;
-      this.arrIndex = this.arrIndex.filter((el, i, a) => i === a.indexOf(el));
-      this.arrIndex = this.arrIndex.sort(function (a, b) {
+    else if (this.state.isErasing) {
+      this.state.isErasing = false;
+      this.state.arrIndex = this.state.arrIndex.filter((el, i, a) => i === a.indexOf(el));
+      this.state.arrIndex = this.state.arrIndex.sort(function (a, b) {
         return a - b;
       });
-      this.lineCount -= this.arrIndex.length;
+      this.state.lineCount -= this.state.arrIndex.length;
       const sendData = {
         boardId: this.props.board,
-        pageId: this.cPage - 1,
-        data: this.arrIndex,
+        pageId: this.state.cPage - 1,
+        data: this.state.arrIndex,
         mode: 2
       };
       this.props.updateLine(sendData);
-      this.arrIndex = [];
+      this.state.arrIndex = [];
       this.redraw();
     }
-    else if (this.isMarking) {
-      this.isMarking = false;
-      this.line.forEach((val) => {
-        this.paint(val.start, val.stop, this.eraserStyle, this.unMarkWidth);
+    else if (this.state.isMarking) {
+      this.state.isMarking = false;
+      this.state.line.forEach((val) => {
+        this.paint(val.start, val.stop, this.state.eraserStyle, this.state.unMarkWidth);
       })
-      this.line = [];
+      this.state.line = [];
       this.redraw()
     }
   }
@@ -177,7 +173,7 @@ class Canvas extends Component {
     this.ctx.lineTo(offsetX, offsetY);
     // Visualize the line using the strokeStyle
     this.ctx.stroke();
-    this.prevPos = { offsetX, offsetY };
+    this.state.prevPos = { offsetX, offsetY };
   }
 
   repaint(prevPos, currPos, strokeStyle, lineWidth) {
@@ -195,8 +191,8 @@ class Canvas extends Component {
   }
   async sendPaintData() {
     const body = {
-      line: this.line,
-      userId: this.userId,
+      line: this.state.line,
+      userId: this.state.userId,
     };
     // We use the native fetch API to make requests to the server
     //  const req = await fetch('http://localhost:4000/paint', {
@@ -207,15 +203,15 @@ class Canvas extends Component {
     //    },
     //  });
     //  const res = await req.json();
-    //console.log(this.line)
+    //console.log(this.state.line)
     const dataLine = {
       boardId: this.props.board,
-      pageId: this.cPage - 1,
-      data: this.line,
+      pageId: this.state.cPage - 1,
+      data: this.state.line,
       mode: 1
     };
     this.props.updateLine(dataLine);
-    this.line = [];
+    this.state.line = [];
   }
   
   componentDidMount() {
@@ -226,19 +222,19 @@ class Canvas extends Component {
     this.ctx.lineJoin = 'round';
     this.ctx.lineCap = 'round';
     this.ctx.lineWidth = 10;
-    //console.log(this.lineCount)
-    this.cPage = this.props.page;
-    this.lineCount = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.cPage - 1].line.length;
+    //console.log(this.state.lineCount)
+    this.state.cPage = this.props.page;
+    this.state.lineCount = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.state.cPage - 1].line.length;
     console.log("mount")
     this.redraw();
   }
   componentWillUnmount() {
-    let lineData = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.cPage - 1];
+    let lineData = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.state.cPage - 1];
     if (typeof (lineData) !== 'undefined') {
       let lineCount = lineData.line.length;
       for (let k = 0; k < lineCount; k++) {
         lineData.line[k].forEach((val) => {
-          this.repaint(val.start, val.stop, this.eraserStyle, lineData.size[k] + 2);
+          this.repaint(val.start, val.stop, this.state.eraserStyle, lineData.size[k] + 2);
         })
       }
     }

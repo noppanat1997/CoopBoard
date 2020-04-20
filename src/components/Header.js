@@ -10,6 +10,8 @@ import history from '.././history';
 import '.././css/Header.css';
 import {UncontrolledPopover, PopoverHeader, PopoverBody} from 'reactstrap';
 
+import * as action from '../actions'
+
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -23,17 +25,17 @@ class Header extends Component {
     this.state = {
       boardName: this.props.path != "list" ? this.props.stateFromStore.boardData[boardIndex].name : "",
       boardIndex: boardIndex,
-      Email : ''
+      Email : '',
+      str: "",
+      memberList: []
     }
   }
-  str = ""
-  memberList = []
-  onInputChange = (event) => {
+  onInputChange(event) {
     this.setState({
       [event.target.name] : event.target.value
     })
   }
-  onInviteSubmit = (event) => {
+  onInviteSubmit(event) {
     console.log(this.state)
     const payloadData = {
       memberData : this.state.Email,
@@ -60,7 +62,7 @@ class Header extends Component {
       case 3: return 4;
     }
   }
-  onKick = (e) => {
+  onKick(e) {
     let i = parseInt(e.target.id.charAt(6));
     const payloadData = {
       boardId : this.props.board,
@@ -70,10 +72,10 @@ class Header extends Component {
   }
   renderMember() {
     let boardmemberList = this.props.stateFromStore.memberData[this.props.board-1].member;
-    this.memberList = [];
+    this.state.memberList = [];
     for (let i = 0; i < boardmemberList.length; i++) {
       let idtype = "member" + i
-      this.memberList.push(<div>
+      this.state.memberList.push(<div>
         <div id={idtype} className={"mt-1 memberBackground-" + boardmemberList[i].color}>
         {boardmemberList[i].memberName.charAt(0)}</div>
         <UncontrolledPopover trigger="legacy" placement="bottom" target={idtype}>
@@ -87,20 +89,20 @@ class Header extends Component {
       </div>
       );
     }
-    return this.memberList
+    return this.state.memberList
   }
   componentWillMount() {
     if(this.props.stateFromStore.userData.Color == 0){
       let c = this.randomBackground()
-      this.str = "userBackground-" + c
+      this.state.str = "userBackground-" + c
       const colorData = { color: c }
       this.props.updateUserColor(colorData);
     }
     else{
-      this.str = "userBackground-" + this.props.stateFromStore.userData.Color
+      this.state.str = "userBackground-" + this.props.stateFromStore.userData.Color
     }
   }
-  screenShot = () => {
+  screenShot() {
     html2canvas(document.body).then((canvas) => {
 
       let croppedCanvas = document.createElement('canvas')
@@ -122,7 +124,7 @@ class Header extends Component {
       })
     });
   }
-  deleteFrameHandler = () => {
+  deleteFrameHandler() {
     let pageLength = this.props.stateFromStore.lineData[this.state.boardIndex].data.length
     if (this.props.page === pageLength) {
       this.pageChangeHandler(this.props.page - 1)
@@ -133,11 +135,16 @@ class Header extends Component {
       page: this.props.page
     })
   }
-  clearFrameHandler = () => {
+  clearFrameHandler() {
     this.props.clearFrameFn({
       board: this.props.board,
       page: this.props.page
     })
+  }
+
+  testCallAction(message) {
+    console.log(`>> ${message}`)
+    this.props.callAction(message)
   }
 
   render() {
@@ -175,13 +182,16 @@ class Header extends Component {
                   width="60"
                   height="60"
                   alt="CoopBoard"
-                  onClick={() => { if (this.props.path != "list") this.screenShot() }}
+                  onClick={() => { 
+                    this.testCallAction('hello');
+                    if (this.props.path != "list") this.screenShot();
+                  }}
                 />
               </Link>
             </Col>
             <Col style={{ textAlign: 'right' }}></Col>
             <Col>
-              <div id="profile" className={"ml-5 mt-1 " + this.str}>
+              <div id="profile" className={"ml-5 mt-1 " + this.state.str}>
                 <div className="pt-2">
                   {(this.props.stateFromStore.userData.Name.charAt(0) + this.props.stateFromStore.userData.Surname.charAt(0))}
                 </div>
@@ -308,7 +318,11 @@ const mapDispatchToProps = dispatch => {
     },
     kickMember: (newMember) => {
       return dispatch({ type: 'KICK_MEMBER', payload: newMember});
-    }
+    },
+
+    //  test api
+    callAction: message => dispatch(action.testAction(message))
+    
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
