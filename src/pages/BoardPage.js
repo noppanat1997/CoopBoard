@@ -20,13 +20,8 @@ const BoardPage = (props) => {
           .map(cardPair => <div className="form-card"><FormCard board={parseInt(props.match.params.board)} page={parseInt(props.match.params.page)} key={cardPair[0]} id={cardPair[0]} name={cardPair[1].name} /></div>)
       }
 
-<<<<<<< HEAD
-      <Header path="board" board={props.match.params.id} />
-      <MainBoard board={props.match.params.id} />
-=======
       <Header path="board" board={parseInt(props.match.params.board)} page={parseInt(props.match.params.page)} />
       <MainBoard board={parseInt(props.match.params.board)} page={parseInt(props.match.params.page)} />
->>>>>>> 712e28201ad5f2f8001b302766b0dab967833d74
     </div>
   );
 }

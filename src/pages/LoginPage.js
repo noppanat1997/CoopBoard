@@ -119,35 +119,12 @@ const LoginPage = (props) => {
 
     fire.auth().signInWithEmailAndPassword(state.formElements.email.value, state.formElements.password.value).then((u) => {
       setTimeout(function () { alert("Welcome " + formData.email) }, 100);
-<<<<<<< HEAD
-      setState({
-        currentUser: u.user
-      })
-      console.log(state.currentUser);
-=======
->>>>>>> 712e28201ad5f2f8001b302766b0dab967833d74
       history.push('/list');
     })
       .catch((error) => {
         alert("The e-mail address or password you entered was incorrect. Please retry...!");
         console.log(error);
       });
-<<<<<<< HEAD
-  }
-
-  const componentDidMount = () => {
-    fire.auth().onAuthStateChanged((user) => {
-      console.log(user);
-      if (user) {
-        setState({ currentUser: user });
-        localStorage.setItem('user', user.uid);
-      } else {
-        setState({ currnentUser: null });
-        localStorage.removeItem('user');
-      }
-    });
-=======
->>>>>>> 712e28201ad5f2f8001b302766b0dab967833d74
   }
 
   if (state.currentUser) {

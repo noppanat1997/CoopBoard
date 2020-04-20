@@ -94,6 +94,7 @@ const BoardList = (props) => {
                 style={{ fontSize: "60px", userSelect: "none" }}
                 onClick={() => {
                   props.addBoardFn();
+                  history.push('/list/' + (props.stateFromStore.boardData[props.stateFromStore.boardData.length - 1].id+1) + '/1');
                 }}
               >
                 +
