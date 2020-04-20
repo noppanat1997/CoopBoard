@@ -8,12 +8,12 @@ import Logo from '.././images/logo.svg';
 import html2canvas from 'html2canvas';
 import history from '.././history';
 import '.././css/Header.css';
+import {UncontrolledPopover, PopoverHeader, PopoverBody} from 'reactstrap';
 
 class Header extends Component {
   constructor(props) {
     super(props);
     this.togglePresent = this.togglePresent.bind(this);
-    this.inviteMember = this.inviteMember.bind(this);
     let boardIndex
     for (let i = 0; i < this.props.stateFromStore.boardData.length; i++) {
       if(this.props.stateFromStore.boardData[i].id === this.props.board){
@@ -22,11 +22,26 @@ class Header extends Component {
     }
     this.state = {
       boardName: this.props.path != "list" ? this.props.stateFromStore.boardData[boardIndex].name : "",
-      boardIndex: boardIndex
+      boardIndex: boardIndex,
+      Email : ''
     }
   }
   str = ""
   memberList = []
+  onInputChange = (event) => {
+    this.setState({
+      [event.target.name] : event.target.value
+    })
+  }
+  onInviteSubmit = (event) => {
+    console.log(this.state)
+    const payloadData = {
+      memberData : this.state.Email,
+      boardId : this.props.board,
+      color : this.randomBackground()
+    }
+    this.props.inviteMember(payloadData)
+  }
   pageChangeHandler(newPage) {
     if (newPage < 1) newPage = 1;
     const newData = { boardId: this.props.board, curPage: newPage };
@@ -39,26 +54,51 @@ class Header extends Component {
   randomBackground() {
     var r = Math.floor(Math.random() * 4);
     switch (r) {
-      case 0: return "Background-1";
-      case 1: return "Background-2";
-      case 2: return "Background-3";
-      case 3: return "Background-4";
+      case 0: return 1;
+      case 1: return 2;
+      case 2: return 3;
+      case 3: return 4;
     }
   }
-  inviteMember() {
-    const payloadData = { member: 1 };
-    this.props.increaseMember(payloadData);
+  onKick = (e) => {
+    let i = parseInt(e.target.id.charAt(6));
+    const payloadData = {
+      boardId : this.props.board,
+      memberId : i
+    }
+    this.props.kickMember(payloadData);
   }
   renderMember() {
-    let memberCount = this.props.stateFromStore.memberCount;
-    // console.log("render!")
-    for (let i = this.memberList.length + 1; i < memberCount; i++) {
-      this.memberList.push(<div className={"mt-1 member" + this.randomBackground()}>{i}</div>);
+    let boardmemberList = this.props.stateFromStore.memberData[this.props.board-1].member;
+    this.memberList = [];
+    for (let i = 0; i < boardmemberList.length; i++) {
+      let idtype = "member" + i
+      this.memberList.push(<div>
+        <div id={idtype} className={"mt-1 memberBackground-" + boardmemberList[i].color}>
+        {boardmemberList[i].memberName.charAt(0)}</div>
+        <UncontrolledPopover trigger="legacy" placement="bottom" target={idtype}>
+        <PopoverHeader>Manage Member</PopoverHeader>
+        <PopoverBody>
+          <button id={idtype} class="btn btn-danger" onClick={this.onKick}>
+            Kick
+          </button>
+        </PopoverBody>
+        </UncontrolledPopover>  
+      </div>
+      );
     }
     return this.memberList
   }
   componentWillMount() {
-    this.str = "user" + this.randomBackground()
+    if(this.props.stateFromStore.userData.Color == 0){
+      let c = this.randomBackground()
+      this.str = "userBackground-" + c
+      const colorData = { color: c }
+      this.props.updateUserColor(colorData);
+    }
+    else{
+      this.str = "userBackground-" + this.props.stateFromStore.userData.Color
+    }
   }
   screenShot = () => {
     html2canvas(document.body).then((canvas) => {
@@ -141,11 +181,21 @@ class Header extends Component {
             </Col>
             <Col style={{ textAlign: 'right' }}></Col>
             <Col>
-              <div className={"ml-5 mt-1 " + this.str}>
+              <div id="profile" className={"ml-5 mt-1 " + this.str}>
                 <div className="pt-2">
                   {(this.props.stateFromStore.userData.Name.charAt(0) + this.props.stateFromStore.userData.Surname.charAt(0))}
                 </div>
               </div>
+              <UncontrolledPopover trigger="legacy" placement="bottom" target="profile">
+                <PopoverHeader>Profile</PopoverHeader>
+                <PopoverBody>
+                  <div>
+                    <button class="btn btn-danger">
+                      Logout
+                    </button>
+                  </div>
+                </PopoverBody>
+              </UncontrolledPopover>
             </Col>
           </Row>
           {this.props.path != "list" ?
@@ -192,10 +242,25 @@ class Header extends Component {
                 </div>
               </Col>
               <Col style={{ textAlign: 'right' }}>
-                <button type="button" class="btn btn-info btn-circle" onClick={this.inviteMember}>
+                <button id="invite" className="invite-button">
                   +
                 </button>
-                <button className={"mt-1 " + (this.props.stateFromStore.isPresent ? "ispresent-true" : "ispresent-false")}
+                <UncontrolledPopover trigger="legacy" placement="bottom" target="invite">
+                <PopoverHeader>Invite Member</PopoverHeader>
+                <PopoverBody>
+                  <form>
+                    <div className="form-group">
+                      <label for="EmailInput">Send Invite to</label>
+                      <input type="text" class="form-control" id="Email" name="Email" aria-describedby="emailHelp" placeholder="Enter email"
+                      onChange={this.onInputChange}></input>
+                    </div>
+                  </form>
+                  <button type="submit" className="btn-primary" onClick={this.onInviteSubmit}>
+                    Send Invite
+                  </button>
+                </PopoverBody>
+              </UncontrolledPopover>
+                <button className={"mt-1 ml-1 " + (this.props.stateFromStore.isPresent ? "btn-danger" : "btn-primary")}
                   onClick={this.togglePresent}>
                   {this.props.stateFromStore.isPresent ? "Stop Presentation" : "Start Presentation"}
                 </button>
@@ -220,7 +285,7 @@ const mapDispatchToProps = dispatch => {
     setNewPage: (newId) => {
       return dispatch({ type: 'CHANGE_PAGE', payload: newId });
     },
-    increaseMember: (newMember) => {
+    inviteMember: (newMember) => {
       return dispatch({ type: 'INVITE_MEMBER', payload: newMember });
     },
     changeBoardImgFn: (data) => {
@@ -237,6 +302,12 @@ const mapDispatchToProps = dispatch => {
     },
     changeBoardNameFn: (data) => {
       return dispatch({ type: 'CHANGE_BOARD_NAME', payload: data });
+    },
+    updateUserColor: (newColor) => {
+      return dispatch({ type: 'CHANGE_USER_COLOR', payload: newColor});
+    },
+    kickMember: (newMember) => {
+      return dispatch({ type: 'KICK_MEMBER', payload: newMember});
     }
   }
 }
