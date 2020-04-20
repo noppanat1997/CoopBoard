@@ -96,13 +96,13 @@ const RegisterPages = (props) => {
       status: validatorObject.status,
       message: validatorObject.message
     }
-    if ( (name == 'password' || name == 'cfpassword') && state.formElements.cfpassword.value !== state.formElements.password.value ) {
+    if ((name == 'password' || name == 'cfpassword') && state.formElements.cfpassword.value !== state.formElements.password.value) {
       updatedForm['cfpassword'].error = {
         status: true,
         message: 'The password confirmation does not match.'
       }
     }
-    else if ( (name == 'password' || name == 'cfpassword') && value == '') {
+    else if ((name == 'password' || name == 'cfpassword') && value == '') {
       updatedForm['cfpassword'].error = {
         status: true,
         message: 'The cfpassword is cannot be empty.'
@@ -165,7 +165,7 @@ const RegisterPages = (props) => {
     fire.auth().createUserWithEmailAndPassword(state.formElements.email.value, state.formElements.password.value).then((u) => {
     }).then((u) => {
       console.log(u);
-      setTimeout(function(){alert("SIGN UP Successful!")}, 100);
+      setTimeout(function () { alert("SIGN UP Successful!") }, 100);
       history.push('/login')
     })
       .catch((error) => {

@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card';
 import Draggable from 'react-draggable';
 import { connect } from 'react-redux';
 import '.././css/CardOnBoard.css';
-import html2canvas from 'html2canvas';
+
 
 class CardOnBoard extends Component {
   constructor(props) {
@@ -31,7 +31,7 @@ class CardOnBoard extends Component {
   };
 
   handleStop = (e) => {
-    let curPage = this.props.stateFromStore.curPage
+    let curPage = this.props.page
     let id = this.props.id
     let position = this.state.deltaPosition
     let board = this.props.board
@@ -42,7 +42,6 @@ class CardOnBoard extends Component {
         id: id,
         position: position
       });
-      this.screenShot()
     }
   }
 
@@ -57,30 +56,7 @@ class CardOnBoard extends Component {
     });
   }
 
-  screenShot = () => {
-    setTimeout(() => {
-      html2canvas(document.body).then((canvas) => {
 
-        let croppedCanvas = document.createElement('canvas')
-        let croppedCanvasContext = croppedCanvas.getContext('2d')
-
-        croppedCanvas.width = 1500;
-        croppedCanvas.height = 800;
-
-        croppedCanvasContext.drawImage(canvas, 210, 130, 1500, 800, 0, 0, 1500, 800);
-
-        let base64image = croppedCanvas.toDataURL("image/png");
-        this.props.changeBoardImgFn({
-          board: this.props.board,
-          img: base64image
-        });
-
-        this.props.addRecentBoardDataFn({
-          board: this.props.board
-        })
-      });
-    }, 100)
-  }
   render() {
     return (
       <Draggable
@@ -103,11 +79,15 @@ class CardOnBoard extends Component {
               }
             >
               <div
-                className={"pl-2 pb-2 " + (this.state.onDelete == true ? "delete-button-hover" : "delete-button")}
+                className={" " + (this.state.onDelete == true ? "delete-button-hover" : "delete-button")}
                 onPointerOver={() => this.setState({ ...this.state, onDelete: true })}
                 onPointerOut={() => this.setState({ ...this.state, onDelete: false })}
                 onClick={this.onDelete}
-              >x</div>
+              >
+                <div className="w-100 h-100" >
+                  ✖
+                </div>
+              </div>
             </div>
             : <div></div>}
           <Card.Text className="p-2" style={{ position: 'relative' }}>{this.props.text}</Card.Text>
