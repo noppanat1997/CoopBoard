@@ -151,7 +151,6 @@ class Canvas extends Component {
       this.line = [];
       this.redraw()
     }
-
   }
 
   redraw() {
@@ -218,6 +217,7 @@ class Canvas extends Component {
     this.props.updateLine(dataLine);
     this.line = [];
   }
+  
   componentDidMount() {
     // Here we set up the properties of the canvas element. 
     this.canvas.width = 1500;
@@ -243,7 +243,6 @@ class Canvas extends Component {
       }
     }
   }
-
   render() {
     return (
       <div className={(this.props.stateFromStore.buttonData[1].isActive ? "pencilCursor" : "") +
