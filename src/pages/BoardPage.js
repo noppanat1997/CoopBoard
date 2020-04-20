@@ -4,8 +4,11 @@ import MainBoard from '../components/MainBoard.js';
 import FormCard from '../components/FormCard.js';
 import '.././css/BoardPages.css';
 import Header from '../components/Header.js';
+import fire from '../components/Fire.js'
+import { useState } from 'react';
 
 const BoardPage = (props) => {
+
 
   return (
     <div >

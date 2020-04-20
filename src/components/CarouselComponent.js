@@ -6,8 +6,8 @@ import '.././css/CarouselComponent.css';
 
 const CarouselComponent = (props) => {
   let boardIndex
-  for (let i = 0; i < props.stateFromStore.lineData.length; i++) {
-    if (props.stateFromStore.lineData[i].id === props.board) {
+  for (let i = 0; i < props.stateFromStore.boardData.length; i++) {
+    if (props.stateFromStore.boardData[i].id === props.board) {
       boardIndex = i
     }
   }
