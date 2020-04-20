@@ -128,7 +128,6 @@ const LoginPage = (props) => {
     });
   }
 
-<<<<<<< HEAD
   const componentDidMount = () =>{
     fire.auth().onAuthStateChanged((user) => {
       console.log(user);
@@ -142,8 +141,6 @@ const LoginPage = (props) => {
     });
   }
 
-=======
->>>>>>> 17c61951b6e3a5d984b7332336214fc9c8704e32
   return (
     <div className="background">
       <Card className="login-card" style={{ width: '536px', height: '536px', color: '#C1C1C1' }}>
