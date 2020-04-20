@@ -142,7 +142,6 @@ class Canvas extends Component {
       this.line = [];
       this.redraw()
     }
-    
   }
 
   redraw() {
@@ -209,25 +208,7 @@ class Canvas extends Component {
     this.props.updateLine(dataLine);
     this.line = [];
   }
-  /*componentWillUpdate() {
-    let lineData = this.props.stateFromStore.lineData[this.props.board-1].data[this.cPage-1];
-      if(typeof(lineData) !== 'undefined'){
-      let lineCount = lineData.line.length;
-      for (let k = 0; k < lineCount; k++) {
-        lineData.line[k].forEach((val) => {
-        this.repaint(val.start, val.stop, this.eraserStyle, lineData.size[k]+2);
-        })
-      }
-    }
-  }*/
-  componentDidUpdate() {
-    
-    //this.pPage = this.cPage;
-    //this.cPage = this.props.stateFromStore.curPage;
-    //this.lineCount = this.props.stateFromStore.lineData[this.props.board-1].data[this.cPage-1].line.length;
-    //this.redraw();
-    //setTimeout(() => {this.redraw()},1000)
-  }
+  
   componentDidMount() {
     // Here we set up the properties of the canvas element. 
     this.canvas.width = 1500;
@@ -254,7 +235,6 @@ class Canvas extends Component {
       }
     }
   }
-
   render() {
     return (
       <div className={(this.props.stateFromStore.buttonData[1].isActive ? "pencilCursor" : "") +
@@ -269,7 +249,6 @@ class Canvas extends Component {
           <CardField board={this.props.board} page={this.props.stateFromStore.curPage - 1} />
         </div>
         <canvas
-
           // We use the ref attribute to get direct access to the canvas element. 
           ref={(ref) => (this.canvas = ref)}
           onMouseDown={this.onMouseDown}

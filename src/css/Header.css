@@ -15,6 +15,11 @@
     background-color: #9E005D;
     color : white;
     text-align: center;
+    transition: 0.1s ease-in-out;
+}
+.userBackground-1:hover{
+    box-shadow: 0px 0px 5px 5px rgba(0,0,0,0.75);
+    cursor : pointer
 }
 .userBackground-2 {
     width : 50px;
@@ -23,6 +28,11 @@
     background-color: #D4145A;
     color : white;
     text-align: center;
+    transition: 0.1s ease-in-out;
+}
+.userBackground-2:hover{
+    box-shadow: 0px 0px 5px 5px rgba(0,0,0,0.75);
+    cursor : pointer
 }
 .userBackground-3 {
     width : 50px;
@@ -31,6 +41,11 @@
     background-color: #0071BC;
     color : white;
     text-align: center;
+    transition: 0.1s ease-in-out;
+}
+.userBackground-3:hover{
+    box-shadow: 0px 0px 5px 5px rgba(0,0,0,0.75);
+    cursor : pointer
 }
 .userBackground-4 {
     width : 50px;
@@ -39,11 +54,11 @@
     background-color: #202C5D;
     color : white;
     text-align: center;
+    transition: 0.1s ease-in-out;
 }
-.text{
-    padding-left : 13px;
-    padding-top : 12px;
-    font-size: large;
+.userBackground-4:hover{
+    box-shadow: 0px 0px 5px 5px rgba(0,0,0,0.75);
+    cursor : pointer
 }
 .btn-circle {
     width: 30px;
@@ -62,6 +77,11 @@
     background-color: #9E005D;
     color : white;
     text-align: center;
+    transition: 0.1s ease-in-out;
+}
+.memberBackground-1:hover{
+    box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.75);
+    cursor : pointer
 }
 .memberBackground-2 {
     width : 30px;
@@ -70,6 +90,11 @@
     background-color: #D4145A;
     color : white;
     text-align: center;
+    transition: 0.1s ease-in-out;
+}
+.memberBackground-2:hover{
+    box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.75);
+    cursor : pointer
 }
 .memberBackground-3 {
     width : 30px;
@@ -78,6 +103,11 @@
     background-color: #0071BC;
     color : white;
     text-align: center;
+    transition: 0.1s ease-in-out;
+}
+.memberBackground-3:hover{
+    box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.75);
+    cursor : pointer
 }
 .memberBackground-4 {
     width : 30px;
@@ -86,6 +116,11 @@
     background-color: #202C5D;
     color : white;
     text-align: center;
+    transition: 0.1s ease-in-out;
+}
+.memberBackground-4:hover{
+    box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.75);
+    cursor : pointer
 }
 .button-page{
     background-color:'white';
@@ -105,3 +140,18 @@
     font-family: 'Roboto', sans-serif;
     font-size: 20px;
   }
+.tooltip-profile{
+    pointer-events: auto !important;;
+    opacity: 1 !important;
+}
+.profile{
+    font-size: 20px;
+}
+.invite-button{
+    width : 40px;
+    height : 40px;
+    border-radius: 50%;
+    background-color: #0071BC;
+    color : white;
+    text-align: center;
+}

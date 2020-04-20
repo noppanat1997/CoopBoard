@@ -13,11 +13,11 @@ const BoardPage = (props) => {
         props.stateFromStore.formCardData &&
         Object.entries(props.stateFromStore.formCardData)
           .filter(cardPair => cardPair[1].onFormSetting === 1)
-          .map(cardPair => <div className="form-card"><FormCard board={props.match.params.id} key={cardPair[0]} id={cardPair[0]} name={cardPair[1].name} /></div>)
+          .map(cardPair => <div className="form-card"><FormCard board={parseInt(props.match.params.id)} key={cardPair[0]} id={cardPair[0]} name={cardPair[1].name} /></div>)
       }
       
-      <Header path="board" board={props.match.params.id}/>
-      <MainBoard board={props.match.params.id}/>
+      <Header path="board" board={parseInt(props.match.params.id)}/>
+      <MainBoard board={parseInt(props.match.params.id)}/>
     </div>
   );
 }

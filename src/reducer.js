@@ -43,9 +43,15 @@ const initialState = {
   isPresent: false,
   userData: {
     Name: "Nontapat",
-    Surname: "Sirichuensuwan"
+    Surname: "Sirichuensuwan",
+    Color: 0
   },
   memberCount: 1,
+  memberData: [
+    {id: 1, member: []},
+    {id: 2, member: []},
+    {id: 3, member: []}
+  ],
   formCardData: {
     1: { onFormSetting: 0, name: 'Post-It' },
     2: { onFormSetting: 0, name: 'To-Do-Lists' },
@@ -65,9 +71,9 @@ const initialState = {
       id: 1,
       data: [
         { id: 1, data: [] },
-        { id: 1, data: [{ id: 1, size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: 'Hello Post-It2', isNew: false }] },
-        { id: 1, data: [{ id: 1, size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: 'Hello Post-It2', isNew: false }] },
-        { id: 1, data: [{ id: 1, size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: 'Hello Post-It2', isNew: false }] }
+        { id: 2, data: [{ id: 1, size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: 'Hello Post-It2', isNew: false }] },
+        { id: 3, data: [{ id: 1, size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: 'Hello Post-It2', isNew: false }] },
+        { id: 4, data: [{ id: 1, size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: 'Hello Post-It2', isNew: false }] }
       ]
     },
     {
@@ -113,21 +119,6 @@ const reducer = (state = initialState, action) => {
       newState.curPage = curPage
       console.log(newState.lineData)
       return newState;
-    /* if (curPage > state.data.length - 1) {
-       newState.curPage = curPage;
-
-       return {
-         ...state,
-         curPage: curPage,
-         data: [...state.data, { id: curPage, line: [], marker: [] }]
-       }
-     } else {
-       return {
-         ...state,
-         curPage: curPage,
-       }
-     }*/
-
 
     case 'UPDATE_LINE':
       const { boardId, pageId, data: updatedLineData, mode } = action.payload;
@@ -176,16 +167,18 @@ const reducer = (state = initialState, action) => {
           case '14': newState.penColor = '#202C5D'; break
           default: console.log("bruh"); break
         }
+        newState.toolbarOpen = false;
         return newState
       }
       else if (newId > 20 & newId < 25) {
         newState.size = newId - 20
         switch (newId) {
-          case '21': newState.penSize = 5; break
-          case '22': newState.penSize = 10; break
-          case '23': newState.penSize = 15; break
-          case '24': newState.penSize = 20; break
+          case '21': newState.penSize = 2; break
+          case '22': newState.penSize = 5; break
+          case '23': newState.penSize = 10; break
+          case '24': newState.penSize = 15; break
         }
+        newState.toolbarOpen = false;
         return newState
       }
 
@@ -195,13 +188,26 @@ const reducer = (state = initialState, action) => {
       return newState
 
     case 'INVITE_MEMBER':
-      const { member } = action.payload
-      if (newState.memberCount < 6) {
-        newState.memberCount += 1;
-        console.log(newState.memberCount)
+      let { memberData , boardId : boardNum , color : c } = action.payload
+      if (newState.memberData[boardNum-1].member.length < 5) {
+        const newMember = {
+          memberName : memberData,
+          color : c
+        }
+        newState.memberData[boardNum-1].member.push(newMember)
       }
       return newState
-
+    
+    case 'KICK_MEMBER':
+      let { boardId : bI , memberId } = action.payload
+      newState.memberData[bI-1].member.splice(memberId, 1);
+      return newState
+      
+    case 'CHANGE_USER_COLOR':
+      const { color } = action.payload
+      newState.userData.Color = color;
+      return newState
+      
     case 'UPDATE_ON_DROP_AREA':
       const { onDropArea, isHolding } = action.payload
       console.log(action.payload)
@@ -300,6 +306,10 @@ const reducer = (state = initialState, action) => {
         name: 'Untitled Coop',
         img: ''
       }
+      let newMemberData = {
+        id: state.memberData.length > 0 ? state.memberData[state.memberData.length - 1].id + 1 : 1,
+        member: []
+      }
       return {
         ...state,
         lineData: [
@@ -313,6 +323,10 @@ const reducer = (state = initialState, action) => {
         boardData: [
           ...state.boardData,
           newBoardData
+        ],
+        memberData: [
+          ...state.memberData,
+          newMemberData
         ]
       }
     }
