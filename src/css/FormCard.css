@@ -33,7 +33,7 @@ textarea.form-control{
 textarea {
   outline: none;
   border: none;
-  overflow: hidden;
+  /* overflow: hidden; */
   resize: none;
   height: 6em;
   font-size: 1.5rem;

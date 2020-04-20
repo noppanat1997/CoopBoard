@@ -6,25 +6,12 @@ const initialState = {
   lineData: [
     {
       id: 1,
-      data: [{ id: 1, line: [], color: [], size: [] },
-      { id: 2, line: [], color: [], size: [] },
-      { id: 3, line: [], color: [], size: [] },
-      { id: 4, line: [], color: [], size: [] }]
+      data: [{ id: 1, line: [], color: [], size: [] }]
     },
     {
       id: 2,
-      data: [{ id: 1, line: [], color: [], size: [] },
-      { id: 2, line: [], color: [], size: [] },
-      { id: 3, line: [], color: [], size: [] },
-      { id: 4, line: [], color: [], size: [] }]
-    },
-    {
-      id: 3,
-      data: [{ id: 1, line: [], color: [], size: [] },
-      { id: 2, line: [], color: [], size: [] },
-      { id: 3, line: [], color: [], size: [] },
-      { id: 4, line: [], color: [], size: [] }]
-    },
+      data: [{ id: 1, line: [], color: [], size: [] }]
+    }
   ],
   buttonData: {
     1: { isActive: 0 },
@@ -50,7 +37,7 @@ const initialState = {
   memberCount: 1,
   formCardData: {
     1: { onFormSetting: 0, name: 'Post-It' },
-    2: { onFormSetting: 0, name: 'To-Do-Lists' },
+    2: { onFormSetting: 0, name: 'Checklist' },
     3: { onFormSetting: 0, name: 'Calendar' },
     4: { onFormSetting: 0, name: 'Map' },
     5: { onFormSetting: 0, name: 'Table' },
@@ -67,38 +54,20 @@ const initialState = {
       id: 1,
       data: [
         { id: 1, data: [] },
-        { id: 2, data: [{ id: 1, size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: '2', isNew: false }] },
-        { id: 3, data: [{ id: 1, size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: '3', isNew: false }] },
-        { id: 4, data: [{ id: 1, size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: '4', isNew: false }] }
-      ]
+        { id: 2, data: [{ id: 1, type: 'Post-It',size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: '2', isNew: false }] }]
     },
     {
       id: 2,
       data: [
-        { id: 1, data: [{ id: 1, size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: 'Hello Post-It1', isNew: false }] },
-        { id: 2, data: [{ id: 1, size: 'l', color: 'yellow', position: { x: 0, y: 0 }, text: 'Hello Post-It2', isNew: false }] },
-        { id: 3, data: [] },
-        { id: 4, data: [] }
-      ]
-    },
-    {
-      id: 3,
-      data: [
         { id: 1, data: [] },
-        { id: 2, data: [] },
-        { id: 3, data: [] },
-        { id: 4, data: [] }
       ]
     }
   ],
   boardData: [
     { id: 1, name: 'board A', img: '' },
-    { id: 2, name: 'board B', img: '' },
-    { id: 3, name: 'board C', img: '' }
+    { id: 2, name: 'board B', img: '' }
   ],
-  recentBoardData: [
-    { id: 1, name: 'board A', img: '' }
-  ]
+  recentBoardData: []
 }
 const reducer = (state = initialState, action) => {
   const newState = { ...state };
@@ -223,11 +192,11 @@ const reducer = (state = initialState, action) => {
       }
     }
     case 'ADD_CARD': {
-      let { board, curPage, size, color, text } = action.payload
+      let { board,type, curPage, size, color, text } = action.payload
       let newData = [...state.cardData]
       let boardIndex
-      for (let i = 0; i < newData.length; i++) { 
-        if(newData[i].id === board){
+      for (let i = 0; i < newData.length; i++) {
+        if (newData[i].id === board) {
           boardIndex = i
         }
       }
@@ -236,6 +205,7 @@ const reducer = (state = initialState, action) => {
       newList = [
         ...newList, {
           id: newList.length > 0 ? newList[newList.length - 1].id + 1 : 1,
+          type: type,
           size: size,
           color: color,
           position: { x: 0, y: 0 },
@@ -258,8 +228,8 @@ const reducer = (state = initialState, action) => {
       let { board, curPage, id, position } = action.payload
       let newData = [...state.cardData]
       let boardIndex
-      for (let i = 0; i < newData.length; i++) { 
-        if(newData[i].id === board){
+      for (let i = 0; i < newData.length; i++) {
+        if (newData[i].id === board) {
           boardIndex = i
         }
       }
@@ -325,8 +295,8 @@ const reducer = (state = initialState, action) => {
       let { board, img } = action.payload
       let newBoardData = [...state.boardData]
       let boardIndex
-      for (let i = 0; i < newBoardData.length; i++) { 
-        if(newBoardData[i].id === board){
+      for (let i = 0; i < newBoardData.length; i++) {
+        if (newBoardData[i].id === board) {
           boardIndex = i
         }
       }
@@ -340,8 +310,8 @@ const reducer = (state = initialState, action) => {
       let { board } = action.payload
       let newRecentBoardData = [...state.recentBoardData]
       let boardIndex
-      for (let i = 0; i < state.boardData.length; i++) { 
-        if(state.boardData[i].id === board){
+      for (let i = 0; i < state.boardData.length; i++) {
+        if (state.boardData[i].id === board) {
           boardIndex = i
         }
       }
@@ -366,8 +336,8 @@ const reducer = (state = initialState, action) => {
       let { board, curPage, id } = action.payload
       let newData = [...state.cardData]
       let boardIndex
-      for (let i = 0; i < newData.length; i++) { 
-        if(newData[i].id === board){
+      for (let i = 0; i < newData.length; i++) {
+        if (newData[i].id === board) {
           boardIndex = i
         }
       }
@@ -399,8 +369,8 @@ const reducer = (state = initialState, action) => {
       let newLineData = [...state.lineData]
       let newCardData = [...state.cardData]
       let boardIndex
-      for (let i = 0; i < newCardData.length; i++) { 
-        if(newCardData[i].id === board){
+      for (let i = 0; i < newCardData.length; i++) {
+        if (newCardData[i].id === board) {
           boardIndex = i
         }
       }
@@ -417,8 +387,8 @@ const reducer = (state = initialState, action) => {
       let newLineData = [...state.lineData]
       let newCardData = [...state.cardData]
       let boardIndex
-      for (let i = 0; i < newCardData.length; i++) { 
-        if(newCardData[i].id === board){
+      for (let i = 0; i < newCardData.length; i++) {
+        if (newCardData[i].id === board) {
           boardIndex = i
         }
       }

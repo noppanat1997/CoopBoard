@@ -27,6 +27,7 @@ const CardField = (props) => {
       return (
         <CardOnBoard
           board={props.board}
+          type={item.type}
           page={props.page}
           key={item.id}
           id={item.id}
