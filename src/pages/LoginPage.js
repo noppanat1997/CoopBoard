@@ -12,7 +12,7 @@ const LoginPage = (props) => {
   let history = useHistory();
   const [state, setState] = useState({
 
-    user: null,
+    currentUser: null,
     formElements: {
       email: {
         type: 'email',
@@ -146,10 +146,10 @@ const LoginPage = (props) => {
     fire.auth().onAuthStateChanged((user) => {
       console.log(user);
       if (user) {
-        setState({ user });
+        setState({ currentUser: user });
         localStorage.setItem('user', user.uid);
       } else {
-        setState({ user: null });
+        setState({ currnentUser: null });
         localStorage.removeItem('user');
       }
     });
