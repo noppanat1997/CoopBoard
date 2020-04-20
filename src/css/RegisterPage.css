@@ -17,8 +17,19 @@
   border-color: #FFFFFF00;
   color: #FFFFFF;
 }
+.btn-submit-signup:disabled {
+  width: 200px;
+  height: 50px;
+  background-color: #CCCCCC;
+  border-color: #FFFFFF00;
+  color: #EEEEEE;
+}
 .btn-submit-signup:hover {
   background-color: #D4145A;
+  border-color: #FFFFFF00;
+}
+.btn-submit-signup:disabled:hover  {
+  background-color: #CCCCCC;
   border-color: #FFFFFF00;
 }
 
