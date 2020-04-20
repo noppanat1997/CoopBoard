@@ -119,13 +119,13 @@ const LoginPage = (props) => {
     console.log(state.user);
 
     fire.auth().signInWithEmailAndPassword(state.formElements.email.value, state.formElements.password.value).then((u) => {
-      setTimeout(function(){alert("Welcome " + formData.email)}, 100);
+      setTimeout(function () { alert("Welcome " + formData.email) }, 100);
       history.push('/list');
     })
-    .catch((error) => {
-      alert("The e-mail address or password you entered was incorrect. Please retry...!");
-      console.log(error);
-    });
+      .catch((error) => {
+        alert("The e-mail address or password you entered was incorrect. Please retry...!");
+        console.log(error);
+      });
   }
 
   return (

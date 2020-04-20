@@ -14,8 +14,15 @@ class Header extends Component {
     super(props);
     this.togglePresent = this.togglePresent.bind(this);
     this.inviteMember = this.inviteMember.bind(this);
+    let boardIndex
+    for (let i = 0; i < this.props.stateFromStore.boardData.length; i++) {
+      if(this.props.stateFromStore.boardData[i].id === this.props.board){
+        boardIndex = i
+      }
+    }
     this.state = {
-      boardName: this.props.path != "list" ? this.props.stateFromStore.boardData[this.props.board - 1].name : ""
+      boardName: this.props.path != "list" ? this.props.stateFromStore.boardData[boardIndex].name : "",
+      boardIndex: boardIndex
     }
   }
   str = ""
@@ -76,7 +83,7 @@ class Header extends Component {
     });
   }
   deleteFrameHandler = () => {
-    let pageLength = this.props.stateFromStore.lineData[this.props.board - 1].data.length
+    let pageLength = this.props.stateFromStore.lineData[this.state.boardIndex].data.length
     if (this.props.page === pageLength) {
       this.pageChangeHandler(this.props.page - 1)
       history.push('/list/' + this.props.board + '/' + (this.props.page - 1));
@@ -106,7 +113,7 @@ class Header extends Component {
                     className="form-control board-name ml-4 mt-3 pl-0"
                     style={{ width: '100%' }}
                     maxlength="24"
-                    onBlur={()=>{
+                    onBlur={() => {
                       this.props.changeBoardNameFn({
                         board: this.props.board,
                         name: this.state.boardName
