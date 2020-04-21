@@ -115,11 +115,15 @@ const LoginPage = (props) => {
     for (let name in state.formElements) {
       formData[name] = state.formElements[name].value;
     }
-    console.log(formData);
+    //console.log(formData);
 
     fire.auth().signInWithEmailAndPassword(state.formElements.email.value, state.formElements.password.value).then((u) => {
       setTimeout(function () { alert("Welcome " + formData.email) }, 100);
-      history.push('/list');
+      console.log(u);
+      setState({
+        currentUser: u
+      })
+      //history.push('/list');
     })
       .catch((error) => {
         alert("The e-mail address or password you entered was incorrect. Please retry...!");
@@ -127,14 +131,36 @@ const LoginPage = (props) => {
       });
   }
 
+  const componentDidMount = () => {
+    fire.auth().onAuthStateChanged(user => {
+      if (user) {
+        setState({
+          currentUser: user
+        })
+      }
+    })
+  }
+
+  const logout = (e) =>{
+    e.preventDefault();
+    fire.auth().signOut().then(response => {
+      setState({
+        currentUser:null
+      })
+    })
+  }
+
   if (state.currentUser) {
+    console.log(state.currentUser)
     return (
       <div>
-        history.push('/list')
+        <p>Hello</p>
+        <button onClick={e => logout(e)}>Logout</button>
       </div>
     )
   }
   else {
+    console.log(state.currentUser)
     return (
       <div className="background">
         <Card className="login-card" style={{ width: '536px', height: '536px', color: '#C1C1C1' }}>

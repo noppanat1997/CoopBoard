@@ -10,6 +10,7 @@ const RegisterPages = (props) => {
   let history = useHistory();
   const [state, setState] = useState({
 
+    currentUser:null,
     formElements: {
       firstname: {
         type: 'text',
@@ -163,15 +164,27 @@ const RegisterPages = (props) => {
       formData[name] = state.formElements[name].value;
     }
     fire.auth().createUserWithEmailAndPassword(state.formElements.email.value, state.formElements.password.value).then((u) => {
-    }).then((u) => {
       console.log(u);
       setTimeout(function () { alert("SIGN UP Successful!") }, 100);
-      history.push('/login')
+      //history.push('/login')
+      adddatatofirestore();
     })
       .catch((error) => {
         alert(error.message);
         console.log(error);
       })
+  }
+
+  const adddatatofirestore = () =>{
+    let db = fire.firestore();
+    db.collection("user").add({
+      firstname: state.formElements.firstname.value,
+      lastname: state.formElements.lastname.value,
+      email: state.formElements.email.value
+    })
+    .catch((error) => {
+      console.log(error);
+    })
   }
 
   return (
