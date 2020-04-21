@@ -100,8 +100,6 @@ module.exports = {
       template: '../coop-board-v1/public/index.html',
       filename: 'index.html',
       // chunks: ['index'],
-      // inject: false,
-      // minify: false
     }),
     // new webpack.DefinePlugin({
     //   APP_VERSION: JSON.stringify(packageJson.version)

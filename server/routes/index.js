@@ -19,7 +19,7 @@ router.use('/api/test', test);
 router.use(express.static(path.resolve(__dirname, '..', 'dist')));
 
 router.get('*', (req, res) =>
-  res.sendFile(path.resolve(__dirname, '..', 'dist', 'app.html'))
+  res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'))
 );
 
 router.use('*', (req, res) =>

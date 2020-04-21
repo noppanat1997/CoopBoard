@@ -16,6 +16,9 @@ class Canvas extends Component {
         boardIndex = i
       }
     }
+    // TODO blame someone
+    // STUB
+    //
     this.state = {
       boardIndex: boardIndex,
       arrIndex: [],
@@ -148,7 +151,7 @@ class Canvas extends Component {
       this.redraw()
     }
   }
-
+  // TODO
   redraw() {
     let lineData = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.props.page - 1];
     if (typeof (lineData) !== 'undefined') {
@@ -161,6 +164,7 @@ class Canvas extends Component {
     }
   }
 
+  // FIXME error chip hai
   paint(prevPos, currPos, strokeStyle, lineWidth) {
     const { offsetX, offsetY } = currPos;
     const { offsetX: x, offsetY: y } = prevPos;

@@ -10,7 +10,7 @@ import Col from 'react-bootstrap/Col'
 class CardOnBoard extends Component {
   constructor(props) {
     super(props)
-    // console.log(this.props.id,this.props.position)
+    console.log('cob:', this.props)
     this.state = {
       deltaPosition: {
         x: this.props.position.x,
@@ -18,9 +18,14 @@ class CardOnBoard extends Component {
       },
       isHover: false,
       onDelete: false
-    }
+    };
 
+    this.handleDrag = this.handleDrag.bind(this);
+    this.videoOnReady = this.videoOnReady.bind(this);
+    this.handleStop = this.handleStop.bind(this);
+    this.onDelete = this.onDelete.bind(this);
   }
+
   videoOnReady(event) {
     event.target.pauseVideo()
   }

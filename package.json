@@ -38,6 +38,7 @@
     "reactstrap": "^8.4.1",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
+    "redux-promise-middleware": "^6.1.2",
     "redux-thunk": "^2.3.0",
     "socket.io-client": "^2.3.0",
     "style-loader": "^1.1.4",

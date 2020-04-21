@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
+import ReduxThunk from 'redux-thunk';
+import ReduxPromise from 'redux-promise-middleware';
 import { Provider } from 'react-redux';
 import logger from 'redux-logger';
 import reducer from './reducer.js';
@@ -13,8 +14,7 @@ import Header from './components/Header.js';
 import BoardPage from './pages/BoardPage.js';
 import BoardList from './pages/BoardList.js';
 import history from './history'
-
-const middlewareList = [logger, thunk]
+const middlewareList = [ReduxThunk, ReduxPromise, logger]
 const store = createStore(reducer, applyMiddleware(...middlewareList));
 
 const App = () => (

@@ -21,9 +21,10 @@ axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 export const testAction = message => async dispatch => {
   console.log('here')
-  const res = await axios.get(`http://localhost:8080/api/test/test-api`)
-  console.log(message)
-  console.log(res)
+  const res = await axios.get(`http://localhost:8080/api/test/test-api`);
+  console.log(res);
+  console.log(message);
+
   return dispatch({
     type: 'CHANGE_PAGE',
     payload: 1
