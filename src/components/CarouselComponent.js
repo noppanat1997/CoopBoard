@@ -18,7 +18,7 @@ const CarouselComponent = (props) => {
   ));
   return (
     <Carousel
-      activeIndex={props.page - 1}
+      activeIndex={ props.stateFromStore.curPage - 1}
       controls={false}
       indicators={false}
       onSelect={() => { }}

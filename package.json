@@ -3,12 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/preset-react": "^7.9.4",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^7.2.1",
+    "axios": "^0.19.2",
+    "body-parser": "^1.19.0",
     "bootstrap": "^4.4.1",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^3.5.2",
+    "express": "^4.17.1",
+    "file-loader": "^6.0.0",
     "firebase": "^7.14.0",
+    "firebase-admin": "^8.10.0",
+    "html-loader": "^1.1.0",
+    "html-webpack-plugin": "^4.2.0",
     "html2canvas": "^1.0.0-rc.5",
+    "less-loader": "^5.0.0",
+    "postcss-loader": "^3.0.0",
     "query-string": "^6.12.0",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.0-beta.16",
@@ -27,13 +39,21 @@
     "reactstrap": "^8.4.1",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
-    "socket.io-client": "^2.3.0"
+    "redux-promise-middleware": "^6.1.2",
+    "redux-thunk": "^2.3.0",
+    "socket.io-client": "^2.3.0",
+    "style-loader": "^1.1.4",
+    "uuid": "^7.0.3",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "nodemon --exec babel-node --ignore ./src ./server/index.js ",
+    "wds": "webpack-dev-server --mode development --config ./src/webpack.config.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -49,5 +69,18 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/node": "^7.8.7",
+    "@babel/plugin-transform-runtime": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/register": "^7.9.0",
+    "@babel/runtime": "^7.9.2",
+    "babel-loader": "^8.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2"
   }
 }

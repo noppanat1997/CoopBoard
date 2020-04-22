@@ -10,7 +10,7 @@ import Col from 'react-bootstrap/Col'
 class CardOnBoard extends Component {
   constructor(props) {
     super(props)
-    // console.log(this.props.id,this.props.position)
+    // console.log('cob:', this.props)
     this.state = {
       deltaPosition: {
         x: this.props.position.x,
@@ -18,13 +18,18 @@ class CardOnBoard extends Component {
       },
       isHover: false,
       onDelete: false
-    }
+    };
 
+    this.handleDrag = this.handleDrag.bind(this);
+    this.videoOnReady = this.videoOnReady.bind(this);
+    this.handleStop = this.handleStop.bind(this);
+    this.onDelete = this.onDelete.bind(this);
   }
+
   videoOnReady(event) {
     event.target.pauseVideo()
   }
-  handleDrag = (e, ui) => {
+  handleDrag(e, ui) {
     const { x, y } = this.state.deltaPosition;
     this.setState({
       ...this.state,
@@ -35,7 +40,7 @@ class CardOnBoard extends Component {
     });
   };
 
-  handleStop = (e) => {
+  handleStop(e) {
     let curPage = this.props.page
     let id = this.props.id
     let position = this.state.deltaPosition
@@ -50,7 +55,7 @@ class CardOnBoard extends Component {
     }
   }
 
-  onDelete = () => {
+  onDelete() {
     let curPage = this.props.stateFromStore.curPage
     let id = this.props.id
     let board = this.props.board
@@ -132,7 +137,7 @@ class CardOnBoard extends Component {
         bounds="parent"
         onDrag={this.handleDrag}
         onStop={this.handleStop}
-        defaultposition={{ x: this.props.position.x, y: this.props.position.y }}
+        position={{ x: this.props.position.x, y: this.props.position.y }}
       >
         {
           this.props.type === 'Post-It' ? postItCard

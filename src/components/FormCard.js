@@ -37,9 +37,7 @@ const FormCard = (props) => {
       }
       props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: text })
     }
-
     setState({ ...state, textAreaCount: 0, text: '' })
-
   }
   const extractVideoID = (url) => {
     let regExp = /[^(?:https?:/{2})?(?:w{3}.)?youtu(?:be)?.(?:com|be)(?:/watch?v=|/)]([^\s&]+)/;
