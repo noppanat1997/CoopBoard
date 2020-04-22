@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from "react-router-dom";
 import '.././css/LoginPage.css';
 import Card from 'react-bootstrap/Card'
@@ -131,7 +131,7 @@ const LoginPage = (props) => {
       });
   }
 
-  const componentDidMount = () => {
+  useEffect(() => {
     fire.auth().onAuthStateChanged(user => {
       if (user) {
         setState({
@@ -139,15 +139,11 @@ const LoginPage = (props) => {
         })
       }
     })
-  }
+  }, [])
 
-  const logout = (e) =>{
-    e.preventDefault();
-    fire.auth().signOut().then(response => {
-      setState({
-        currentUser:null
-      })
-    })
+
+  const logout = () => {
+    fire.auth().signOut();
   }
 
   if (state.currentUser) {
@@ -155,12 +151,11 @@ const LoginPage = (props) => {
     return (
       <div>
         <p>Hello</p>
-        <button onClick={e => logout(e)}>Logout</button>
+        <button onClick={logout}>Logout</button>
       </div>
     )
   }
   else {
-    console.log(state.currentUser)
     return (
       <div className="background">
         <Card className="login-card" style={{ width: '536px', height: '536px', color: '#C1C1C1' }}>
