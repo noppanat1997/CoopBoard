@@ -1,6 +1,8 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 import { createStore, applyMiddleware } from 'redux';
+import ReduxThunk from 'redux-thunk';
+import ReduxPromise from 'redux-promise-middleware';
 import { Provider } from 'react-redux';
 import logger from 'redux-logger';
 import reducer from './reducer.js';
@@ -12,12 +14,10 @@ import Header from './components/Header.js';
 import BoardPage from './pages/BoardPage.js';
 import BoardList from './pages/BoardList.js';
 import history from './history'
+const middlewareList = [ReduxThunk, ReduxPromise, logger]
+const store = createStore(reducer, applyMiddleware(...middlewareList));
 
-const App = () => {
-  // const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
-  const store = createStore(reducer, applyMiddleware(logger));
-  // const store = createStore(reducer);
-  return (
+const App = () => (
     <Provider store={store}>
       <div style={{ width: '100%', height: '100%' }}>
         <Router history={history}>
@@ -52,9 +52,7 @@ const App = () => {
         </Router>
       </div>
     </Provider>
-
-  );
-}
+);
 
 
 export default App;

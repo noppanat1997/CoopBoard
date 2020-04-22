@@ -1,7 +1,9 @@
 /node_modules
 /.pnp
 .pnp.js
-
+package-lock.json
+note.txt
+/server/dist/*.*
 # testing
 /coverage
 

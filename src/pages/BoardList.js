@@ -14,8 +14,9 @@ const BoardList = (props) => {
     curBoard: 0
   });
 
-  const selectHandler = (id) => {
-    history.push('/list/' + id + '/1')
+  const selectHandler = (id,index) => {
+    history.push('/list/' + id + '/' + 
+    props.stateFromStore.cardData[index].data[0].id)
   }
   const popover = (
     <Popover
@@ -32,12 +33,12 @@ const BoardList = (props) => {
     </Popover>
   );
   const list = props.stateFromStore.boardData.map(
-    item =>
+    (item,index,arr) =>
       <Card
         id={item.id}
         className="card-list m-3"
       >
-        <div className="w-100 h-100" style={{ overflow: 'hidden' }} onClick={() => selectHandler(item.id)}>
+        <div className="w-100 h-100" style={{ overflow: 'hidden' }} onClick={() => selectHandler(item.id,index)}>
           {item.img == "" ? <div className="w-100 h-100" /> : <img className="w-100 h-100" src={item.img} />}
         </div>
         <Card.Footer
@@ -54,12 +55,12 @@ const BoardList = (props) => {
   )
 
   const listRecent = props.stateFromStore.recentBoardData.map(
-    item =>
+    (item,index,arr) =>
       <Card
         id={item.id}
         className="card-list m-3"
       >
-        <div className="w-100 h-100" style={{ overflow: 'hidden' }} onClick={() => selectHandler(item.id)}>
+        <div className="w-100 h-100" style={{ overflow: 'hidden' }} onClick={() => selectHandler(item.id,index)}>
           {item.img == "" ? <div className="w-100 h-100" /> : <img className="w-100 h-100" src={item.img} />}
         </div>
         <Card.Footer
@@ -94,7 +95,7 @@ const BoardList = (props) => {
                 style={{ fontSize: "60px", userSelect: "none" }}
                 onClick={() => {
                   props.addBoardFn();
-                  history.push('/list/' + (props.stateFromStore.boardData[props.stateFromStore.boardData.length - 1].id+1) + '/1');
+                  // history.push('/list/' + (props.stateFromStore.boardData[props.stateFromStore.boardData.length - 1].id+1) + '/1');
                 }}
               >
                 +
