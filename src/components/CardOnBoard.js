@@ -10,7 +10,7 @@ import Col from 'react-bootstrap/Col'
 class CardOnBoard extends Component {
   constructor(props) {
     super(props)
-    console.log('cob:', this.props)
+    // console.log('cob:', this.props)
     this.state = {
       deltaPosition: {
         x: this.props.position.x,
@@ -137,7 +137,7 @@ class CardOnBoard extends Component {
         bounds="parent"
         onDrag={this.handleDrag}
         onStop={this.handleStop}
-        defaultposition={{ x: this.props.position.x, y: this.props.position.y }}
+        position={{ x: this.props.position.x, y: this.props.position.y }}
       >
         {
           this.props.type === 'Post-It' ? postItCard

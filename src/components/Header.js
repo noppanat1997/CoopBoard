@@ -17,13 +17,27 @@ class Header extends Component {
     super(props);
     this.togglePresent = this.togglePresent.bind(this);
     let boardIndex
+    // console.log(this.props.board)
     for (let i = 0; i < this.props.stateFromStore.boardData.length; i++) {
       if(this.props.stateFromStore.boardData[i].id === this.props.board){
         boardIndex = i
+        break;
       }
     }
+    let pageIndex
+    // console.log(this.props.stateFromStore.cardData)
+    if(this.props.path != "list")
+    for (let i = 0; i < this.props.stateFromStore.cardData[boardIndex].data.length; i++) {
+      if(this.props.stateFromStore.cardData[boardIndex].data[i].id === this.props.page){
+        pageIndex = i
+        break;
+      }
+    }
+    // if(this.props.path != "list")
+    // console.log(this.props.stateFromStore.boardData,boardIndex,this.props.board)
     this.state = {
       boardName: this.props.path != "list" ? this.props.stateFromStore.boardData[boardIndex].name : "",
+      pageIndex: pageIndex,
       boardIndex: boardIndex,
       Email : '',
       str: "",
@@ -36,7 +50,7 @@ class Header extends Component {
     })
   }
   onInviteSubmit(event) {
-    console.log(this.state)
+    // console.log(this.state)
     const payloadData = {
       memberData : this.state.Email,
       boardId : this.props.board,
@@ -44,10 +58,14 @@ class Header extends Component {
     }
     this.props.inviteMember(payloadData)
   }
+//NOTE
   pageChangeHandler(newPage) {
     if (newPage < 1) newPage = 1;
     const newData = { boardId: this.props.board, curPage: newPage };
     this.props.setNewPage(newData);
+    history.push('/list/' + 
+    this.props.board + '/' + 
+    (this.props.stateFromStore.cardData[this.state.boardIndex].data[this.props.stateFromStore.curPage].id));
   }
   togglePresent(e) {
     const payloadData = { present: 1 };
@@ -71,7 +89,7 @@ class Header extends Component {
     this.props.kickMember(payloadData);
   }
   renderMember() {
-    let boardmemberList = this.props.stateFromStore.memberData[this.props.board-1].member;
+    let boardmemberList = this.props.stateFromStore.memberData[this.state.boardIndex].member;
     this.state.memberList = [];
     for (let i = 0; i < boardmemberList.length; i++) {
       let idtype = "member" + i
@@ -227,24 +245,20 @@ class Header extends Component {
                 </button>
               </Col>
               <Col xs={4} className="d-flex ot-1 flex-wrap flex-row justify-content-center">
-                <Link to={'/list/' + this.props.board + '/' + (this.props.page > 1 ? (this.props.page - 1) : (this.props.page))}>
                   <button
                     className="btn button-page mt-1 pt-0 btn-sm"
-                    onClick={() => this.pageChangeHandler(this.props.page - 1)}
+                    onClick={() => this.pageChangeHandler(this.props.stateFromStore.curPage - 1)}
                     style={{ "width": "50px", height: '32px', fontSize: '20px' }}
                   >&#60;</button>
-                </Link>
                 <div
                   className="text-center mt-1 mb-1 border-right border-left btn-sm"
                   style={{ "width": "70px", fontSize: '16px' }}
-                >{this.props.page}</div>
-                <Link to={'/list/' + this.props.board + '/' + (this.props.page + 1)}>
+                >{this.state.pageIndex + 1}</div>
                   <button
                     className="btn button-page mt-1 pt-0 btn-sm"
-                    onClick={() => this.pageChangeHandler(this.props.page + 1)}
+                    onClick={() => this.pageChangeHandler(this.props.stateFromStore.curPage + 1)}
                     style={{ "width": "50px", height: '32px', fontSize: '20px' }}
                   >&#62;</button>
-                </Link>
               </Col>
               <Col style={{ textAlign: 'right' }}>
                 <div className="d-flex flex-row">

@@ -6,7 +6,6 @@ const headers = {
 
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
-
 // export const delStudent = id => {
 //   return (dispatch) => {
 //     axios.delete(`http://localhost:3001/api/students/${id}`)
@@ -21,7 +20,7 @@ axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 export const testAction = message => async dispatch => {
   console.log('here')
-  const res = await axios.get(`http://localhost:8080/api/test/test-api`);
+  const res = await axios.get(`http://localhost:8080/api/test/user`);
   console.log(res);
   console.log(message);
 

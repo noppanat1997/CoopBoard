@@ -8,10 +8,12 @@ const CardField = (props) => {
   // console.log("card field:", props);
   let boardIndex;
   for (let i = 0; i < props.stateFromStore.cardData.length; i++) {
+    // console.log(props.stateFromStore.cardData[i].id)
     if (props.stateFromStore.cardData[i].id === props.board) {
       boardIndex = i;
     }
   }
+  // console.log(props.stateFromStore.cardData[boardIndex],boardIndex,props.board)
   let cardDataList = [];
   if (
     props.stateFromStore.cardData[boardIndex].data[props.page - 1].data !== null
@@ -20,36 +22,9 @@ const CardField = (props) => {
       props.stateFromStore.cardData[boardIndex].data[props.page - 1].data;
   }
 
-  console.log('cdl:', cardDataList)
+  // console.log('cdl:', cardDataList)
   let lists = [];
   if (cardDataList.length != 0) {
-    // lists = cardDataList.map((item) => {
-    //   let newPosition = {
-    //     x: item.position.x,
-    //     y: item.position.y
-    //   }
-
-    //   console.log(
-    //     'boardIndex', boardIndex, '\n',
-    //     'cardDataList', cardDataList, '\n',
-    //     'lists', lists,
-    //   );
-
-    //   return (
-    //     <CardOnBoard
-    //       board={props.board}
-    //       type={item.type}
-    //       page={props.page}
-    //       key={item.id}
-    //       id={item.id}
-    //       size={item.size}
-    //       color={item.color}
-    //       text={item.text}
-    //       position={newPosition}
-    //       isNew={item.isNew}
-    //     />
-    //   )
-    // })
 
     for (let i = 0; i < cardDataList.length; i += 1) {
       const item = cardDataList[i];

@@ -4,6 +4,6 @@ import testController from '../controllers/test';
 
 const router = Router();
 
-router.get('/test-api', testController.testAPI);
+router.get('/user', testController.listAllUser);
 
 export default router;

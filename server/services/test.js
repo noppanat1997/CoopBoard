@@ -1,17 +1,11 @@
-// import db
+import db from '../configs/database';
+import { documentTransform } from '../tools/transformer';
 
 const testService = {};
 
-testService.name = (input) => {
-  // const format_input = ..input...;
-  // const result = await db.find(format_input);
-
-  return result || [];
+testService.listAllUser = async () => {
+  const user_result = await db.collection('user').get();
+  return documentTransform(user_result);
 };
 
 export default testService;
-
-
-// // model
-// findUser db.find(user_id)
-// findUser db.query('SELECT * FROM users')
