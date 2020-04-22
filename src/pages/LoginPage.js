@@ -123,7 +123,7 @@ const LoginPage = (props) => {
       setState({
         currentUser: u
       })
-      //history.push('/list');
+      // history.push('/list');
     })
       .catch((error) => {
         alert("The e-mail address or password you entered was incorrect. Please retry...!");
