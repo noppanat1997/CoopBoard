@@ -26,7 +26,8 @@ class Header extends Component {
     }
     let pageIndex
     // console.log(this.props.stateFromStore.cardData)
-    if(this.props.path != "list")
+    // if(this.props.path != "list")
+    if(this.props.stateFromStore.cardData[boardIndex] !== null && this.props.path != "list")
     for (let i = 0; i < this.props.stateFromStore.cardData[boardIndex].data.length; i++) {
       if(this.props.stateFromStore.cardData[boardIndex].data[i].id === this.props.page){
         pageIndex = i
@@ -165,6 +166,10 @@ class Header extends Component {
     this.props.callAction(message)
   }
 
+  logout() {
+    fire.auth().signOut();
+  }
+
   render() {
     return (
       <div className="roboto" style={{ backgroundColor: 'white', width: "100%" }}>
@@ -217,8 +222,14 @@ class Header extends Component {
               <UncontrolledPopover trigger="legacy" placement="bottom" target="profile">
                 <PopoverHeader>Profile</PopoverHeader>
                 <PopoverBody>
+                  {/* // NOTE */}
                   <div>
-                    <button class="btn btn-danger">
+                    <button class="btn btn-danger"
+                      onClick={()=>{
+                        this.logout
+                        history.push('/login')
+                      }}
+                    >
                       Logout
                     </button>
                   </div>
