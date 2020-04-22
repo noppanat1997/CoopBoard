@@ -8,8 +8,7 @@ import fire from '../components/Fire.js'
 import { useState } from 'react';
 
 const BoardPage = (props) => {
-
-
+  // console.log(props.match.params.board)
   return (
     <div >
       {
@@ -17,11 +16,11 @@ const BoardPage = (props) => {
         props.stateFromStore.formCardData &&
         Object.entries(props.stateFromStore.formCardData)
           .filter(cardPair => cardPair[1].onFormSetting === 1)
-          .map(cardPair => <div className="form-card"><FormCard board={parseInt(props.match.params.board)} page={parseInt(props.match.params.page)} key={cardPair[0]} id={cardPair[0]} name={cardPair[1].name} /></div>)
+          .map(cardPair => <div className="form-card"><FormCard board={props.match.params.board} page={props.match.params.page} key={cardPair[0]} id={cardPair[0]} name={cardPair[1].name} /></div>)
       }
 
-      <Header path="board" board={parseInt(props.match.params.board)} page={parseInt(props.match.params.page)} />
-      <MainBoard board={parseInt(props.match.params.board)} page={parseInt(props.match.params.page)} />
+      <Header path="board" board={props.match.params.board} page={props.match.params.page} />
+      <MainBoard board={props.match.params.board} page={props.match.params.page} />
     </div>
   );
 }

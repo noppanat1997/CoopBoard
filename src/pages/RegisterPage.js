@@ -128,7 +128,7 @@ const RegisterPages = (props) => {
     let message = '';
     if (value.trim().length === 0 && rule.required) {
       valid = false;
-      message = `The ${name} is cannot be empty.`;
+      message = `The ${name} cannot be empty.`;
     }
     else if (value.length < rule.minLength && valid) {
       valid = false;
