@@ -20,6 +20,7 @@
     "html-webpack-plugin": "^4.2.0",
     "html2canvas": "^1.0.0-rc.5",
     "less-loader": "^5.0.0",
+    "netlify-lambda": "^1.6.3",
     "postcss-loader": "^3.0.0",
     "query-string": "^6.12.0",
     "react": "^16.13.1",
@@ -53,7 +54,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "nodemon --exec babel-node --ignore ./src ./server/index.js ",
-    "build": "webpack --config ./src/webpack.config.js",
+    "build-cilent": "webpack --config ./src/webpack.config.js",
+    "build-server": "netlify-lambda build express",
     "wds": "webpack-dev-server --mode development --config ./src/webpack.config.js"
   },
   "eslintConfig": {
