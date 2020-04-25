@@ -11,15 +11,16 @@ const CardField = (props) => {
     // console.log(props.stateFromStore.cardData[i].id)
     if (props.stateFromStore.cardData[i].id === props.board) {
       boardIndex = i;
+      break;
     }
   }
   // console.log(props.stateFromStore.cardData[boardIndex],boardIndex,props.board)
   let cardDataList = [];
   if (
-    props.stateFromStore.cardData[boardIndex].data[props.page - 1].data !== null
+    props.stateFromStore.cardData[boardIndex].data[props.stateFromStore.curPage - 1].data !== null
   ) {
     cardDataList =
-      props.stateFromStore.cardData[boardIndex].data[props.page - 1].data;
+      props.stateFromStore.cardData[boardIndex].data[props.stateFromStore.curPage - 1].data;
   }
 
   // console.log('cdl:', cardDataList)

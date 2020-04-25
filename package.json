@@ -49,10 +49,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "_build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "nodemon --exec babel-node --ignore ./src ./server/index.js ",
+    "build": "webpack --config ./src/webpack.config.js",
     "wds": "webpack-dev-server --mode development --config ./src/webpack.config.js"
   },
   "eslintConfig": {
