@@ -6,19 +6,19 @@ import '.././css/CarouselComponent.css';
 
 const CarouselComponent = (props) => {
   let boardIndex
-  for (let i = 0; i < props.stateFromStore.lineData.length; i++) {
-    if (props.stateFromStore.lineData[i].id === props.board) {
+  for (let i = 0; i < props.stateFromStore.boardData.length; i++) {
+    if (props.stateFromStore.boardData[i].id === props.board) {
       boardIndex = i
     }
   }
   const mapAllPages = props.stateFromStore.lineData[boardIndex].data.map((item, index, arr) => (
     <Carousel.Item key={item.id} className="text-center">
-      <Canvas board={props.board} page={index + 1} />
+      <Canvas board={props.board} page={item.id} />
     </Carousel.Item>
   ));
   return (
     <Carousel
-      activeIndex={props.page - 1}
+      activeIndex={ props.stateFromStore.curPage - 1}
       controls={false}
       indicators={false}
       onSelect={() => { }}

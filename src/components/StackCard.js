@@ -45,7 +45,7 @@ const StackCard = (props) => {
         onStop={onMouseUpHandler}
       >
         <div>
-          <EachCard id="2" name={"To-Do-Lists"} color={"#0071BC"} />
+          <EachCard id="2" name={"Checklist"} color={"#0071BC"} />
         </div>
       </Draggable>
       <Draggable position={{ x: 0, y: -200 }}

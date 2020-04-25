@@ -4,7 +4,6 @@
   border-radius: 0rem;
   border: none;
   box-shadow: 1px 1px 4px 0px rgba(78, 78, 78, 0.185);
-  cursor: pointer;
   position: absolute;
   top: 30%;
   left: 40%; 
@@ -44,18 +43,32 @@
   box-shadow: none;
 }
 .default-hover {
+  pointer-events:none;
   position: absolute;
-  z-index: 9;
+  z-index: 11;
   border: 3px solid rgb(126, 225, 255);
 }
 .default-hover-active {
+  pointer-events:none;
   position: absolute;
-  z-index: 9;
+  z-index: 11;
   border: 3px solid rgb(65, 117, 133);
+  cursor: pointer;
+}
+.drag-title{
+  width: 0px;
+  height: 0px;
+  border-top: 30px solid rgba(255, 255, 255, 0.7);
+  border-right: 30px solid transparent;
+  pointer-events:all;
+  position: absolute;
+  z-index: 11;
+  cursor: move;
 }
 .delete-button{
+  pointer-events:all;
   position: absolute;
-  z-index: 10;
+  z-index: 11;
   user-select: none;
   width: 0px;
   height: 0px;
@@ -66,8 +79,9 @@
   background-color: rgba(0, 0, 0, 0.281);
 }
 .delete-button-hover{
+  pointer-events:all;
   position: absolute;
-  z-index: 10;
+  z-index: 11;
   user-select: none;
   width: 0px;
   height: 0px;
@@ -86,4 +100,25 @@
   position: absolute;
   top: -32px; 
   right: 14px;
+}
+.small-vid{
+  width: 320px;
+  height: 195px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  font-size: 1vw;
+}
+.medium-vid{
+  width: 512px;
+  height: 312px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  font-size: 1.5vw;
+}
+.large-vid{
+  width: 640px;
+  height: 390px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  font-size: 3vw;
 }
