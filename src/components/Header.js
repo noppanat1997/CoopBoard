@@ -9,6 +9,7 @@ import html2canvas from 'html2canvas';
 import history from '.././history';
 import '.././css/Header.css';
 import {UncontrolledPopover, PopoverHeader, PopoverBody} from 'reactstrap';
+import fire from './Fire.js'
 
 import * as action from '../actions'
 
