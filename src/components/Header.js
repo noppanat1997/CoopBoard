@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import Logo from '.././images/logo.svg';
-import html2canvas from 'html2canvas';
-import history from '.././history';
-import '.././css/Header.css';
-import {UncontrolledPopover, PopoverHeader, PopoverBody} from 'reactstrap';
-import fire from './Fire.js'
-=======
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -23,7 +9,6 @@ import html2canvas from "html2canvas";
 import history from ".././history";
 import ".././css/Header.css";
 import { UncontrolledPopover, PopoverHeader, PopoverBody } from "reactstrap";
->>>>>>> b868baf3ebd0806450ebfe99222832ea981cdd37
 
 import * as action from "../actions";
 
