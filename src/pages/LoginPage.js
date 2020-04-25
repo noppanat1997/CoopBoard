@@ -118,7 +118,7 @@ const LoginPage = (props) => {
     console.log(formData);
 
     fire.auth().signInWithEmailAndPassword(state.formElements.email.value, state.formElements.password.value).then((u) => {
-      setTimeout(function () { alert("Welcome " + formData.email) }, 100);
+      //setTimeout(function () { alert("Welcome " + formData.email) }, 100);
       history.push('/list');
     })
       .catch((error) => {
