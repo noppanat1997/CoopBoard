@@ -7,6 +7,8 @@ import Header from '../components/Header.js';
 import { FaEllipsisV, FaTrash } from 'react-icons/fa';
 import Popover from 'react-bootstrap/Popover'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+//NOTE import
+import * as action from '.././actions';
 
 const BoardList = (props) => {
   let history = useHistory();
@@ -118,8 +120,12 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    addBoardFn: (data) => {
-      return dispatch({ type: 'ADD_BOARD', payload: data })
+    // addBoardFn: (data) => {
+    //   return dispatch({ type: 'ADD_BOARD', payload: data })
+    // },
+    //NOTE action dispatch
+    addBoardFn: () => {
+      return dispatch(action.addBoard());
     },
     deleteBoardFn: (data) => {
       return dispatch({ type: 'DELETE_BOARD', payload: data })

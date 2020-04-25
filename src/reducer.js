@@ -301,33 +301,15 @@ const reducer = (state = initialState, action) => {
       }
       return newState;
     }
-// REVIEW addboard
+// NOTE addboard 
     case 'ADD_BOARD': {
-      let uuid = uuidv4()
-      let uuidPage = uuidv4()
-      let newLineData = {
-        // id: state.lineData.length > 0 ? state.lineData[state.lineData.length - 1].id + 1 : 1,
-        id:uuid,
-        data: [{ id: uuidPage, line: [], color: [], size: [] }]
-      }
-      let newCardData = {
-        // id: state.cardData.length > 0 ? state.cardData[state.cardData.length - 1].id + 1 : 1,
-        id:uuid,
-        data: [
-          { id: uuidPage, data: [] },
-        ]
-      }
-      let newBoardData = {
-        // id: state.boardData.length > 0 ? state.boardData[state.boardData.length - 1].id + 1 : 1,
-        id:uuid,
-        name: 'Untitled Coop',
-        img: ''
-      }
-      let newMemberData = {
-        // id: state.memberData.length > 0 ? state.memberData[state.memberData.length - 1].id + 1 : 1,
-        id:uuid,
-        member: []
-      }
+      let {
+        boardData: newBoardData,
+        lineData: newLineData,
+        cardData: newCardData,
+        memberData: newMemberData
+      } = action.payload
+      
       return {
         ...state,
         lineData: [
