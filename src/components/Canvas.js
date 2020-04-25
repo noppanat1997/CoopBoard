@@ -31,8 +31,8 @@ class Canvas extends Component {
       penWidth: this.props.stateFromStore.penSize,
       markerWidth: 8,
       unMarkWidth: 10,
-      cPage: 1,  //this.props.stateFromStore.curPage;
-      pPage: 0,
+      pageID: 0,  //this.props.stateFromStore.curPage;
+      boardID: 0,
       lineCount: 0,//this.props.stateFromStore.data[this.props.stateFromStore.curPage].line.length;
       // Different stroke styles to be used for user and guest
       userStrokeStyle: this.props.stateFromStore.penColor,
@@ -153,7 +153,7 @@ class Canvas extends Component {
   }
   // TODO
   redraw() {
-    let lineData = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.props.stateFromStore.curPage - 1];
+    let lineData = this.props.stateFromStore.lineData[this.state.boardID].data[this.state.pageID];
     if (typeof (lineData) !== 'undefined') {
       let lineCount = lineData.line.length;
       for (let k = 0; k < lineCount; k++) {
@@ -214,6 +214,7 @@ class Canvas extends Component {
       data: this.state.line,
       mode: 1
     };
+    console.log(dataLine);
     this.props.updateLine(dataLine);
     this.state.line = [];
   }
@@ -226,9 +227,11 @@ class Canvas extends Component {
     this.ctx.lineJoin = 'round';
     this.ctx.lineCap = 'round';
     this.ctx.lineWidth = 10;
-    //console.log(this.state.lineCount)
-    this.state.lineCount = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.props.stateFromStore.curPage - 1].line.length;
-    console.log("mount")
+    this.state.boardID = this.props.stateFromStore.lineData.findIndex(Object => Object.id === this.props.board);
+    console.log(this.props.stateFromStore.lineData[0]);
+    this.state.pageID = this.props.stateFromStore.lineData[this.state.boardID].data.findIndex(Object => Object.id === this.props.page);
+    console.log(this.state.pageID);
+    this.state.lineCount = this.props.stateFromStore.lineData[this.state.boardID].data[this.state.pageID].line.length;
     this.redraw();
   }
   componentWillUnmount() {
