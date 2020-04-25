@@ -97,7 +97,7 @@ module.exports = {
     // Clean Plugin will clean up old bundles before compile
     new CleanWebpackPlugin(),
     new HtmlWebPackPlugin({
-      template: '../coop-board-v1/public/index.html',
+      template: './public/index.html',
       filename: 'index.html',
       // chunks: ['index'],
     }),
