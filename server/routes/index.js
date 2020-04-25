@@ -3,11 +3,13 @@ import path from 'path';
 // import passport from 'passport';
 
 import test from './test';
+import controllers from '../controllers';
 
 const router = Router();
 
-router.use('/api/test', test);
-
+router.use('/api/test', test)
+//NOTE
+router.post('/api/add-board', controllers.addBoard)
 // router.use(
 //   '/static',
 //   // passport.authenticate('jwt', { session: false }),
