@@ -13,7 +13,7 @@ const CarouselComponent = (props) => {
   }
   const mapAllPages = props.stateFromStore.lineData[boardIndex].data.map((item, index, arr) => (
     <Carousel.Item key={item.id} className="text-center">
-      <Canvas board={props.board} page={index + 1} />
+      <Canvas board={props.board} page={item.id} />
     </Carousel.Item>
   ));
   return (
