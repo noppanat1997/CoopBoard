@@ -33,7 +33,7 @@ class Canvas extends Component {
       unMarkWidth: 10,
       cPage: 1,  //this.props.stateFromStore.curPage;
       pPage: 0,
-      lineCount: 0,//this.props.stateFromStore.data[this.state.cPage].line.length;
+      lineCount: 0,//this.props.stateFromStore.data[this.props.stateFromStore.curPage].line.length;
       // Different stroke styles to be used for user and guest
       userStrokeStyle: this.props.stateFromStore.penColor,
       eraserStyle: '#FFFFFF',
@@ -80,7 +80,7 @@ class Canvas extends Component {
     }
     else if (this.state.isErasing & this.props.stateFromStore.buttonData[2].isActive == 1) {
       const { offsetX, offsetY } = nativeEvent;
-      const lineData = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.props.page - 1];
+      const lineData = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.props.stateFromStore.curPage - 1];
       const offSetData = { offsetX, offsetY };
       // Set the start and stop position of the paint event.
       const positionData = {
@@ -123,7 +123,7 @@ class Canvas extends Component {
     if (this.state.isPainting) {
       this.state.isPainting = false;
       this.sendPaintData();
-      this.state.lineCount = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.props.page - 1].line.length;
+      this.state.lineCount = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.props.stateFromStore.curPage - 1].line.length;
     }
     else if (this.state.isErasing) {
       this.state.isErasing = false;
@@ -134,7 +134,7 @@ class Canvas extends Component {
       this.state.lineCount -= this.state.arrIndex.length;
       const sendData = {
         boardId: this.props.board,
-        pageId: this.state.cPage - 1,
+        pageId: this.props.stateFromStore.curPage - 1,
         data: this.state.arrIndex,
         mode: 2
       };
@@ -153,7 +153,7 @@ class Canvas extends Component {
   }
   // TODO
   redraw() {
-    let lineData = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.props.page - 1];
+    let lineData = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.props.stateFromStore.curPage - 1];
     if (typeof (lineData) !== 'undefined') {
       let lineCount = lineData.line.length;
       for (let k = 0; k < lineCount; k++) {
@@ -210,7 +210,7 @@ class Canvas extends Component {
     //console.log(this.state.line)
     const dataLine = {
       boardId: this.props.board,
-      pageId: this.state.cPage - 1,
+      pageId: this.props.stateFromStore.curPage - 1,
       data: this.state.line,
       mode: 1
     };
@@ -227,13 +227,12 @@ class Canvas extends Component {
     this.ctx.lineCap = 'round';
     this.ctx.lineWidth = 10;
     //console.log(this.state.lineCount)
-    this.state.cPage = this.props.page;
-    this.state.lineCount = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.state.cPage - 1].line.length;
+    this.state.lineCount = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.props.stateFromStore.curPage - 1].line.length;
     console.log("mount")
     this.redraw();
   }
   componentWillUnmount() {
-    let lineData = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.state.cPage - 1];
+    let lineData = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.props.stateFromStore.curPage - 1];
     if (typeof (lineData) !== 'undefined') {
       let lineCount = lineData.line.length;
       for (let k = 0; k < lineCount; k++) {
