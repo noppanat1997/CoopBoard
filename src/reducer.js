@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 const initialState = {
+  user: null,
   curPage: 1,
   penColor: '#9E005D',
   penSize: 10,
@@ -506,6 +507,13 @@ const reducer = (state = initialState, action) => {
         cardData: newCardData,
         boardData: newBoardData,
         recentBoardData: newRecentBoardData
+      }
+    }
+    case 'USER_LOGIN': {
+      const currentUser = action.payload;
+      return {
+        ...state,
+        user: currentUser
       }
     }
     default:

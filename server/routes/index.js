@@ -10,7 +10,11 @@ const router = Router();
 router.use('/api/test', test)
 //NOTE
 router.post('/api/add-board', controllers.addBoard)
+router.post('/api/add-user', controllers.addUser)
+router.post('/api/user-login', controllers.userLogin)
+
 router.delete('/api/delete-board/:boardId', controllers.deleteBoard)
+
 // router.use(
 //   '/static',
 //   // passport.authenticate('jwt', { session: false }),

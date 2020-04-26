@@ -121,4 +121,8 @@ services.deleteBoard = async (boardId) => {
   return
 };
 
+services.addUser = async (firstname, lastname, email) => {
+  const user = await db.collection('user').add({ firstname, lastname, email });
+  return user;
+}
 export default services;
