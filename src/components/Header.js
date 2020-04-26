@@ -15,7 +15,6 @@ import * as action from "../actions";
 class Header extends Component {
   constructor(props) {
     super(props);
-    this.togglePresent = this.togglePresent.bind(this);
     let boardIndex;
     for (let i = 0; i < this.props.stateFromStore.boardData.length; i++) {
       if (this.props.stateFromStore.boardData[i].id === this.props.board) {
@@ -36,7 +35,6 @@ class Header extends Component {
     this.onInputChange = this.onInputChange.bind(this);
     this.onInviteSubmit = this.onInviteSubmit.bind(this);
     this.pageChangeHandler = this.pageChangeHandler.bind(this);
-    this.togglePresent = this.togglePresent.bind(this);
     this.randomBackground = this.randomBackground.bind(this);
     this.onKick = this.onKick.bind(this);
     this.renderMember = this.renderMember.bind(this);
@@ -73,10 +71,6 @@ class Header extends Component {
           newPage - 1
         ].id
     );
-  }
-  togglePresent(e) {
-    const payloadData = { present: 1 };
-    this.props.changePresent(payloadData);
   }
   randomBackground() {
     var r = Math.floor(Math.random() * 4);
@@ -394,19 +388,6 @@ class Header extends Component {
                     </button>
                   </PopoverBody>
                 </UncontrolledPopover>
-                <button
-                  className={
-                    "mt-1 ml-1 " +
-                    (this.props.stateFromStore.isPresent
-                      ? "btn-danger"
-                      : "btn-primary")
-                  }
-                  onClick={this.togglePresent}
-                >
-                  {this.props.stateFromStore.isPresent
-                    ? "Stop Presentation"
-                    : "Start Presentation"}
-                </button>
               </Col>
             </Row>
           ) : (
@@ -425,9 +406,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    changePresent: (newPresent) => {
-      return dispatch({ type: "CHANGE_PRESENT", payload: newPresent });
-    },
+    //FIXME map dispatch new page 
     setNewPage: (newId) => {
       return dispatch({ type: "CHANGE_PAGE", payload: newId });
     },

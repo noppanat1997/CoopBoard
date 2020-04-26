@@ -30,7 +30,6 @@ const initialState = {
   isDrop: false,
   onDropArea: false,
   onCanvas: false,
-  isPresent: false,
   userData: {
     Name: "Nontapat",
     Surname: "Sirichuensuwan",
@@ -65,9 +64,7 @@ const initialState = {
     // },
     // {
     //   id: 2,
-    //   data: [
-    //     { id: 1, data: [] },
-    //   ]
+    //   data: [{id: 1, data: []}]
     // }
   ],
 //NOTE
@@ -178,11 +175,6 @@ const reducer = (state = initialState, action) => {
         newState.toolbarOpen = false;
         return newState
       }
-
-    case 'CHANGE_PRESENT':
-      const { present } = action.payload
-      newState.isPresent = !newState.isPresent;
-      return newState
 
     case 'INVITE_MEMBER':
       let { memberData , boardId : boardNum , color : c } = action.payload
@@ -474,30 +466,37 @@ const reducer = (state = initialState, action) => {
     }
 // REVIEW del board
     case 'DELETE_BOARD': {
+      console.log('try to delete board')
       let { board } = action.payload
       let newBoardData = [...state.boardData]
       let newRecentBoardData = [...state.recentBoardData]
       let newLineData = [...state.lineData]
       let newCardData = [...state.cardData]
+//FIXME
+      let newMemberData = [...state.memberData]
 
       for (let i = 0; i < state.boardData.length; i++) {
         if (state.boardData[i].id === board) {
           newBoardData.splice(i, 1)
+          break;
         }
       }
       for (let i = 0; i < state.recentBoardData.length; i++) {
         if (state.recentBoardData[i].id === board) {
           newRecentBoardData.splice(i, 1)
+          break;
         }
       }
       for (let i = 0; i < state.lineData.length; i++) {
         if (state.lineData[i].id === board) {
           newLineData.splice(i, 1)
+          break;
         }
       }
       for (let i = 0; i < state.cardData.length; i++) {
         if (state.cardData[i].id === board) {
           newCardData.splice(i, 1)
+          break;
         }
       }
 

@@ -10,7 +10,21 @@ controllers.addBoard = async (req, res, next) => {
     res.status(200).send(data)
     // res.status(200).send({ message: user_result });
   } catch (error) {
-    throw error;
+    next(error);
+  }
+};
+
+controllers.deleteBoard = async (req, res, next) => {
+  try {
+    const { boardId } = req.params;
+    console.log(req.params) 
+    await services.deleteBoard(boardId);
+    // const user_result = await testSevice.listAllUser();
+    
+    res.status(200).send()
+    // res.status(200).send({ message: user_result });
+  } catch (error) {
+    next(error);
   }
 };
 

@@ -13,7 +13,7 @@ import * as action from '.././actions';
 const BoardList = (props) => {
   let history = useHistory();
   const [state, setState] = useState({
-    curBoard: 0
+    curBoard: ''
   });
 
   const selectHandler = (id,index) => {
@@ -29,7 +29,7 @@ const BoardList = (props) => {
         className="button-pop pt-1 pl-2"
         onClick={() => {
           console.log(state.curBoard)
-          props.deleteBoardFn({ board: state.curBoard })
+          props.deleteBoardFn(state.curBoard)
         }}
       ><FaTrash /> Remove</div>
     </Popover>
@@ -97,7 +97,6 @@ const BoardList = (props) => {
                 style={{ fontSize: "60px", userSelect: "none" }}
                 onClick={() => {
                   props.addBoardFn();
-                  // history.push('/list/' + (props.stateFromStore.boardData[props.stateFromStore.boardData.length - 1].id+1) + '/1');
                 }}
               >
                 +
@@ -128,7 +127,7 @@ const mapDispatchToProps = dispatch => {
       return dispatch(action.addBoard());
     },
     deleteBoardFn: (data) => {
-      return dispatch({ type: 'DELETE_BOARD', payload: data })
+      return dispatch(action.deleteBoard(data))
     }
   }
 }

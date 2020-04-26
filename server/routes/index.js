@@ -10,6 +10,7 @@ const router = Router();
 router.use('/api/test', test)
 //NOTE
 router.post('/api/add-board', controllers.addBoard)
+router.delete('/api/delete-board/:boardId', controllers.deleteBoard)
 // router.use(
 //   '/static',
 //   // passport.authenticate('jwt', { session: false }),
