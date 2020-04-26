@@ -10,6 +10,7 @@ const router = Router();
 router.use('/api/test', test)
 //NOTE
 router.post('/api/add-board', controllers.addBoard)
+router.get('/api/fetch-board', controllers.fetchBoard)
 router.delete('/api/delete-board/:boardId', controllers.deleteBoard)
 // router.use(
 //   '/static',

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import Card from 'react-bootstrap/Card'
 import '.././css/BoardList.css';
 import { connect } from 'react-redux';
@@ -9,12 +9,21 @@ import Popover from 'react-bootstrap/Popover'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 //NOTE import
 import * as action from '.././actions';
+import * as hooks from '.././hooks';
 
 const BoardList = (props) => {
   let history = useHistory();
   const [state, setState] = useState({
     curBoard: ''
   });
+
+  // hooks.useBeforeFirstRender(() => {
+  //   props.fetchBoardFn();
+  // })
+
+  useEffect(()=>{
+    props.fetchBoardFn();
+  },[])
 
   const selectHandler = (id,index) => {
     history.push('/list/' + id + '/' + 
@@ -128,6 +137,9 @@ const mapDispatchToProps = dispatch => {
     },
     deleteBoardFn: (data) => {
       return dispatch(action.deleteBoard(data))
+    },
+    fetchBoardFn: () => {
+      return dispatch(action.fetchBoard());
     }
   }
 }

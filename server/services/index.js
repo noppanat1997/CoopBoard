@@ -73,6 +73,39 @@ services.addBoardData = async () => {
   return resData;
 };
 
+services.fetchBoard = async () => {
+  const promiseGetList = [
+    db.collection("boardData").get(),
+    db.collection("lineData").get(),
+    db.collection("cardData").get(),
+    db.collection("memberData").get(),
+  ];
+  const responseGetList = await Promise.all(promiseGetList);
+
+  const [
+    fireBoardDataList,
+    fireLineDataList,
+    fireCardDataList,
+    fireMemberDataList,
+  ] = responseGetList;
+
+
+  const boardDataList = dtf.keyRemove(fireBoardDataList.docs);
+  const lineDataList = dtf.keyRemove(fireLineDataList.docs);
+  const cardDataList = dtf.keyRemove(fireCardDataList.docs);
+  const memberDataList = dtf.keyRemove(fireMemberDataList.docs);
+
+  const resData = {
+    boardDataList,
+    lineDataList,
+    cardDataList,
+    memberDataList
+  };
+
+  // console.log(resData)
+  return resData;
+};
+
 services.deleteBoard = async (boardId) => {
   const lineIdList = await db.collection("lineData").where('id', '==', boardId).get()
     .then(fireLineDataList => {
@@ -107,9 +140,6 @@ services.deleteBoard = async (boardId) => {
       })
       .catch(err => {throw err;});
 
-      console.log(lineIdList);
-      console.log(cardIdList);
-      console.log(memberIdList);
   const promiseSetList = [
     db.collection("boardData").doc(boardId).delete(),
     db.collection("lineData").doc(lineIdList[0]).delete(),

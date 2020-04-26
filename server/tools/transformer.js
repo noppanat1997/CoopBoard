@@ -16,7 +16,7 @@ documentTransformer.keyRemove = (documentResultList = []) => {
   const documentObjectList = [];
 
   documentResultList.map(documentResult => {
-    console.log('>>>', documentResult);
+    // console.log('>>>', documentResult);
     const documentObject = documentResult.data();
     documentObjectList.push(documentObject);
   });
@@ -29,7 +29,7 @@ documentTransformer.getKey = (documentResultList = []) => {
 
   documentResultList.map(documentResult => {
     // console.log(documentResult.data());
-    console.log('>>>', documentResult)
+    // console.log('>>>', documentResult)
     const documentId = documentResult.data();
     documentIdList.push(documentId);
   });
