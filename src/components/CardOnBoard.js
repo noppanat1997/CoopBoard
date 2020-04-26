@@ -4,6 +4,7 @@ import Draggable from 'react-draggable';
 import { connect } from 'react-redux';
 import '.././css/CardOnBoard.css';
 import YouTube from 'react-youtube'
+import { ReactTinyLink } from "react-tiny-link";
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
@@ -130,7 +131,24 @@ class CardOnBoard extends Component {
         />
       </Card>
     )
-
+    const urlCard = (
+      <Card
+        onMouseEnter={() => this.setState({ ...this.state, isHover: true })}
+        onMouseLeave={() => this.setState({ ...this.state, isHover: false })}
+        className={"default-card"
+        }
+      >
+        <strong><Card.Title className="drag-title"></Card.Title></strong>
+        {this.state.isHover == true ? hoverEvent : <div></div>}
+        <ReactTinyLink 
+          cardSize={this.props.size === 's' ? 'small' : this.props.size === 'm' ? 'medium' : 'large'}
+          showGraphic={true}
+          maxLine={2}
+          minLine={1}
+          url={this.props.text}
+        />
+      </Card>
+    )
     return (
       <Draggable
         handle="strong"
@@ -145,7 +163,7 @@ class CardOnBoard extends Component {
               : this.props.type === 'Calendar' ? postItCard
                 : this.props.type === 'Map' ? postItCard
                   : this.props.type === 'Table' ? postItCard
-                    : this.props.type === 'Url' ? postItCard
+                    : this.props.type === 'Url' ? urlCard
                       : this.props.type === 'Code' ? postItCard
                         : videoCard
         }

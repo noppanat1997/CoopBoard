@@ -80,7 +80,7 @@ class Canvas extends Component {
     }
     else if (this.state.isErasing & this.props.stateFromStore.buttonData[2].isActive == 1) {
       const { offsetX, offsetY } = nativeEvent;
-      const lineData = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.props.stateFromStore.curPage - 1];
+      const lineData = this.props.stateFromStore.lineData[this.state.boardID].data[this.state.pageID];
       const offSetData = { offsetX, offsetY };
       // Set the start and stop position of the paint event.
       const positionData = {
@@ -123,7 +123,7 @@ class Canvas extends Component {
     if (this.state.isPainting) {
       this.state.isPainting = false;
       this.sendPaintData();
-      this.state.lineCount = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.props.stateFromStore.curPage - 1].line.length;
+      this.state.lineCount = this.props.stateFromStore.lineData[this.state.boardID].data[this.state.pageID].line.length;
     }
     else if (this.state.isErasing) {
       this.state.isErasing = false;
@@ -134,7 +134,7 @@ class Canvas extends Component {
       this.state.lineCount -= this.state.arrIndex.length;
       const sendData = {
         boardId: this.props.board,
-        pageId: this.props.stateFromStore.curPage - 1,
+        pageId: this.state.pageID,
         data: this.state.arrIndex,
         mode: 2
       };
@@ -210,7 +210,7 @@ class Canvas extends Component {
     //console.log(this.state.line)
     const dataLine = {
       boardId: this.props.board,
-      pageId: this.props.stateFromStore.curPage - 1,
+      pageId: this.state.pageID,
       data: this.state.line,
       mode: 1
     };
@@ -228,14 +228,13 @@ class Canvas extends Component {
     this.ctx.lineCap = 'round';
     this.ctx.lineWidth = 10;
     this.state.boardID = this.props.stateFromStore.lineData.findIndex(Object => Object.id === this.props.board);
-    console.log(this.props.stateFromStore.lineData[0]);
     this.state.pageID = this.props.stateFromStore.lineData[this.state.boardID].data.findIndex(Object => Object.id === this.props.page);
-    console.log(this.state.pageID);
     this.state.lineCount = this.props.stateFromStore.lineData[this.state.boardID].data[this.state.pageID].line.length;
+    console.log(this.state.lineCount)
     this.redraw();
   }
   componentWillUnmount() {
-    let lineData = this.props.stateFromStore.lineData[this.state.boardIndex].data[this.props.stateFromStore.curPage - 1];
+    let lineData = this.props.stateFromStore.lineData[this.state.boardID].data[this.state.pageID];
     if (typeof (lineData) !== 'undefined') {
       let lineCount = lineData.line.length;
       for (let k = 0; k < lineCount; k++) {

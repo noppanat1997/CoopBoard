@@ -81,6 +81,30 @@ const FormCard = (props) => {
       </Form.Group>
     </Card.Body>
   )
+  const urlForm = (
+    <Card.Body className="text-area-bg bg-light">
+      <Form.Group className="mb-0" controlId="exampleForm.ControlTextarea1">
+        <Form.Control
+          placeholder="Paste the URL link..."
+          className="text-box my-card-form-control"
+          as="textarea"
+          rows="3"
+          onChange={(e) => setState({ ...state, textAreaCount: e.target.value.length, text: e.target.value })} />
+      </Form.Group>
+    </Card.Body>
+  )
+  const codeForm = (
+    <Card.Body className='text-area-bg bg-dark'>
+      <Form.Group className="mb-0" controlId="exampleForm.ControlTextarea1">
+        <Form.Control
+          placeholder="Paste the code here..."
+          className="text-box my-card-form-control"
+          as="textarea"
+          rows="3"
+          onChange={(e) => setState({ ...state, textAreaCount: e.target.value.length, text: e.target.value })} />
+      </Form.Group>
+    </Card.Body>
+  )
   return (
     <div>
       <Card className="postit-form">
@@ -91,17 +115,17 @@ const FormCard = (props) => {
               <Col className="p-0"></Col>
               <Col xs={1} className="p-0 mr-2">
                 <div id="0" name="s" className={'text-center mt-2 ' + (state.sizeSelected == 0 ? 'size-ball-active' : 'size-ball')} onClick={sizeHandler}>
-                  x1
+                  S
                 </div>
               </Col>
               <Col xs={1} className="p-0 mr-2">
                 <div id="1" name="m" className={'text-center mt-2 ' + (state.sizeSelected == 1 ? 'size-ball-active' : 'size-ball')} onClick={sizeHandler}>
-                  x2
+                  M
                 </div>
               </Col>
               <Col xs={1} className="p-0 mr-2">
                 <div id="2" name="l" className={'text-center mt-2 ' + (state.sizeSelected == 2 ? 'size-ball-active' : 'size-ball')} onClick={sizeHandler}>
-                  x3
+                  L
                 </div>
               </Col>
               <Col className="p-0"></Col>
@@ -131,8 +155,8 @@ const FormCard = (props) => {
               : props.name === 'Calendar' ? postItForm
                 : props.name === 'Map' ? postItForm
                   : props.name === 'Table' ? postItForm
-                    : props.name === 'Url' ? postItForm
-                      : props.name === 'Code' ? postItForm
+                    : props.name === 'Url' ? urlForm
+                      : props.name === 'Code' ? codeForm
                         : videoForm
         }
 
