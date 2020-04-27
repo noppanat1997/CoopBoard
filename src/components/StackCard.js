@@ -19,7 +19,11 @@ const StackCard = (props) => {
     props.onDropAreaFn({ isHolding: false, isDrop: true })
   }
   const onMouseMoveHandler = (e) => {
-    if (!state.onCard && e.screenY >= 268 && e.screenY <= 1068 && e.screenX <= 1710 && e.screenX >= 210) {
+    //Original
+    //if (!state.onCard && e.screenY >= 268 && e.screenY <= 1068 && e.screenX <= 1710 && e.screenX >= 210)
+    //SaltAtWork Only
+    //if (!state.onCard && e.screenY >= 268 && e.screenY <= 1068 && e.screenX <= 1100 && e.screenX >= 210)
+    if (!state.onCard && e.screenY >= 268 && e.screenY <= 1068 && e.screenX <= 1100 && e.screenX >= 210) {
       setState({ ...state, isHolding: false })
       props.onDropAreaFn({ isHolding: false, isDrop: false })
     }

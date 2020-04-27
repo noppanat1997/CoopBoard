@@ -4,20 +4,33 @@ import Draggable from 'react-draggable';
 import { connect } from 'react-redux';
 import '.././css/CardOnBoard.css';
 import YouTube from 'react-youtube'
+import { ReactTinyLink } from "react-tiny-link";
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Editor from 'react-simple-code-editor';
+import { highlight, languages } from 'prismjs/components/prism-core';
+import 'prismjs/components/prism-markup-templating.js';
+import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-c';
+import 'prismjs/components/prism-cpp';
+import 'prismjs/components/prism-java';
+import 'prismjs/components/prism-php';
+import 'prismjs/components/prism-arduino';
+import 'prismjs/components/prism-python';
+import 'prismjs/themes/prism-okaidia.css';
+//cpp,java,php,arduino,py
 
 class CardOnBoard extends Component {
   constructor(props) {
     super(props)
-    // console.log('cob:', this.props)
     this.state = {
       deltaPosition: {
         x: this.props.position.x,
         y: this.props.position.y
       },
       isHover: false,
-      onDelete: false
+      onDelete: false,
+      code : this.props.text
     };
 
     this.handleDrag = this.handleDrag.bind(this);
@@ -130,7 +143,47 @@ class CardOnBoard extends Component {
         />
       </Card>
     )
-
+    const urlCard = (
+      <Card
+        onMouseEnter={() => this.setState({ ...this.state, isHover: true })}
+        onMouseLeave={() => this.setState({ ...this.state, isHover: false })}
+        className={"default-card"
+        }
+      >
+        <strong><Card.Title className="drag-title"></Card.Title></strong>
+        {this.state.isHover == true ? hoverEvent : <div></div>}
+        <ReactTinyLink 
+          cardSize={this.props.size === 's' ? 'small' : this.props.size === 'm' ? 'medium' : 'large'}
+          showGraphic={true}
+          maxLine={2}
+          minLine={1}
+          url={this.props.text}
+        />
+      </Card>
+    )
+    const codeCard = (
+      <Card
+        onMouseEnter={() => this.setState({ ...this.state, isHover: true })}
+        onMouseLeave={() => this.setState({ ...this.state, isHover: false })}
+        className={"default-card"}
+      >
+        <strong><Card.Title className="drag-title"></Card.Title></strong>
+        {this.state.isHover == true ? hoverEvent : <div></div>}
+        <Editor
+        className="code-style"
+        value={this.state.code}
+        onValueChange={code => this.setState({ code })}
+        highlight={code => highlight(code, languages.python)}
+        padding={10}
+        /*style={{
+          color: "white",
+          //background: "black",
+          fontFamily: '"Consolas" ,"monaco" ,monospace',
+          fontSize: 30
+        }}*/
+      />
+      </Card>
+    )
     return (
       <Draggable
         handle="strong"
@@ -145,8 +198,8 @@ class CardOnBoard extends Component {
               : this.props.type === 'Calendar' ? postItCard
                 : this.props.type === 'Map' ? postItCard
                   : this.props.type === 'Table' ? postItCard
-                    : this.props.type === 'Url' ? postItCard
-                      : this.props.type === 'Code' ? postItCard
+                    : this.props.type === 'Url' ? urlCard
+                      : this.props.type === 'Code' ? codeCard
                         : videoCard
         }
       </Draggable>
