@@ -22,6 +22,7 @@ const BoardList = (props) => {
   // })
 
   useEffect(()=>{
+    props.updateLoaderFn(true);
     props.fetchBoardFn();
   },[])
 
@@ -88,6 +89,12 @@ const BoardList = (props) => {
   )
   return (
     <div>
+      {props.stateFromStore.isLoading ? 
+      <div className="coop-loader">
+        <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+      </div>
+      :<div></div>}
+
       <Header path="list" />
       <div className="ml-5 mr-5 p-5">
         <div className="mb-3 roboto" >Recent CoopBoards<hr /></div>
@@ -140,6 +147,9 @@ const mapDispatchToProps = dispatch => {
     },
     fetchBoardFn: () => {
       return dispatch(action.fetchBoard());
+    },
+    updateLoaderFn: (data) => {
+      return dispatch({ type: 'UPDATE_LOADER', payload: data })
     }
   }
 }

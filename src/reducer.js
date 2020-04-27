@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 const initialState = {
-  // isLoading: true,
+  isLoading: false,
   curPage: 1,
   penColor: "#9E005D",
   penSize: 10,
@@ -78,36 +78,51 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   const newState = { ...state };
   switch (action.type) {
-    //TODO
-    case "CHANGE_PAGE":
-      const { boardId: bId, curPage } = action.payload;
+    //REVIEW add page
+    case "ADD_PAGE": {
+      const { boardId, newLineData, newCardData } = action.payload;
       let newBoardData = [...state.boardData];
       let boardIndex;
       for (let i = 0; i < newBoardData.length; i++) {
-        if (newBoardData[i].id === bId) {
+        if (newBoardData[i].id === boardId) {
           boardIndex = i;
+          break;
         }
       }
-      let uuid = uuidv4();
-      if (curPage > state.lineData[boardIndex].data.length) {
-        newState.lineData[boardIndex].data.push({
-          // id: newState.lineData[boardIndex].data[newState.lineData[boardIndex].data.length - 1].id + 1,
-          id: uuid,
-          line: [],
-          color: [],
-          size: [],
-        });
-      }
-      if (curPage > state.cardData[boardIndex].data.length) {
-        newState.cardData[boardIndex].data.push({
-          // id: newState.cardData[boardIndex].data[newState.cardData[boardIndex].data.length - 1].id + 1,
-          id: uuid,
-          data: [],
-        });
-      }
-      newState.curPage = curPage;
+      newState.lineData[boardIndex].data.push(newLineData);
+      newState.cardData[boardIndex].data.push(newCardData);
+
       return newState;
-    // REVIEW update line
+    }
+    case "CHANGE_PAGE":
+      const newPage = action.payload;
+      // let newBoardData = [...state.boardData];
+      // let boardIndex;
+      // for (let i = 0; i < newBoardData.length; i++) {
+      //   if (newBoardData[i].id === bId) {
+      //     boardIndex = i;
+      //   }
+      // }
+      // let uuid = uuidv4();
+      // if (curPage > state.lineData[boardIndex].data.length) {
+      //   newState.lineData[boardIndex].data.push({
+      //     // id: newState.lineData[boardIndex].data[newState.lineData[boardIndex].data.length - 1].id + 1,
+      //     id: uuid,
+      //     line: [],
+      //     color: [],
+      //     size: [],
+      //   });
+      // }
+      // if (curPage > state.cardData[boardIndex].data.length) {
+      //   newState.cardData[boardIndex].data.push({
+      //     // id: newState.cardData[boardIndex].data[newState.cardData[boardIndex].data.length - 1].id + 1,
+      //     id: uuid,
+      //     data: [],
+      //   });
+      // }
+      newState.curPage = newPage;
+      return newState;
+    //  FIXME update line
     case "UPDATE_LINE":
       const { boardId, pageId, data: updatedLineData, mode } = action.payload;
       let newBoardIndex;
@@ -205,7 +220,7 @@ const reducer = (state = initialState, action) => {
         newState.toolbarOpen = false;
         return newState;
       }
-
+    //FIXME invite member
     case "INVITE_MEMBER":
       let { memberData, boardId: boardNum, color: c } = action.payload;
       if (newState.memberData[boardNum - 1].member.length < 5) {
@@ -216,7 +231,7 @@ const reducer = (state = initialState, action) => {
         newState.memberData[boardNum - 1].member.push(newMember);
       }
       return newState;
-
+    //FIXME kick member
     case "KICK_MEMBER":
       let { boardId: bI, memberId } = action.payload;
       newState.memberData[bI - 1].member.splice(memberId, 1);
@@ -260,7 +275,7 @@ const reducer = (state = initialState, action) => {
         },
       };
     }
-    // REVIEW add card
+    // FIXME add card
     case "ADD_CARD": {
       let { board, type, curPage, size, color, text } = action.payload;
       let newData = [...state.cardData];
@@ -297,7 +312,7 @@ const reducer = (state = initialState, action) => {
         cardData: newData,
       };
     }
-    // REVIEW update position
+    // FIXME update position
     case "UPDATE_POSITION": {
       let { board, curPage, id, position } = action.payload;
       let newData = [...state.cardData];
@@ -333,7 +348,7 @@ const reducer = (state = initialState, action) => {
       }
       return newState;
     }
-    // NOTE addboard
+    // REVIEW addboard
     case "ADD_BOARD": {
       let {
         boardData: newBoardData,
@@ -350,7 +365,7 @@ const reducer = (state = initialState, action) => {
         memberData: [...state.memberData, newMemberData],
       };
     }
-    // REVIEW b img
+    // FIXME b img
     case "CHANGE_BOARD_IMG": {
       let { board, img } = action.payload;
       let newBoardData = [...state.boardData];
@@ -391,7 +406,7 @@ const reducer = (state = initialState, action) => {
         recentBoardData: newRecentBoardData,
       };
     }
-    // REVIEW delete card
+    // FIXME delete card
     case "DELETE_CARD": {
       let { board, curPage, id } = action.payload;
       let newData = [...state.cardData];
@@ -444,7 +459,7 @@ const reducer = (state = initialState, action) => {
         cardData: newCardData,
       };
     }
-    // REVIEW clear frame
+    //REVIEW clear frame
     case "CLEAR_FRAME": {
       let { board, page } = action.payload;
       let newLineData = [...state.lineData];
@@ -459,6 +474,7 @@ const reducer = (state = initialState, action) => {
       newLineData[boardIndex].data[page - 1].line = [];
       newLineData[boardIndex].data[page - 1].color = [];
       newLineData[boardIndex].data[page - 1].size = [];
+
       newCardData[boardIndex].data[page - 1].data = [];
       return {
         ...state,
@@ -497,7 +513,6 @@ const reducer = (state = initialState, action) => {
       let newRecentBoardData = [...state.recentBoardData];
       let newLineData = [...state.lineData];
       let newCardData = [...state.cardData];
-      //FIXME
       let newMemberData = [...state.memberData];
 
       for (let i = 0; i < state.boardData.length; i++) {
@@ -524,16 +539,31 @@ const reducer = (state = initialState, action) => {
           break;
         }
       }
+      for (let i = 0; i < state.memberData.length; i++) {
+        if (state.memberData[i].id === board) {
+          newMemberData.splice(i, 1);
+          break;
+        }
+      }
 
       return {
         ...state,
         lineData: newLineData,
         cardData: newCardData,
         boardData: newBoardData,
+        memberData: newMemberData,
         recentBoardData: newRecentBoardData,
       };
     }
-    //TODO fetch board
+
+    case "UPDATE_LOADER": {
+      let newIsLoading = action.payload;
+      return {
+        ...state,
+        isLoading: newIsLoading,
+      };
+    }
+    //REVIEW fetch board
     case "FETCH_BOARD": {
       let {
         boardDataList: newBoardDataList,
@@ -548,7 +578,7 @@ const reducer = (state = initialState, action) => {
         cardData: newCardDataList,
         boardData: newBoardDataList,
         memberData: newMemberDataList,
-        // isLoading: false
+        isLoading: false,
       };
     }
     default:

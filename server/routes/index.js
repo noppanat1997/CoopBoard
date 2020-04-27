@@ -1,24 +1,19 @@
 import express, { Router } from 'express';
 import path from 'path';
-// import passport from 'passport';
 
-import test from './test';
 import controllers from '../controllers';
 
 const router = Router();
 
-router.use('/api/test', test)
-//NOTE
 router.post('/api/add-board', controllers.addBoard)
 router.get('/api/fetch-board', controllers.fetchBoard)
 router.delete('/api/delete-board/:boardId', controllers.deleteBoard)
-// router.use(
-//   '/static',
-//   // passport.authenticate('jwt', { session: false }),
-//   express.static(path.resolve(__dirname, '..', 'public'), {
-//     fallthrough: false
-//   })
-// );
+router.post('/api/add-page', controllers.addPage)
+router.delete('/api/delete-page/:boardId/:pageId', controllers.deletePage)
+router.post('/api/clear-page/:boardId/:pageId', controllers.clearPage)
+router.post('/api/change-board-name/:boardId', controllers.changeBoardName)
+router.post('/api/change-board-img/:boardId', controllers.changeBoardImg)
+
 
 router.use(express.static(path.resolve(__dirname, '..', 'dist')));
 
