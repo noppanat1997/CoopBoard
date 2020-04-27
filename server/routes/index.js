@@ -13,7 +13,8 @@ router.delete('/api/delete-page/:boardId/:pageId', controllers.deletePage)
 router.post('/api/clear-page/:boardId/:pageId', controllers.clearPage)
 router.post('/api/change-board-name/:boardId', controllers.changeBoardName)
 router.post('/api/change-board-img/:boardId', controllers.changeBoardImg)
-
+router.post('/api/add-user', controllers.addUser)
+router.post('/api/user-login', controllers.userLogin)
 
 router.use(express.static(path.resolve(__dirname, '..', 'dist')));
 

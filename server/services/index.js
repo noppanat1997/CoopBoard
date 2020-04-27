@@ -100,8 +100,6 @@ services.fetchBoard = async () => {
     cardDataList,
     memberDataList,
   };
-
-  // console.log(resData)
   return resData;
 };
 
@@ -281,4 +279,8 @@ services.changeBoardName = async (boardId, img) => {
 };
 
 
+services.addUser = async (firstname, lastname, email) => {
+  const user = await db.collection('user').add({ firstname, lastname, email });
+  return user;
+}
 export default services;

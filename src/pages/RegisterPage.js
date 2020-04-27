@@ -1,15 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from "react-router-dom";
 import '.././css/RegisterPage.css';
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col';
 import fire from '../components/Fire.js'
+import { connect } from 'react-redux';
+
+import * as action from '../actions';
 
 const RegisterPages = (props) => {
+  const { user, createUser } = props;
+  useEffect(() => {
+    if (user) {
+      setState({ currentUser: user })
+    }
+  }, [])
+
   let history = useHistory();
   const [state, setState] = useState({
 
+    currentUser:null,
     formElements: {
       firstname: {
         type: 'text',
@@ -158,21 +169,15 @@ const RegisterPages = (props) => {
   }
   const onFromSubmit = (event) => {
     event.preventDefault();
-    const formData = {};
-    for (let name in state.formElements) {
-      formData[name] = state.formElements[name].value;
-    }
-    fire.auth().createUserWithEmailAndPassword(state.formElements.email.value, state.formElements.password.value).then((u) => {
-    }).then((u) => {
-      console.log(u);
-      setTimeout(function () { alert("SIGN UP Successful!") }, 100);
-      history.push('/login')
-    })
-      .catch((error) => {
-        alert(error.message);
-        console.log(error);
-      })
+    const username = state.formElements.email.value;
+    const password = state.formElements.password.value;
+    const firstname = state.formElements.firstname.value;
+    const lastname = state.formElements.lastname.value;
+    const email = state.formElements.email.value;
+    
+    createUser(username, password, firstname, lastname, email);
   }
+  
 
   return (
     <div className="bg">
@@ -265,4 +270,13 @@ const RegisterPages = (props) => {
   );
 }
 
-export default RegisterPages;
+const mapStateToProps = state => ({
+  stateFromStore: state,
+  user: state.user
+});
+
+const mapDispatchToProps = dispatch => ({
+  createUser: (username, password, firstname, lastname, email) => dispatch(action.addUser(username, password, firstname, lastname, email))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterPages);

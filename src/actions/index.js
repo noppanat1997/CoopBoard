@@ -1,4 +1,5 @@
-import axios from "axios";
+import axios from 'axios';
+import history from '../history';
 
 const headers = {
   "Content-Type": "application/json",
@@ -29,8 +30,8 @@ export const deleteBoard = (boardId) => async (dispatch) => {
     await axios.delete(`http://localhost:8080/api/delete-board/${boardId}`);
 
     return dispatch({
-      type: "DELETE_BOARD",
-      payload: { board: boardId },
+      type: 'DELETE_BOARD',
+      payload: { board: boardId }
     });
   } catch (err) {
     console.log(err);
@@ -142,3 +143,32 @@ export const changeBoardImg = (data) => async (dispatch) => {
   }
 };
 
+
+export const addUser = (username, password, firstname, lastname, email) => async dispatch => {
+  try {
+    await axios.post(`http://localhost:8080/api/add-user`, { username, password, firstname, lastname, email })
+
+    history.push('/login')
+    // return dispatch({
+    //   type: 'ADD_USER',
+    //   payload: user
+    // })
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const userLogin = (username, password) => async dispatch => {
+  try {
+
+    console.log(username, password);
+    const response = await axios.post(`http://localhost:8080/api/user-login`, { username, password })
+    const user = response?.data?.user || {};
+    return dispatch({
+      type: 'USER_LOGIN',
+      payload: user
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}

@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 const initialState = {
   isLoading: false,
+  user: null,
   curPage: 1,
   penColor: "#9E005D",
   penSize: 10,
@@ -580,6 +581,13 @@ const reducer = (state = initialState, action) => {
         memberData: newMemberDataList,
         isLoading: false,
       };
+    }
+    case 'USER_LOGIN': {
+      const currentUser = action.payload;
+      return {
+        ...state,
+        user: currentUser
+      }
     }
     default:
       break;

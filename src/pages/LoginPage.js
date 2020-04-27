@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from "react-router-dom";
 import '.././css/LoginPage.css';
 import Card from 'react-bootstrap/Card'
@@ -7,7 +7,11 @@ import fire from '../components/Fire.js'
 
 import Logo from '.././images/logo.svg';
 
+import * as action from '../actions';
+import { connect } from 'react-redux';
+
 const LoginPage = (props) => {
+  const { user, userLogin } = props;
 
   let history = useHistory();
   const [state, setState] = useState({
@@ -44,6 +48,7 @@ const LoginPage = (props) => {
       formValid: false
     }
   })
+
 
   const checkValidator = (value, rule, name) => {
     let valid = true;
@@ -110,27 +115,27 @@ const LoginPage = (props) => {
 
   const onFromSubmit = (event) => {
     event.preventDefault();
-    const formData = {};
 
-    for (let name in state.formElements) {
-      formData[name] = state.formElements[name].value;
-    }
-    console.log(formData);
+    const username = state.formElements.email.value;
+    const password = state.formElements.password.value;
 
-    fire.auth().signInWithEmailAndPassword(state.formElements.email.value, state.formElements.password.value).then((u) => {
-      //setTimeout(function () { alert("Welcome " + formData.email) }, 100);
-      history.push('/list');
-    })
-      .catch((error) => {
-        alert("The e-mail address or password you entered was incorrect. Please retry...!");
-        console.log(error);
-      });
+    userLogin(username, password);
+    // console.log(user)
+    
   }
 
-  if (state.currentUser) {
+  
+
+  const logout = () => {
+    fire.auth().signOut();
+  }
+
+  if (user) {
+    // console.log('user?', state.currentUser)
     return (
       <div>
-        history.push('/list')
+        <p>Hello</p>
+        <button onClick={logout}>Logout</button>
       </div>
     )
   }
@@ -200,4 +205,14 @@ const LoginPage = (props) => {
 
 }
 
-export default LoginPage;
+const mapStateToProps = state => ({
+  stateFromStore: state,
+  user: state.user,
+  currentUser: state.user,
+});
+
+const mapDispatchToProps = dispatch => ({
+  userLogin: (username, password) => dispatch(action.userLogin(username, password))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
