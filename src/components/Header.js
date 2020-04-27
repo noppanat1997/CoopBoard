@@ -15,7 +15,6 @@ import * as action from "../actions";
 class Header extends Component {
   constructor(props) {
     super(props);
-    this.togglePresent = this.togglePresent.bind(this);
     let boardIndex;
     for (let i = 0; i < this.props.stateFromStore.boardData.length; i++) {
       if (this.props.stateFromStore.boardData[i].id === this.props.board) {
@@ -36,14 +35,12 @@ class Header extends Component {
     this.onInputChange = this.onInputChange.bind(this);
     this.onInviteSubmit = this.onInviteSubmit.bind(this);
     this.pageChangeHandler = this.pageChangeHandler.bind(this);
-    this.togglePresent = this.togglePresent.bind(this);
     this.randomBackground = this.randomBackground.bind(this);
     this.onKick = this.onKick.bind(this);
     this.renderMember = this.renderMember.bind(this);
     this.screenShot = this.screenShot.bind(this);
     this.deleteFrameHandler = this.deleteFrameHandler.bind(this);
     this.clearFrameHandler = this.clearFrameHandler.bind(this);
-    this.testCallAction = this.testCallAction.bind(this);
     this.logout = this.logout.bind(this);
   }
   onInputChange(event) {
@@ -60,11 +57,25 @@ class Header extends Component {
     };
     this.props.inviteMember(payloadData);
   }
-  //NOTE change page
-  pageChangeHandler(newPage) {
+  //REVIEW change page
+  async pageChangeHandler(newPage) {
     if (newPage < 1) newPage = 1;
-    const newData = { boardId: this.props.board, curPage: newPage };
-    this.props.setNewPage(newData);
+    let boardIndex;
+    for (let i = 0; i < this.props.stateFromStore.boardData.length; i++) {
+      if (this.props.stateFromStore.boardData[i].id === this.props.board) {
+        boardIndex = i;
+        break;
+      }
+    }
+    // console.log(newPage,this.props.stateFromStore.lineData[boardIndex].data.length)
+    if (
+      newPage > this.props.stateFromStore.lineData[boardIndex].data.length &&
+      newPage > this.props.stateFromStore.cardData[boardIndex].data.length
+    ) {
+      // console.log('try to call add page fn')
+      await this.props.addPageFn(this.props.board);
+    }
+    this.props.changePageFn(newPage);
     history.push(
       "/list/" +
         this.props.board +
@@ -73,10 +84,6 @@ class Header extends Component {
           newPage - 1
         ].id
     );
-  }
-  togglePresent(e) {
-    const payloadData = { present: 1 };
-    this.props.changePresent(payloadData);
   }
   randomBackground() {
     var r = Math.floor(Math.random() * 4);
@@ -142,8 +149,9 @@ class Header extends Component {
         "userBackground-" + this.props.stateFromStore.userData.Color;
     }
   }
-  screenShot() {
-    html2canvas(document.body).then((canvas) => {
+  async screenShot() {
+    let base64image
+    await html2canvas(document.body).then((canvas) => {
       let croppedCanvas = document.createElement("canvas");
       let croppedCanvasContext = croppedCanvas.getContext("2d");
 
@@ -162,21 +170,21 @@ class Header extends Component {
         800
       );
 
-      let base64image = croppedCanvas.toDataURL("image/png");
-      this.props.changeBoardImgFn({
-        board: this.props.board,
-        img: base64image,
-      });
+      base64image = croppedCanvas.toDataURL("image/png");
+      //FIXME change b img
+    });
+    await this.props.changeBoardImgFn({
+      boardId: this.props.board,
+      img: base64image,
+    });
 
-      this.props.addRecentBoardDataFn({
-        board: this.props.board,
-      });
+    this.props.addRecentBoardDataFn({
+      board: this.props.board,
     });
   }
   // REVIEW delete p
   deleteFrameHandler() {
     let boardIndex;
-    console.log(this.props)
     for (let i = 0; i < this.props.stateFromStore.boardData.length; i++) {
       if (this.props.stateFromStore.boardData[i].id === this.props.board) {
         boardIndex = i;
@@ -185,20 +193,19 @@ class Header extends Component {
     }
     let pageLength = this.props.stateFromStore.cardData[boardIndex].data.length;
     if (this.props.stateFromStore.curPage === pageLength && pageLength > 1) {
-      
-      this.pageChangeHandler(this.props.stateFromStore.curPage - 1);
+      let newPage = this.props.stateFromStore.curPage - 1;
+      this.pageChangeHandler(newPage);
       history.push(
         "/list/" +
           this.props.board +
           "/" +
-          this.props.stateFromStore.cardData[boardIndex].data[
-            this.props.stateFromStore.curPage - 1
-          ].id
+          this.props.stateFromStore.cardData[boardIndex].data[newPage - 1].id
       );
     }
     if (pageLength > 1) {
       this.props.deletePageFn({
-        board: this.props.board,
+        boardId: this.props.board,
+        pageId: this.props.page,
         page: this.props.stateFromStore.curPage,
       });
     } else {
@@ -208,14 +215,10 @@ class Header extends Component {
   //REVIEW clear frame
   clearFrameHandler() {
     this.props.clearFrameFn({
-      board: this.props.board,
+      boardId: this.props.board,
+      pageId: this.props.page,
       page: this.props.stateFromStore.curPage,
     });
-  }
-
-  testCallAction(message) {
-    console.log(`>> ${message}`);
-    this.props.callAction(message);
   }
 
   logout() {
@@ -233,6 +236,7 @@ class Header extends Component {
           style={{ "max-width": "100%", width: "100%" }}
         >
           <Row className="justify-content-center m-0 w-100">
+            {/* // REVIEW board name render */}
             <Col xs={4} style={{ fontSize: "35px" }}>
               {this.props.path != "list" ? (
                 <input
@@ -242,8 +246,8 @@ class Header extends Component {
                   maxlength="24"
                   onBlur={() => {
                     this.props.changeBoardNameFn({
-                      board: this.props.board,
-                      name: this.state.boardName,
+                      boardId: this.props.board,
+                      boardName: this.state.boardName,
                     });
                   }}
                   onChange={(e) =>
@@ -252,6 +256,7 @@ class Header extends Component {
                       boardName: e.target.value,
                     })
                   }
+                  
                   value={this.state.boardName}
                 ></input>
               ) : (
@@ -266,7 +271,6 @@ class Header extends Component {
                   height="60"
                   alt="CoopBoard"
                   onClick={() => {
-                    this.testCallAction("hello");
                     if (this.props.path != "list") {
                       this.screenShot();
                       this.pageChangeHandler(0);
@@ -338,7 +342,7 @@ class Header extends Component {
                 >
                   &#60;
                 </button>
-                {/* TODO page number render*/}
+                {/*NOTE page number render*/}
                 <div
                   className="text-center mt-1 mb-1 border-right border-left btn-sm"
                   style={{ width: "70px", fontSize: "16px" }}
@@ -394,19 +398,6 @@ class Header extends Component {
                     </button>
                   </PopoverBody>
                 </UncontrolledPopover>
-                <button
-                  className={
-                    "mt-1 ml-1 " +
-                    (this.props.stateFromStore.isPresent
-                      ? "btn-danger"
-                      : "btn-primary")
-                  }
-                  onClick={this.togglePresent}
-                >
-                  {this.props.stateFromStore.isPresent
-                    ? "Stop Presentation"
-                    : "Start Presentation"}
-                </button>
               </Col>
             </Row>
           ) : (
@@ -425,29 +416,33 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    changePresent: (newPresent) => {
-      return dispatch({ type: "CHANGE_PRESENT", payload: newPresent });
+    changePageFn: (data) => {
+      return dispatch({ type: "CHANGE_PAGE", payload: data });
     },
-    setNewPage: (newId) => {
-      return dispatch({ type: "CHANGE_PAGE", payload: newId });
+    addPageFn: (data) => {
+      return dispatch(action.addPage(data));
     },
     inviteMember: (newMember) => {
       return dispatch({ type: "INVITE_MEMBER", payload: newMember });
     },
+    //FIXME map dispatch img board
     changeBoardImgFn: (data) => {
-      return dispatch({ type: "CHANGE_BOARD_IMG", payload: data });
+      return dispatch(action.changeBoardImg(data));
     },
     addRecentBoardDataFn: (data) => {
       return dispatch({ type: "ADD_RECENT_BOARD", payload: data });
     },
+    //REVIEW map dispatch del page
     deletePageFn: (data) => {
-      return dispatch({ type: "DELETE_PAGE", payload: data });
+      return dispatch(action.deletePage(data));
     },
+    //REVIEW map dispatch clear frame
     clearFrameFn: (data) => {
-      return dispatch({ type: "CLEAR_FRAME", payload: data });
+      return dispatch(action.clearFrame(data));
     },
+    //REVIEW map dispatch clear frame
     changeBoardNameFn: (data) => {
-      return dispatch({ type: "CHANGE_BOARD_NAME", payload: data });
+      return dispatch(action.changeBoardName(data));
     },
     updateUserColor: (newColor) => {
       return dispatch({ type: "CHANGE_USER_COLOR", payload: newColor });
@@ -456,8 +451,6 @@ const mapDispatchToProps = (dispatch) => {
       return dispatch({ type: "KICK_MEMBER", payload: newMember });
     },
 
-    //  test api
-    callAction: (message) => dispatch(action.testAction(message)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
