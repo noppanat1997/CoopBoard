@@ -171,7 +171,7 @@ class Header extends Component {
       );
 
       base64image = croppedCanvas.toDataURL("image/png");
-      //FIXME change b img
+      //REVIEW change b img
     });
     await this.props.changeBoardImgFn({
       boardId: this.props.board,
@@ -425,7 +425,7 @@ const mapDispatchToProps = (dispatch) => {
     inviteMember: (newMember) => {
       return dispatch({ type: "INVITE_MEMBER", payload: newMember });
     },
-    //FIXME map dispatch img board
+    //REVIEW map dispatch img board
     changeBoardImgFn: (data) => {
       return dispatch(action.changeBoardImg(data));
     },

@@ -161,8 +161,9 @@ export const addUser = (username, password, firstname, lastname, email) => async
 export const userLogin = (username, password) => async dispatch => {
   try {
 
-    console.log(username, password);
+    // console.log(username, password);
     const response = await axios.post(`http://localhost:8080/api/user-login`, { username, password })
+    console.log('login')
     const user = response?.data?.user || {};
     return dispatch({
       type: 'USER_LOGIN',

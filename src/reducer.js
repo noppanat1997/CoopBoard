@@ -97,30 +97,6 @@ const reducer = (state = initialState, action) => {
     }
     case "CHANGE_PAGE":
       const newPage = action.payload;
-      // let newBoardData = [...state.boardData];
-      // let boardIndex;
-      // for (let i = 0; i < newBoardData.length; i++) {
-      //   if (newBoardData[i].id === bId) {
-      //     boardIndex = i;
-      //   }
-      // }
-      // let uuid = uuidv4();
-      // if (curPage > state.lineData[boardIndex].data.length) {
-      //   newState.lineData[boardIndex].data.push({
-      //     // id: newState.lineData[boardIndex].data[newState.lineData[boardIndex].data.length - 1].id + 1,
-      //     id: uuid,
-      //     line: [],
-      //     color: [],
-      //     size: [],
-      //   });
-      // }
-      // if (curPage > state.cardData[boardIndex].data.length) {
-      //   newState.cardData[boardIndex].data.push({
-      //     // id: newState.cardData[boardIndex].data[newState.cardData[boardIndex].data.length - 1].id + 1,
-      //     id: uuid,
-      //     data: [],
-      //   });
-      // }
       newState.curPage = newPage;
       return newState;
     //  FIXME update line
@@ -366,7 +342,7 @@ const reducer = (state = initialState, action) => {
         memberData: [...state.memberData, newMemberData],
       };
     }
-    // FIXME b img
+    // REVIEW b img
     case "CHANGE_BOARD_IMG": {
       let { board, img } = action.payload;
       let newBoardData = [...state.boardData];
