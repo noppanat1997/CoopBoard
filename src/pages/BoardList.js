@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import Card from 'react-bootstrap/Card'
 import '.././css/BoardList.css';
 import { connect } from 'react-redux';
@@ -9,12 +9,22 @@ import Popover from 'react-bootstrap/Popover'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 //NOTE import
 import * as action from '.././actions';
+import * as hooks from '.././hooks';
 
 const BoardList = (props) => {
   let history = useHistory();
   const [state, setState] = useState({
-    curBoard: 0
+    curBoard: ''
   });
+
+  // hooks.useBeforeFirstRender(() => {
+  //   props.fetchBoardFn();
+  // })
+
+  useEffect(()=>{
+    props.updateLoaderFn(true);
+    props.fetchBoardFn();
+  },[])
 
   const selectHandler = (id,index) => {
     history.push('/list/' + id + '/' + 
@@ -29,7 +39,7 @@ const BoardList = (props) => {
         className="button-pop pt-1 pl-2"
         onClick={() => {
           console.log(state.curBoard)
-          props.deleteBoardFn({ board: state.curBoard })
+          props.deleteBoardFn(state.curBoard)
         }}
       ><FaTrash /> Remove</div>
     </Popover>
@@ -79,6 +89,12 @@ const BoardList = (props) => {
   )
   return (
     <div>
+      {props.stateFromStore.isLoading ? 
+      <div className="coop-loader">
+        <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+      </div>
+      :<div></div>}
+
       <Header path="list" />
       <div className="ml-5 mr-5 p-5">
         <div className="mb-3 roboto" >Recent CoopBoards<hr /></div>
@@ -97,7 +113,6 @@ const BoardList = (props) => {
                 style={{ fontSize: "60px", userSelect: "none" }}
                 onClick={() => {
                   props.addBoardFn();
-                  // history.push('/list/' + (props.stateFromStore.boardData[props.stateFromStore.boardData.length - 1].id+1) + '/1');
                 }}
               >
                 +
@@ -128,7 +143,13 @@ const mapDispatchToProps = dispatch => {
       return dispatch(action.addBoard());
     },
     deleteBoardFn: (data) => {
-      return dispatch({ type: 'DELETE_BOARD', payload: data })
+      return dispatch(action.deleteBoard(data))
+    },
+    fetchBoardFn: () => {
+      return dispatch(action.fetchBoard());
+    },
+    updateLoaderFn: (data) => {
+      return dispatch({ type: 'UPDATE_LOADER', payload: data })
     }
   }
 }

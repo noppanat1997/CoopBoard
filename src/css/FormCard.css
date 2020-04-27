@@ -99,7 +99,11 @@ textarea {
 .text-area-bg{
   padding: 10px;
 }
-
+.text-area-code{
+  padding: 10px;
+  background-color: black;
+  color: white
+}
 .size-ball {
   width: 4vh;
   height: 3vh;

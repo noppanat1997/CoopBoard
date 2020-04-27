@@ -15,7 +15,9 @@ const FormCard = (props) => {
     color: 'yellow',
     ballSelected: 0,
     size: 'm',
-    sizeSelected: 1
+    sizeSelected: 1,
+    language: 0,
+    languageName : ''
   });
   const cancelHendler = () => {
     props.onDropAreaFn({ isHolding: false, isDrop: false })
@@ -34,10 +36,35 @@ const FormCard = (props) => {
     if (text.length !== 0) {
       if (props.name === 'Video') {
         text = extractVideoID(text)
+        props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: text })
       }
-      props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: text })
+      else if (props.name === "Url"){
+        let regexp =  /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
+        if (regexp.test(text)){
+          props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: text })
+        }
+        else{
+          cancelHendler();
+        }
+      }
+      else{
+        props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: text })
+      }
     }
     setState({ ...state, textAreaCount: 0, text: '' })
+  }
+  const languageHandler = (e) => {
+    let id = e.target.id
+    //console.log(id)
+    switch (id) {
+      case "cpp" : state.languageName = "C++"; state.language = 1; break
+      case "java" : state.languageName = "Java"; state.language = 2; break
+      case "php" : state.languageName = "PHP"; state.language = 3; break
+      case "arduino" : state.languageName = "Arduino"; state.language = 4; break
+      case "python" : state.languageName = "Python"; state.language = 5; break
+      default : state.languageName = ""; state.language = 0; break
+    }
+    console.log(state.languageName)
   }
   const extractVideoID = (url) => {
     let regExp = /[^(?:https?:/{2})?(?:w{3}.)?youtu(?:be)?.(?:com|be)(?:/watch?v=|/)]([^\s&]+)/;
@@ -81,6 +108,30 @@ const FormCard = (props) => {
       </Form.Group>
     </Card.Body>
   )
+  const urlForm = (
+    <Card.Body className="text-area-bg bg-light">
+      <Form.Group className="mb-0" controlId="exampleForm.ControlTextarea1">
+        <Form.Control
+          placeholder="Paste the URL link..."
+          className="text-box my-card-form-control"
+          as="textarea"
+          rows="3"
+          onChange={(e) => setState({ ...state, textAreaCount: e.target.value.length, text: e.target.value })} />
+      </Form.Group>
+    </Card.Body>
+  )
+  const codeForm = (
+    <Card.Body className='text-area-bg bg-light'>
+      <Form.Group className="mb-0" controlId="exampleForm.ControlTextarea1">
+        <Form.Control
+          placeholder="Paste the code here..."
+          className="text-box my-card-form-control"
+          as="textarea"
+          rows="3"
+          onChange={(e) => setState({ ...state, textAreaCount: e.target.value.length, text: e.target.value })} />
+      </Form.Group>
+    </Card.Body>
+  )
   return (
     <div>
       <Card className="postit-form">
@@ -91,17 +142,17 @@ const FormCard = (props) => {
               <Col className="p-0"></Col>
               <Col xs={1} className="p-0 mr-2">
                 <div id="0" name="s" className={'text-center mt-2 ' + (state.sizeSelected == 0 ? 'size-ball-active' : 'size-ball')} onClick={sizeHandler}>
-                  x1
+                  S
                 </div>
               </Col>
               <Col xs={1} className="p-0 mr-2">
                 <div id="1" name="m" className={'text-center mt-2 ' + (state.sizeSelected == 1 ? 'size-ball-active' : 'size-ball')} onClick={sizeHandler}>
-                  x2
+                  M
                 </div>
               </Col>
               <Col xs={1} className="p-0 mr-2">
                 <div id="2" name="l" className={'text-center mt-2 ' + (state.sizeSelected == 2 ? 'size-ball-active' : 'size-ball')} onClick={sizeHandler}>
-                  x3
+                  L
                 </div>
               </Col>
               <Col className="p-0"></Col>
@@ -119,7 +170,20 @@ const FormCard = (props) => {
                     </Col>
                     <Col xs={1} className="p-0 mr-2">
                       <div id="3" name="none" className={'ball ' + (state.ballSelected == 3 ? 'none-active' : 'none')} onClick={colorHandler} />
-                    </Col></> : <Col xs={4} />
+                    </Col></> : props.name === 'Code' ? 
+                      <div class="btn-group dropup">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          {"Language : " + state.languageName}
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                          <button id="cpp" class="dropdown-item" type="button" onClick={languageHandler}>C++</button>
+                          <button id="java" class="dropdown-item" type="button" onClick={languageHandler}>Java</button>
+                          <button id="php" class="dropdown-item" type="button" onClick={languageHandler}>PHP</button>
+                          <button id="arduino" class="dropdown-item" type="button" onClick={languageHandler}>Arduino</button>
+                          <button id="python" class="dropdown-item" type="button" onClick={languageHandler}>Python</button>
+                        </div>
+                      </div> 
+                      : <Col xs={4}/>
               }
 
             </Row>
@@ -131,8 +195,8 @@ const FormCard = (props) => {
               : props.name === 'Calendar' ? postItForm
                 : props.name === 'Map' ? postItForm
                   : props.name === 'Table' ? postItForm
-                    : props.name === 'Url' ? postItForm
-                      : props.name === 'Code' ? postItForm
+                    : props.name === 'Url' ? urlForm
+                      : props.name === 'Code' ? codeForm
                         : videoForm
         }
 
