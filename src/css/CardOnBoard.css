@@ -128,3 +128,9 @@
   color: white;
   font-size: 30px;
 }
+
+.code-style pre{
+  font-family: 'Consolas', 'monaco', 'monospace';
+  color: white !important;
+  font-size: 30px;
+}

@@ -178,10 +178,10 @@ const FormCard = (props) => {
                     <Col xs={1} className="p-0 mr-2">
                       <div id="3" name="none" className={'ball ' + (state.ballSelected == 3 ? 'none-active' : 'none')} onClick={colorHandler} />
                     </Col></> : props.name === 'Code' ? 
-                      <div class="form-group">
-                      <label for="sel1">Select language:</label>
-                      <select class="form-control" id="lang-list" onChange={languageHandler}>
-                        <option value=""> -- Select Language -- </option>
+                    <Col xs={4} className="px-0" style={{height:'40px'}}>
+                    <div class="form-group">
+                      <select class="form-control px-1" id="lang-list" onChange={languageHandler}>
+                        <option value="">Select Language</option>
                         <option value="cpp">C++</option>
                         <option value="java">Java</option>
                         <option value="php">PHP</option>
@@ -189,6 +189,8 @@ const FormCard = (props) => {
                         <option value="python">Python</option>
                       </select>
                       </div>
+                    </Col>
+                      
                       : <Col xs={4}/>
               }
 
