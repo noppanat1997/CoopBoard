@@ -17,7 +17,7 @@ import 'prismjs/components/prism-java';
 import 'prismjs/components/prism-php';
 import 'prismjs/components/prism-arduino';
 import 'prismjs/components/prism-python';
-import 'prismjs/themes/prism-okaidia.css';
+import '.././css/prism.css';
 //cpp,java,php,arduino,py
 
 class CardOnBoard extends Component {
@@ -30,7 +30,8 @@ class CardOnBoard extends Component {
       },
       isHover: false,
       onDelete: false,
-      code : this.props.text
+      code : this.props.text,
+      language : this.props.language
     };
 
     this.handleDrag = this.handleDrag.bind(this);
@@ -38,7 +39,6 @@ class CardOnBoard extends Component {
     this.handleStop = this.handleStop.bind(this);
     this.onDelete = this.onDelete.bind(this);
   }
-
   videoOnReady(event) {
     event.target.pauseVideo()
   }
@@ -173,7 +173,11 @@ class CardOnBoard extends Component {
         className="code-style"
         value={this.state.code}
         onValueChange={code => this.setState({ code })}
-        highlight={code => highlight(code, languages.python)}
+        highlight={this.state.language === 1 ? code => highlight(code, languages.cpp) 
+                  : this.state.language === 2 ? code => highlight(code, languages.java)
+                  : this.state.language === 3 ? code => highlight(code, languages.php)
+                  : this.state.language === 4 ? code => highlight(code, languages.arduino)
+                  : code => highlight(code, languages.python)}
         padding={10}
         /*style={{
           color: "white",

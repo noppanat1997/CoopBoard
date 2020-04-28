@@ -46,6 +46,7 @@ const CardField = (props) => {
           text={item.text}
           position={newPosition}
           isNew={item.isNew}
+          language={item.language}
         />
       );
       

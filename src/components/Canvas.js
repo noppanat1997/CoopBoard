@@ -163,10 +163,9 @@ class Canvas extends Component {
       const sendData = {
         boardId: this.props.board,
         pageId: this.props.stateFromStore.curPage - 1,
-        data: this.state.arrIndex,
-        mode: 2,
+        data: this.state.arrIndex
       };
-      this.props.updateLine(sendData);
+      this.props.deleteLine(sendData);
       this.state.arrIndex = [];
       this.redraw();
     } else if (this.state.isMarking) {
@@ -250,11 +249,10 @@ class Canvas extends Component {
     const dataLine = {
       boardId: this.props.board,
       pageId: this.props.stateFromStore.curPage - 1,
-      data: this.state.line,
-      mode: 1,
+      data: this.state.line
     };
     console.log(dataLine);
-    this.props.updateLine(dataLine);
+    this.props.addLine(dataLine);
     this.state.line = [];
   }
 //FIXME didMount
@@ -270,6 +268,7 @@ class Canvas extends Component {
     for (let i = 0; i < this.props.stateFromStore.boardData.length; i++) {
       if (this.props.stateFromStore.boardData[i].id === this.props.board) {
         boardIndex = i;
+        console.log(boardIndex)
       }
     }
     this.setState({
@@ -357,8 +356,11 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateLine: (updateLine) => {
-      return dispatch({ type: "UPDATE_LINE", payload: updateLine });
+    addLine: (updateLine) => {
+      return dispatch({ type: "ADD_LINE", payload: updateLine });
+    },
+    deleteLine: (updateLine) => {
+      return dispatch({ type: "DELETE_LINE", payload: updateLine });
     },
     panelCheck: (check) => {
       return dispatch({ type: "CHECK_PANEL", payload: check });
