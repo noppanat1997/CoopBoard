@@ -104,7 +104,6 @@ const reducer = (state = initialState, action) => {
           break
         }
       }
-      console.log("Board : " + newBoardIndex)
       newState.lineData[newBoardIndex].data[state.curPage - 1].line.push(
         updatedLineData
       );
@@ -117,7 +116,7 @@ const reducer = (state = initialState, action) => {
       return newState;
 
     case "DELETE_LINE":
-      let { boardId_2, pageId_2, data: deletedLineData } = action.payload;
+      let { boardId : boardId_2, pageId : pageId_2, data: deletedLineData } = action.payload;
       let newBoardIndex_2;
       for (let i = 0; i < state.lineData.length; i++) {
         if (state.lineData[i].id === boardId_2) {
@@ -127,15 +126,15 @@ const reducer = (state = initialState, action) => {
       }
       for (var i = deletedLineData.length; i > 0; i--) {
         const t = deletedLineData.pop();
-        newState.lineData[newBoardIndex].data[state.curPage - 1].line.splice(
+        newState.lineData[newBoardIndex_2].data[state.curPage - 1].line.splice(
           t,
           1
         );
-        newState.lineData[newBoardIndex].data[state.curPage - 1].color.splice(
+        newState.lineData[newBoardIndex_2].data[state.curPage - 1].color.splice(
           t,
           1
         );
-        newState.lineData[newBoardIndex].data[state.curPage - 1].size.splice(
+        newState.lineData[newBoardIndex_2].data[state.curPage - 1].size.splice(
           t,
           1
         );
