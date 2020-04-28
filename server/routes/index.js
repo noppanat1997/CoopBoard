@@ -15,6 +15,8 @@ router.post('/api/change-board-name/:boardId', controllers.changeBoardName)
 router.post('/api/change-board-img/:boardId', controllers.changeBoardImg)
 router.post('/api/add-user', controllers.addUser)
 router.post('/api/user-login', controllers.userLogin)
+router.get('/api/check-login', controllers.checkLogin)
+router.post('/api/user-logout', controllers.userLogout)
 
 router.use(express.static(path.resolve(__dirname, '..', 'dist')));
 

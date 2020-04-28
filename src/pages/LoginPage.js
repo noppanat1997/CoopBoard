@@ -131,9 +131,16 @@ const LoginPage = (props) => {
     fire.auth().signOut();
   };
 
-  if (user) {
-    history.push('/list');
-  }
+  useEffect(()=>{
+    props.checkLogin();;
+  },[])
+
+  useEffect(()=>{
+    if (user) {
+      history.push("/list");
+    }
+  },[user])
+  
   return (
     <div className="background">
       <Card
@@ -220,12 +227,16 @@ const LoginPage = (props) => {
 
 const mapStateToProps = (state) => ({
   stateFromStore: state,
-  user: state.user
+  user: state.user,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   userLogin: (username, password) =>
     dispatch(action.userLogin(username, password)),
+  checkLogin: () => dispatch(action.checkLogin()),
+  updateLoaderFn: (data) => {
+    return dispatch({ type: 'UPDATE_LOADER', payload: data })
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

@@ -8,9 +8,9 @@ const headers = {
 axios.defaults.headers.common["Content-Type"] = "application/json";
 
 
-export const addBoard = () => async (dispatch) => {
+export const addBoard = (userEmail) => async (dispatch) => {
   try {
-    const res = await axios.post(`http://localhost:8080/api/add-board`);
+    const res = await axios.post(`http://localhost:8080/api/add-board`, {userEmail});
     // console.log(res.data)
     if (!res.data) {
       const err = new Error("no `data` property on response object");
@@ -149,10 +149,6 @@ export const addUser = (username, password, firstname, lastname, email) => async
     await axios.post(`http://localhost:8080/api/add-user`, { username, password, firstname, lastname, email })
 
     history.push('/login')
-    // return dispatch({
-    //   type: 'ADD_USER',
-    //   payload: user
-    // })
   } catch (error) {
     console.log(error);
   }
@@ -160,16 +156,41 @@ export const addUser = (username, password, firstname, lastname, email) => async
 
 export const userLogin = (username, password) => async dispatch => {
   try {
-
-    // console.log(username, password);
-    const response = await axios.post(`http://localhost:8080/api/user-login`, { username, password })
-    console.log('login')
-    const user = response?.data?.user || {};
+    const res = await axios.post(`http://localhost:8080/api/user-login`, { username, password })
+    console.log(res.data)
+    const user = res?.data || null;
     return dispatch({
       type: 'USER_LOGIN',
       payload: user
     })
   } catch (error) {
     console.log(error)
+
+  }
+}
+
+export const checkLogin = () => async dispatch => {
+  try {
+    const res = await axios.get(`http://localhost:8080/api/check-login`)
+    const user = res?.data || null;
+    return dispatch({
+      type: 'USER_LOGIN',
+      payload: user
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const userLogout = () => async dispatch => {
+  try {
+    const res = await axios.post(`http://localhost:8080/api/user-logout`)
+    return dispatch({
+      type: 'USER_LOGIN',
+      payload: res.data
+    })
+  } catch (error) {
+    console.log(error)
+    
   }
 }

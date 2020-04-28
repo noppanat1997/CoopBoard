@@ -9,22 +9,35 @@ import Popover from 'react-bootstrap/Popover'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 //NOTE import
 import * as action from '.././actions';
-import * as hooks from '.././hooks';
 
 const BoardList = (props) => {
+  
+
   let history = useHistory();
   const [state, setState] = useState({
     curBoard: ''
   });
-
-  // hooks.useBeforeFirstRender(() => {
-  //   props.fetchBoardFn();
-  // })
+  const fetchData = async () => {
+    try {
+      await props.fetchBoardFn();
+    } catch (error) {
+      throw error;
+    }
+  };
+  useEffect(()=>{
+    //REVIEW loader(true)
+    props.updateLoaderFn(true);
+    props.checkLogin();
+    props.updateLoaderFn(true);
+    fetchData();
+  },[])
 
   useEffect(()=>{
-    props.updateLoaderFn(true);
-    props.fetchBoardFn();
-  },[])
+    if (!props.stateFromStore.user) {
+      console.log(props.stateFromStore.user)
+      history.push("/login");
+    }
+  },[props.stateFromStore.user])
 
   const selectHandler = (id,index) => {
     history.push('/list/' + id + '/' + 
@@ -112,7 +125,8 @@ const BoardList = (props) => {
                 className="text-secondary"
                 style={{ fontSize: "60px", userSelect: "none" }}
                 onClick={() => {
-                  props.addBoardFn();
+                  //FIXME add board
+                  props.addBoardFn(props.stateFromStore.user?.email);
                 }}
               >
                 +
@@ -139,8 +153,8 @@ const mapDispatchToProps = dispatch => {
     //   return dispatch({ type: 'ADD_BOARD', payload: data })
     // },
     //NOTE action dispatch
-    addBoardFn: () => {
-      return dispatch(action.addBoard());
+    addBoardFn: (data) => {
+      return dispatch(action.addBoard(data));
     },
     deleteBoardFn: (data) => {
       return dispatch(action.deleteBoard(data))
@@ -148,6 +162,10 @@ const mapDispatchToProps = dispatch => {
     fetchBoardFn: () => {
       return dispatch(action.fetchBoard());
     },
+    updateLoaderFn: (data) => {
+      return dispatch({ type: 'UPDATE_LOADER', payload: data })
+    },
+    checkLogin: () => dispatch(action.checkLogin()),
     updateLoaderFn: (data) => {
       return dispatch({ type: 'UPDATE_LOADER', payload: data })
     }

@@ -23,27 +23,22 @@ const App = () => (
         <Router history={history}>
           <Switch>
             <Route
-              exact
               path="/list/:board/:page"
               component={BoardPage}
             />
             <Route
-              exact
               path="/list"
               component={BoardList}
             />
             <Route
-              exact
               path="/register"
               component={RegisterPages}
             />
             <Route
-              exact
               path="/login"
               component={LoginPage}
             />
             <Route
-              exact
               path="/"
               component={LoginPage}
             />

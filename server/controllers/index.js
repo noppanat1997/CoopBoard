@@ -1,12 +1,13 @@
 import services from "../services";
 
-import fire from '../configs/auth';
+import fire from "../configs/auth";
 
 const controllers = {};
 //NOTE
 controllers.addBoard = async (req, res, next) => {
   try {
-    const data = await services.addBoardData();
+    const { userEmail } = req.body;
+    const data = await services.addBoardData(userEmail);
 
     res.status(200).send(data);
   } catch (error) {
@@ -95,29 +96,69 @@ controllers.addUser = async (req, res, next) => {
   try {
     const { username, password, firstname, lastname, email } = req.body || {};
 
-    const user = await fire.auth().createUserWithEmailAndPassword(username, password);
-    await services.addUser(firstname, lastname, email);
+    await fire
+      .auth()
+      .createUserWithEmailAndPassword(username, password)
+      .then((result) => {
+        // id = result.user.uid
+        return result.user.updateProfile({
+          displayName: firstname + " " + lastname,
+        });
+      });
+    const user = await fire.auth().currentUser;
+    const id = user.uid;
+    await services.addUser(id, firstname, lastname, email);
 
-
-    res.status(200).send(user);
-
+    res.status(200).send();
   } catch (error) {
     console.log(error);
     next(error);
   }
-}
+};
 
 controllers.userLogin = async (req, res, next) => {
   try {
     const { username, password } = req.body || {};
+    await fire.auth().signInWithEmailAndPassword(username, password);
 
-    const user = await fire.auth().signInWithEmailAndPassword(username, password);
-
-    res.status(200).send(user);
-
+    let userData = null;
+    await fire.auth().onAuthStateChanged((user) => {
+      if (user) {
+        userData = user;
+      } else {
+        userData = null;
+      }
+    });
+    res.status(200).send(userData);
   } catch (error) {
     console.log(error);
   }
-}
+};
+
+controllers.checkLogin = async (req, res, next) => {
+  try {
+    let userData = null;
+    await fire.auth().onAuthStateChanged((user) => {
+      if (user) {
+        userData = user;
+      } else {
+        userData = null;
+      }
+    });
+    res.status(200).send(userData);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+controllers.userLogout = async (req, res, next) => {
+  try {
+    await fire.auth().signOut();
+    res.status(200).send(null);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export default controllers;

@@ -1,19 +1,19 @@
-import React from 'react';
+import React from "react";
 
-import onlineIcon from './onlineIcon.png';
-import closeIcon from './closeIcon.png';
+import onlineIcon from "./onlineIcon.png";
+import closeIcon from "./closeIcon.png";
 
-import '../.././css/chat/InfoBar.css';
+import "../.././css/chat/InfoBar.css";
 
 const InfoBar = ({ room, users }) => {
-
-  let list
+  let list;
   if (users.length !== 0) {
-    list = users.map(item =>
-      (
-        <div className="name-box px-1 bg-light mr-1" key={item.id}>{item.name}</div>
-      )
-    )
+    list = users.map((item) => (
+      <div className="name-box px-1 bg-light mr-1" key={item.id}>
+        {item.name.split(" ")[0].charAt(0).toUpperCase()}
+        {item.name.split(" ")[1].charAt(0).toUpperCase()}
+      </div>
+    ));
   }
   return (
     <div className="infoBar">
@@ -29,11 +29,12 @@ const InfoBar = ({ room, users }) => {
         </div>
       </div>
       <div className="rightInnerContainer">
-        <a href="/"><img src={closeIcon} alt="close icon" /></a>
+        <a href="/">
+          <img src={closeIcon} alt="close icon" />
+        </a>
       </div>
     </div>
   );
-
-}
+};
 
 export default InfoBar;

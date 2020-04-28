@@ -38,11 +38,6 @@ const initialState = {
     Color: 0,
   },
   memberCount: 1,
-  memberData: [
-    { id: 1, member: [] },
-    { id: 2, member: [] },
-    { id: 3, member: [] },
-  ],
   formCardData: {
     1: { onFormSetting: 0, name: "Post-It" },
     2: { onFormSetting: 0, name: "Checklist" },
@@ -206,22 +201,6 @@ const reducer = (state = initialState, action) => {
         newState.toolbarOpen = false;
         return newState;
       }
-    //FIXME invite member
-    case "INVITE_MEMBER":
-      let { memberData, boardId: boardNum, color: c } = action.payload;
-      if (newState.memberData[boardNum - 1].member.length < 5) {
-        const newMember = {
-          memberName: memberData,
-          color: c,
-        };
-        newState.memberData[boardNum - 1].member.push(newMember);
-      }
-      return newState;
-    //FIXME kick member
-    case "KICK_MEMBER":
-      let { boardId: bI, memberId } = action.payload;
-      newState.memberData[bI - 1].member.splice(memberId, 1);
-      return newState;
 
     case "CHANGE_USER_COLOR":
       const { color } = action.payload;
@@ -341,7 +320,6 @@ const reducer = (state = initialState, action) => {
         boardData: newBoardData,
         lineData: newLineData,
         cardData: newCardData,
-        memberData: newMemberData,
       } = action.payload;
 
       return {
@@ -349,7 +327,6 @@ const reducer = (state = initialState, action) => {
         lineData: [...state.lineData, newLineData],
         cardData: [...state.cardData, newCardData],
         boardData: [...state.boardData, newBoardData],
-        memberData: [...state.memberData, newMemberData],
       };
     }
     // REVIEW b img
@@ -500,7 +477,6 @@ const reducer = (state = initialState, action) => {
       let newRecentBoardData = [...state.recentBoardData];
       let newLineData = [...state.lineData];
       let newCardData = [...state.cardData];
-      let newMemberData = [...state.memberData];
 
       for (let i = 0; i < state.boardData.length; i++) {
         if (state.boardData[i].id === board) {
@@ -526,19 +502,12 @@ const reducer = (state = initialState, action) => {
           break;
         }
       }
-      for (let i = 0; i < state.memberData.length; i++) {
-        if (state.memberData[i].id === board) {
-          newMemberData.splice(i, 1);
-          break;
-        }
-      }
 
       return {
         ...state,
         lineData: newLineData,
         cardData: newCardData,
         boardData: newBoardData,
-        memberData: newMemberData,
         recentBoardData: newRecentBoardData,
       };
     }
@@ -556,7 +525,6 @@ const reducer = (state = initialState, action) => {
         boardDataList: newBoardDataList,
         lineDataList: newLineDataList,
         cardDataList: newCardDataList,
-        memberDataList: newMemberDataList,
       } = action.payload;
 
       return {
@@ -564,7 +532,6 @@ const reducer = (state = initialState, action) => {
         lineData: newLineDataList,
         cardData: newCardDataList,
         boardData: newBoardDataList,
-        memberData: newMemberDataList,
         isLoading: false,
       };
     }
@@ -572,7 +539,8 @@ const reducer = (state = initialState, action) => {
       const currentUser = action.payload;
       return {
         ...state,
-        user: currentUser
+        user: currentUser,
+        isLoading: false
       }
     }
     default:
