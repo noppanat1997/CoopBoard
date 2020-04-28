@@ -170,7 +170,7 @@ class CardOnBoard extends Component {
         <strong><Card.Title className="drag-title"></Card.Title></strong>
         {this.state.isHover == true ? hoverEvent : <div></div>}
         <Editor
-        className="code-style"
+        // className="code-style"
         value={this.state.code}
         onValueChange={code => this.setState({ code })}
         highlight={this.state.language === 1 ? code => highlight(code, languages.cpp) 
@@ -179,12 +179,12 @@ class CardOnBoard extends Component {
                   : this.state.language === 4 ? code => highlight(code, languages.arduino)
                   : code => highlight(code, languages.python)}
         padding={10}
-        /*style={{
+        style={{
           color: "white",
-          //background: "black",
-          fontFamily: '"Consolas" ,"monaco" ,monospace',
+          background: "black",
+          // fontFamily: '"Consolas" ,"monaco" ,"monospace"',
           fontSize: 30
-        }}*/
+        }}
       />
       </Card>
     )
