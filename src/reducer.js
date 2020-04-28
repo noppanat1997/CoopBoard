@@ -263,7 +263,7 @@ const reducer = (state = initialState, action) => {
     }
     // FIXME add card
     case "ADD_CARD": {
-      let { board, type, curPage, size, color, text } = action.payload;
+      let { board, type, curPage, size, color, text, language } = action.payload;
       let newData = [...state.cardData];
       let boardIndex;
       let uuid = uuidv4();
@@ -285,6 +285,7 @@ const reducer = (state = initialState, action) => {
           position: { x: 0, y: 0 },
           text: text,
           isNew: true,
+          language: language
         },
       ];
 
