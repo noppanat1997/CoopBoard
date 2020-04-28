@@ -123,8 +123,8 @@
   font-size: 3vw;
 }
 .code-style {
-  /*font-family: 'Consolas', 'monaco', monospace;*/
-  background-color: gray;
+  font-family: 'Consolas', 'monaco', monospace;
+  background-color: rgb(201, 201, 201);
   color: white;
   font-size: 30px;
 }

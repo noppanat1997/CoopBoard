@@ -16,10 +16,9 @@ const FormCard = (props) => {
     ballSelected: 0,
     size: 'm',
     sizeSelected: 1,
-    language: 0,
-    languageName : ''
+    language: 0
   });
-  const cancelHendler = () => {
+  const cancelHandler = () => {
     props.onDropAreaFn({ isHolding: false, isDrop: false })
     props.onCanvasFn(false);
   }
@@ -32,19 +31,28 @@ const FormCard = (props) => {
     let color = state.color
     let board = props.board
     let type = props.name
-    // console.log(size)
+    let language = state.language
+    console.log("Language : " + language)
     if (text.length !== 0) {
       if (props.name === 'Video') {
         text = extractVideoID(text)
-        props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: text })
+        props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: text, language: language })
       }
       else if (props.name === "Url"){
         let regexp =  /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
         if (regexp.test(text)){
-          props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: text })
+          props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: text, language: language })
         }
         else{
-          cancelHendler();
+          cancelHandler();
+        }
+      }
+      else if (props.name === "Code"){
+        if (language > 0){
+          props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: text, language: language })
+        }
+        else{
+          cancelHandler();
         }
       }
       else{
@@ -54,17 +62,16 @@ const FormCard = (props) => {
     setState({ ...state, textAreaCount: 0, text: '' })
   }
   const languageHandler = (e) => {
-    let id = e.target.id
+    let id = document.getElementById("lang-list").value;
     //console.log(id)
     switch (id) {
-      case "cpp" : state.languageName = "C++"; state.language = 1; break
-      case "java" : state.languageName = "Java"; state.language = 2; break
-      case "php" : state.languageName = "PHP"; state.language = 3; break
-      case "arduino" : state.languageName = "Arduino"; state.language = 4; break
-      case "python" : state.languageName = "Python"; state.language = 5; break
-      default : state.languageName = ""; state.language = 0; break
+      case "cpp" : setState({ ...state, language: 1}); break
+      case "java" : setState({ ...state, language: 2}); break
+      case "php" : setState({ ...state, language: 3}); break
+      case "arduino" : setState({ ...state, language: 4}); break
+      case "python" : setState({ ...state, language: 5}); break
+      default : setState({ ...state, language: 0}); break
     }
-    console.log(state.languageName)
   }
   const extractVideoID = (url) => {
     let regExp = /[^(?:https?:/{2})?(?:w{3}.)?youtu(?:be)?.(?:com|be)(?:/watch?v=|/)]([^\s&]+)/;
@@ -171,18 +178,17 @@ const FormCard = (props) => {
                     <Col xs={1} className="p-0 mr-2">
                       <div id="3" name="none" className={'ball ' + (state.ballSelected == 3 ? 'none-active' : 'none')} onClick={colorHandler} />
                     </Col></> : props.name === 'Code' ? 
-                      <div class="btn-group dropup">
-                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          {"Language : " + state.languageName}
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                          <button id="cpp" class="dropdown-item" type="button" onClick={languageHandler}>C++</button>
-                          <button id="java" class="dropdown-item" type="button" onClick={languageHandler}>Java</button>
-                          <button id="php" class="dropdown-item" type="button" onClick={languageHandler}>PHP</button>
-                          <button id="arduino" class="dropdown-item" type="button" onClick={languageHandler}>Arduino</button>
-                          <button id="python" class="dropdown-item" type="button" onClick={languageHandler}>Python</button>
-                        </div>
-                      </div> 
+                      <div class="form-group">
+                      <label for="sel1">Select language:</label>
+                      <select class="form-control" id="lang-list" onChange={languageHandler}>
+                        <option value=""> -- Select Language -- </option>
+                        <option value="cpp">C++</option>
+                        <option value="java">Java</option>
+                        <option value="php">PHP</option>
+                        <option value="arduino">Arduino</option>
+                        <option value="python">Python</option>
+                      </select>
+                      </div>
                       : <Col xs={4}/>
               }
 
@@ -201,7 +207,7 @@ const FormCard = (props) => {
         }
 
         <Card.Footer className="d-flex justify-content-end bg-white">
-          <Button variant="outline-dark" className="m-1" onClick={cancelHendler}>Cancel</Button>
+          <Button variant="outline-dark" className="m-1" onClick={cancelHandler}>Cancel</Button>
           <Button variant="outline-dark" className="m-1" onClick={saveHendler}>Save</Button>
         </Card.Footer>
       </Card>

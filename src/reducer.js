@@ -95,41 +95,50 @@ const reducer = (state = initialState, action) => {
       newState.curPage = newPage;
       return newState;
     //  FIXME update line
-    case "UPDATE_LINE":
-      const { boardId, pageId, data: updatedLineData, mode } = action.payload;
+    case "ADD_LINE":
+      const { boardId, pageId, data: updatedLineData } = action.payload;
       let newBoardIndex;
       for (let i = 0; i < state.lineData.length; i++) {
         if (state.lineData[i].id === boardId) {
           newBoardIndex = i;
+          break
+        }
+      }
+      console.log("Board : " + newBoardIndex)
+      newState.lineData[newBoardIndex].data[state.curPage - 1].line.push(
+        updatedLineData
+      );
+      newState.lineData[newBoardIndex].data[state.curPage - 1].color.push(
+        newState.penColor
+      );
+      newState.lineData[newBoardIndex].data[state.curPage - 1].size.push(
+        newState.penSize
+      );
+      return newState;
+
+    case "DELETE_LINE":
+      let { boardId_2, pageId_2, data: deletedLineData } = action.payload;
+      let newBoardIndex_2;
+      for (let i = 0; i < state.lineData.length; i++) {
+        if (state.lineData[i].id === boardId_2) {
+          newBoardIndex_2 = i;
           break;
         }
       }
-      if (mode == 1) {
-        newState.lineData[newBoardIndex].data[state.curPage - 1].line.push(
-          updatedLineData
+      for (var i = deletedLineData.length; i > 0; i--) {
+        const t = deletedLineData.pop();
+        newState.lineData[newBoardIndex].data[state.curPage - 1].line.splice(
+          t,
+          1
         );
-        newState.lineData[newBoardIndex].data[state.curPage - 1].color.push(
-          newState.penColor
+        newState.lineData[newBoardIndex].data[state.curPage - 1].color.splice(
+          t,
+          1
         );
-        newState.lineData[newBoardIndex].data[state.curPage - 1].size.push(
-          newState.penSize
+        newState.lineData[newBoardIndex].data[state.curPage - 1].size.splice(
+          t,
+          1
         );
-      } else if (mode == 2) {
-        for (var i = updatedLineData.length; i > 0; i--) {
-          const t = updatedLineData.pop();
-          newState.lineData[newBoardIndex].data[state.curPage - 1].line.splice(
-            t,
-            1
-          );
-          newState.lineData[newBoardIndex].data[state.curPage - 1].color.splice(
-            t,
-            1
-          );
-          newState.lineData[newBoardIndex].data[state.curPage - 1].size.splice(
-            t,
-            1
-          );
-        }
       }
       return newState;
 
@@ -233,7 +242,7 @@ const reducer = (state = initialState, action) => {
     }
     // FIXME add card
     case "ADD_CARD": {
-      let { board, type, curPage, size, color, text } = action.payload;
+      let { board, type, curPage, size, color, text, language } = action.payload;
       let newData = [...state.cardData];
       let boardIndex;
       let uuid = uuidv4();
@@ -255,6 +264,7 @@ const reducer = (state = initialState, action) => {
           position: { x: 0, y: 0 },
           text: text,
           isNew: true,
+          language: language
         },
       ];
 
