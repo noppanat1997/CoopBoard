@@ -562,7 +562,8 @@ const reducer = (state = initialState, action) => {
       const currentUser = action.payload;
       return {
         ...state,
-        user: currentUser
+        user: currentUser,
+        isLoading: false
       }
     }
     default:

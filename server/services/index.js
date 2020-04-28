@@ -279,8 +279,8 @@ services.changeBoardName = async (boardId, img) => {
 };
 
 
-services.addUser = async (firstname, lastname, email) => {
-  const user = await db.collection('user').add({ firstname, lastname, email });
+services.addUser = async (id, firstname, lastname, email) => {
+  const user = await db.collection('user').doc(id).set({ id:id, firstname, lastname, email });
   return user;
 }
 export default services;

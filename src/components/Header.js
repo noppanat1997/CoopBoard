@@ -9,6 +9,8 @@ import html2canvas from "html2canvas";
 import history from ".././history";
 import ".././css/Header.css";
 import { UncontrolledPopover, PopoverHeader, PopoverBody } from "reactstrap";
+import Popover from "react-bootstrap/Popover";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 
 import * as action from "../actions";
 
@@ -32,6 +34,7 @@ class Header extends Component {
       str: "",
       memberList: [],
     };
+
     this.onInputChange = this.onInputChange.bind(this);
     this.onInviteSubmit = this.onInviteSubmit.bind(this);
     this.pageChangeHandler = this.pageChangeHandler.bind(this);
@@ -150,7 +153,7 @@ class Header extends Component {
     }
   }
   async screenShot() {
-    let base64image
+    let base64image;
     await html2canvas(document.body).then((canvas) => {
       let croppedCanvas = document.createElement("canvas");
       let croppedCanvasContext = croppedCanvas.getContext("2d");
@@ -256,7 +259,6 @@ class Header extends Component {
                       boardName: e.target.value,
                     })
                   }
-                  
                   value={this.state.boardName}
                 ></input>
               ) : (
@@ -279,34 +281,60 @@ class Header extends Component {
                 />
               </Link>
             </Col>
-            <Col style={{ textAlign: "right" }}></Col>
-            <Col>
-              <div id="profile" className={"ml-5 mt-1 " + this.state.str}>
-                <div className="pt-2">
-                  {this.props.stateFromStore.userData.Name.charAt(0) +
-                    this.props.stateFromStore.userData.Surname.charAt(0)}
-                </div>
-              </div>
-              <UncontrolledPopover
-                trigger="legacy"
+            {/* REVIEW profile */}
+            <Col xs={4} className="d-flex justify-content-end">
+              <OverlayTrigger
+                // trigger="focus"
+                trigger="click"
                 placement="bottom"
-                target="profile"
+                overlay={
+                  <Popover
+                    id="popover-basic"
+                    className="py-3 d-flex flex-column popover-dec text-center"
+                  >
+                    <div className="w-100 text-center d-flex flex-row justify-content-center">
+                      <button
+                        className="btn button-profile text-center p-0"
+                        disable
+                      >
+                        {this.props.stateFromStore.user.displayName
+                          .split(" ")[0]
+                          .charAt(0)
+                          .toUpperCase()}
+                        {this.props.stateFromStore.user.displayName
+                          .split(" ")[1]
+                          .charAt(0)
+                          .toUpperCase()}
+                      </button>
+                    </div>
+                    <div className="display-name mb-1">
+                      {this.props.stateFromStore.user.displayName}
+                    </div>
+                    <div className="hr px-2"></div>
+                    <div className="w-100 mt-1 text-center d-flex flex-row justify-content-center">
+                      <div
+                        className="button-logout pt-1 mt-1"
+                        onClick={() => {
+                          this.props.userLogout();
+                        }}
+                      >
+                        Sign Out
+                      </div>
+                    </div>
+                  </Popover>
+                }
               >
-                <PopoverHeader>Profile</PopoverHeader>
-                <PopoverBody>
-                  <div>
-                    <button
-                      class="btn btn-danger"
-                      onClick={() => {
-                        this.logout;
-                        history.push("/login");
-                      }}
-                    >
-                      Logout
-                    </button>
-                  </div>
-                </PopoverBody>
-              </UncontrolledPopover>
+                <button className="btn button-user text-center p-0 mt-2 mr-2">
+                  {this.props.stateFromStore.user.displayName
+                    .split(" ")[0]
+                    .charAt(0)
+                    .toUpperCase()}
+                  {this.props.stateFromStore.user.displayName
+                    .split(" ")[1]
+                    .charAt(0)
+                    .toUpperCase()}
+                </button>
+              </OverlayTrigger>
             </Col>
           </Row>
           {this.props.path != "list" ? (
@@ -450,7 +478,7 @@ const mapDispatchToProps = (dispatch) => {
     kickMember: (newMember) => {
       return dispatch({ type: "KICK_MEMBER", payload: newMember });
     },
-
+    userLogout: () => dispatch(action.userLogout()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

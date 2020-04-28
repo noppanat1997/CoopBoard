@@ -162,3 +162,71 @@
     color : white;
     text-align: center;
 }
+
+.button-user{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    color: white;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    background-color: darkorange;
+    box-shadow: none;
+  }
+  .button-user:hover{
+    transition: 0.1s ease-in-out;
+    color: white;
+    box-shadow: 0px 0px 0px 5px rgba(222,222,222,1);
+  }
+
+  .popover-dec {
+    width: 250px;
+    box-shadow: 0 0 5px 0 rgb(131, 131, 131);
+  }
+  .button-logout{
+    width: 90px;
+    height: 30px;
+    font-size: 15px;
+    color: rgb(73, 73, 73);
+    font-family: 'Roboto', sans-serif;
+    background-color:'white';
+    box-shadow: 0px 0px 0px 2px rgba(222,222,222,1);
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  .button-logout:hover{
+    cursor: pointer;
+    transition: 0.1s ease-in-out;
+    color: white;
+    background-color: rgb(255, 60, 60);
+    box-shadow: none;
+  }
+  .display-name{
+    font-size: 18px;
+    font-weight: bold;
+    color: rgb(75, 75, 75);
+  }
+  .button-profile{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    color: white;
+    font-size: 32px;
+    font-family: 'Roboto', sans-serif;
+    background-color: darkorange;
+    box-shadow: none;
+  }
+  .button-profile:hover{
+    transition: 0.1s ease-in-out;
+    color: white;
+    box-shadow: 0px 0px 0px 5px rgba(222,222,222,1);
+  }
+
+  .hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 0.5em 0;
+    padding: 0;
+}

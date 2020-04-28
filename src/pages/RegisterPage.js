@@ -4,18 +4,20 @@ import '.././css/RegisterPage.css';
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col';
-import fire from '../components/Fire.js'
+import * as action from "../actions";
 import { connect } from 'react-redux';
 
-import * as action from '../actions';
 
 const RegisterPages = (props) => {
-  const { user, createUser } = props;
-  useEffect(() => {
-    if (user) {
-      setState({ currentUser: user })
+  useEffect(()=>{
+    props.checkLogin();
+  },[])
+
+  useEffect(()=>{
+    if (props.stateFromStore.user) {
+      history.push("/list");
     }
-  }, [])
+  },[props.stateFromStore.user])
 
   let history = useHistory();
   const [state, setState] = useState({
@@ -175,7 +177,7 @@ const RegisterPages = (props) => {
     const lastname = state.formElements.lastname.value;
     const email = state.formElements.email.value;
     
-    createUser(username, password, firstname, lastname, email);
+    props.createUser(username, password, firstname, lastname, email);
   }
   
 
@@ -271,12 +273,15 @@ const RegisterPages = (props) => {
 }
 
 const mapStateToProps = state => ({
-  stateFromStore: state,
-  user: state.user
+  stateFromStore: state
 });
 
 const mapDispatchToProps = dispatch => ({
-  createUser: (username, password, firstname, lastname, email) => dispatch(action.addUser(username, password, firstname, lastname, email))
+  createUser: (username, password, firstname, lastname, email) => dispatch(action.addUser(username, password, firstname, lastname, email)),
+  checkLogin: () => dispatch(action.checkLogin()),
+  updateLoaderFn: (data) => {
+    return dispatch({ type: 'UPDATE_LOADER', payload: data })
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterPages);
