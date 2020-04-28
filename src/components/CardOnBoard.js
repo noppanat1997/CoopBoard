@@ -147,8 +147,7 @@ class CardOnBoard extends Component {
       <Card
         onMouseEnter={() => this.setState({ ...this.state, isHover: true })}
         onMouseLeave={() => this.setState({ ...this.state, isHover: false })}
-        className={"default-card"
-        }
+        className={"default-card"}
       >
         <strong><Card.Title className="drag-title"></Card.Title></strong>
         {this.state.isHover == true ? hoverEvent : <div></div>}
@@ -179,12 +178,12 @@ class CardOnBoard extends Component {
                   : this.state.language === 4 ? code => highlight(code, languages.arduino)
                   : code => highlight(code, languages.python)}
         padding={10}
-        /*style={{
+        style={{
           color: "white",
-          //background: "black",
+          background: "black",
           fontFamily: '"Consolas" ,"monaco" ,monospace',
-          fontSize: 30
-        }}*/
+          fontSize: 16
+        }}
       />
       </Card>
     )
