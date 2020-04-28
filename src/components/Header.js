@@ -36,11 +36,8 @@ class Header extends Component {
     };
 
     this.onInputChange = this.onInputChange.bind(this);
-    this.onInviteSubmit = this.onInviteSubmit.bind(this);
     this.pageChangeHandler = this.pageChangeHandler.bind(this);
     this.randomBackground = this.randomBackground.bind(this);
-    this.onKick = this.onKick.bind(this);
-    this.renderMember = this.renderMember.bind(this);
     this.screenShot = this.screenShot.bind(this);
     this.deleteFrameHandler = this.deleteFrameHandler.bind(this);
     this.clearFrameHandler = this.clearFrameHandler.bind(this);
@@ -50,15 +47,6 @@ class Header extends Component {
     this.setState({
       [event.target.name]: event.target.value,
     });
-  }
-  onInviteSubmit(event) {
-    // console.log(this.state)
-    const payloadData = {
-      memberData: this.state.Email,
-      boardId: this.props.board,
-      color: this.randomBackground(),
-    };
-    this.props.inviteMember(payloadData);
   }
   //REVIEW change page
   async pageChangeHandler(newPage) {
@@ -101,46 +89,7 @@ class Header extends Component {
         return 4;
     }
   }
-  onKick(e) {
-    let i = parseInt(e.target.id.charAt(6));
-    const payloadData = {
-      boardId: this.props.board,
-      memberId: i,
-    };
-    this.props.kickMember(payloadData);
-  }
-  renderMember() {
-    let boardmemberList = this.props.stateFromStore.memberData[
-      this.state.boardIndex
-    ].member;
-    this.state.memberList = [];
-    for (let i = 0; i < boardmemberList.length; i++) {
-      let idtype = "member" + i;
-      this.state.memberList.push(
-        <div>
-          <div
-            id={idtype}
-            className={"mt-1 memberBackground-" + boardmemberList[i].color}
-          >
-            {boardmemberList[i].memberName.charAt(0)}
-          </div>
-          <UncontrolledPopover
-            trigger="legacy"
-            placement="bottom"
-            target={idtype}
-          >
-            <PopoverHeader>Manage Member</PopoverHeader>
-            <PopoverBody>
-              <button id={idtype} class="btn btn-danger" onClick={this.onKick}>
-                Kick
-              </button>
-            </PopoverBody>
-          </UncontrolledPopover>
-        </div>
-      );
-    }
-    return this.state.memberList;
-  }
+  
   componentWillMount() {
     if (this.props.stateFromStore.userData.Color == 0) {
       let c = this.randomBackground();
@@ -284,13 +233,12 @@ class Header extends Component {
             {/* REVIEW profile */}
             <Col xs={4} className="d-flex justify-content-end">
               <OverlayTrigger
-                // trigger="focus"
-                trigger="click"
+                trigger="focus"
                 placement="bottom"
                 overlay={
                   <Popover
                     id="popover-basic"
-                    className="py-3 d-flex flex-column popover-dec text-center"
+                    className="py-3 d-flex flex-column popover-dec-header text-center"
                   >
                     <div className="w-100 text-center d-flex flex-row justify-content-center">
                       <button
@@ -338,7 +286,7 @@ class Header extends Component {
             </Col>
           </Row>
           {this.props.path != "list" ? (
-            <Row className="justify-content-center m-0 w-100 border-top">
+            <Row className="m-0 w-100 border-top">
               <Col xs={4}>
                 <button
                   className="btn button-page mt-1 ml-3 btn-sm border-right"
@@ -355,78 +303,60 @@ class Header extends Component {
                   Clear frame
                 </button>
               </Col>
-              <Col
-                xs={4}
-                className="d-flex ot-1 flex-wrap flex-row justify-content-center"
-              >
-                <button
-                  className="btn button-page mt-1 pt-0 btn-sm"
-                  onClick={() =>
-                    this.pageChangeHandler(
-                      this.props.stateFromStore.curPage - 1
-                    )
-                  }
-                  style={{ width: "50px", height: "32px", fontSize: "20px" }}
-                >
-                  &#60;
-                </button>
-                {/*NOTE page number render*/}
-                <div
-                  className="text-center mt-1 mb-1 border-right border-left btn-sm"
-                  style={{ width: "70px", fontSize: "16px" }}
-                >
-                  {this.props.stateFromStore.curPage}
-                </div>
-                <button
-                  className="btn button-page mt-1 pt-0 btn-sm"
-                  onClick={() =>
-                    this.pageChangeHandler(
-                      this.props.stateFromStore.curPage + 1
-                    )
-                  }
-                  style={{ width: "50px", height: "32px", fontSize: "20px" }}
-                >
-                  &#62;
-                </button>
-              </Col>
-              <Col style={{ textAlign: "right" }}>
-                <div className="d-flex flex-row">{this.renderMember()}</div>
-              </Col>
-              <Col style={{ textAlign: "right" }}>
-                <button id="invite" className="invite-button">
-                  +
-                </button>
-                <UncontrolledPopover
-                  trigger="legacy"
-                  placement="bottom"
-                  target="invite"
-                >
-                  <PopoverHeader>Invite Member</PopoverHeader>
-                  <PopoverBody>
-                    <form>
-                      <div className="form-group">
-                        <label for="EmailInput">Send Invite to</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="Email"
-                          name="Email"
-                          aria-describedby="emailHelp"
-                          placeholder="Enter email"
-                          onChange={this.onInputChange}
-                        ></input>
+              {/* //FIXME member list */}
+              <Col xs={4}>
+                <OverlayTrigger
+                trigger="focus"
+                placement="bottom"
+                overlay={
+                  <Popover
+                    id="popover-basic"
+                    className="py-3 d-flex flex-column popover-dec-header text-center"
+                  >
+                    <div className="w-100 text-center d-flex flex-row justify-content-center">
+                      <button
+                        className="btn button-profile text-center p-0"
+                        disable
+                      >
+                        {this.props.stateFromStore.user.displayName
+                          .split(" ")[0]
+                          .charAt(0)
+                          .toUpperCase()}
+                        {this.props.stateFromStore.user.displayName
+                          .split(" ")[1]
+                          .charAt(0)
+                          .toUpperCase()}
+                      </button>
+                    </div>
+                    <div className="display-name mb-1">
+                      {this.props.stateFromStore.user.displayName}
+                    </div>
+                    <div className="hr px-2"></div>
+                    <div className="w-100 mt-1 text-center d-flex flex-row justify-content-center">
+                      <div
+                        className="button-logout pt-1 mt-1"
+                        onClick={() => {
+                          this.props.userLogout();
+                        }}
+                      >
+                        Sign Out
                       </div>
-                    </form>
-                    <button
-                      type="submit"
-                      className="btn-primary"
-                      onClick={this.onInviteSubmit}
-                    >
-                      Send Invite
-                    </button>
-                  </PopoverBody>
-                </UncontrolledPopover>
-              </Col>
+                    </div>
+                  </Popover>
+                }
+              >
+                <button className="btn button-user text-center p-0 mt-2 mr-2">
+                  {this.props.stateFromStore.user.displayName
+                    .split(" ")[0]
+                    .charAt(0)
+                    .toUpperCase()}
+                  {this.props.stateFromStore.user.displayName
+                    .split(" ")[1]
+                    .charAt(0)
+                    .toUpperCase()}
+                </button>
+              </OverlayTrigger></Col>
+              <Col xs={4}></Col>
             </Row>
           ) : (
             <div />
@@ -450,9 +380,6 @@ const mapDispatchToProps = (dispatch) => {
     addPageFn: (data) => {
       return dispatch(action.addPage(data));
     },
-    inviteMember: (newMember) => {
-      return dispatch({ type: "INVITE_MEMBER", payload: newMember });
-    },
     //REVIEW map dispatch img board
     changeBoardImgFn: (data) => {
       return dispatch(action.changeBoardImg(data));
@@ -474,9 +401,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateUserColor: (newColor) => {
       return dispatch({ type: "CHANGE_USER_COLOR", payload: newColor });
-    },
-    kickMember: (newMember) => {
-      return dispatch({ type: "KICK_MEMBER", payload: newMember });
     },
     userLogout: () => dispatch(action.userLogout()),
   };

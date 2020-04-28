@@ -125,7 +125,8 @@ const BoardList = (props) => {
                 className="text-secondary"
                 style={{ fontSize: "60px", userSelect: "none" }}
                 onClick={() => {
-                  props.addBoardFn();
+                  //FIXME add board
+                  props.addBoardFn(props.stateFromStore.user?.email);
                 }}
               >
                 +
@@ -152,8 +153,8 @@ const mapDispatchToProps = dispatch => {
     //   return dispatch({ type: 'ADD_BOARD', payload: data })
     // },
     //NOTE action dispatch
-    addBoardFn: () => {
-      return dispatch(action.addBoard());
+    addBoardFn: (data) => {
+      return dispatch(action.addBoard(data));
     },
     deleteBoardFn: (data) => {
       return dispatch(action.deleteBoard(data))

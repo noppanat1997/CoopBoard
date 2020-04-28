@@ -8,9 +8,9 @@ const headers = {
 axios.defaults.headers.common["Content-Type"] = "application/json";
 
 
-export const addBoard = () => async (dispatch) => {
+export const addBoard = (userEmail) => async (dispatch) => {
   try {
-    const res = await axios.post(`http://localhost:8080/api/add-board`);
+    const res = await axios.post(`http://localhost:8080/api/add-board`, {userEmail});
     // console.log(res.data)
     if (!res.data) {
       const err = new Error("no `data` property on response object");

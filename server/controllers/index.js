@@ -6,7 +6,8 @@ const controllers = {};
 //NOTE
 controllers.addBoard = async (req, res, next) => {
   try {
-    const data = await services.addBoardData();
+    const { userEmail } = req.body;
+    const data = await services.addBoardData(userEmail);
 
     res.status(200).send(data);
   } catch (error) {

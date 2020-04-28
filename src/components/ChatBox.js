@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import queryString from 'query-string';
 import io from "socket.io-client";
-
+import { connect } from "react-redux";
 import Messages from './chat/Messages';
 import InfoBar from './chat/InfoBar';
 import Input from './chat/Input';
@@ -10,8 +10,9 @@ import '../css/chat/Chat.css';
 
 let socket;
 
-const ChatBox = ({ location }) => {
-  const [name, setName] = useState('A');
+const ChatBox = (props) => {
+  const [name, setName] = useState(props.stateFromStore.user.displayName);
+  //FIXME boardname
   const [room, setRoom] = useState('CoopBoard');
   const [users, setUsers] = useState('');
   const [message, setMessage] = useState('');
@@ -26,7 +27,7 @@ const ChatBox = ({ location }) => {
     socket = io(ENDPOINT);
 
     setRoom(room);
-    setName(name)
+    setName(props.stateFromStore.user.displayName)
 
     socket.emit('join', { name, room }, (error) => {
       if (error) {
@@ -83,5 +84,9 @@ const ChatBox = ({ location }) => {
     // </div>
   );
 }
-
-export default ChatBox;
+const mapStateToProps = (state) => {
+  return {
+    stateFromStore: state,
+  };
+};
+export default connect(mapStateToProps, null)(ChatBox);
