@@ -173,17 +173,11 @@ class CardOnBoard extends Component {
         value={this.state.code}
         onValueChange={code => this.setState({ code })}
         highlight={this.state.language === 1 ? code => highlight(code, languages.cpp) 
-                  : this.state.language === 2 ? code => highlight(code, languages.java)
+                  : this.state.language === 2 ? code => highlight(code, languages.js)
                   : this.state.language === 3 ? code => highlight(code, languages.php)
                   : this.state.language === 4 ? code => highlight(code, languages.arduino)
                   : code => highlight(code, languages.python)}
         padding={10}
-        style={{
-          color: "white",
-          background: "black",
-          fontFamily: '"Consolas" ,"monaco" ,monospace',
-          fontSize: 16
-        }}
       />
       </Card>
     )
