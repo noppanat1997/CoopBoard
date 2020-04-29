@@ -247,4 +247,50 @@ services.addUser = async (id, firstname, lastname, email) => {
   const user = await db.collection('user').doc(id).set({ id:id, firstname, lastname, email });
   return user;
 }
+
+services.inviteMember = async (email) => {
+  const pageId = uuidv4();
+
+  const newLineData = {
+    id: pageId,
+    line: [],
+    color: [],
+    size: [],
+  };
+  const newCardData = {
+    id: pageId,
+    data: [],
+  };
+  const promiseGetList = [
+    db.collection("lineData").where("id", "==", boardId).get(),
+    db.collection("cardData").where("id", "==", boardId).get(),
+  ];
+  const responseGetList = await Promise.all(promiseGetList);
+
+  const [fireLineData, fireCardData] = responseGetList;
+
+  const lineId = fireLineData.docs[0].id;
+  const cardId = fireCardData.docs[0].id;
+
+  const lineData = dtf.keyRemove(fireLineData.docs);
+  const cardData = dtf.keyRemove(fireCardData.docs);
+
+  lineData[0].data.push(newLineData);
+  cardData[0].data.push(newCardData);
+
+  const promiseSetList = [
+    db.collection("lineData").doc(lineId).update({ data: lineData[0].data }),
+    db.collection("cardData").doc(cardId).update({ data: cardData[0].data }),
+  ];
+  await Promise.all(promiseSetList);
+
+  const resData = {
+    boardId,
+    newLineData,
+    newCardData,
+  };
+
+  return resData;
+};
+
 export default services;

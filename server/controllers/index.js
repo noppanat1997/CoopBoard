@@ -161,4 +161,14 @@ controllers.userLogout = async (req, res, next) => {
   }
 };
 
+controllers.inviteMember = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const data = await services.inviteMember(email);
+    res.status(200).send();
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default controllers;
