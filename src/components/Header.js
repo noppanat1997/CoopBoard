@@ -8,7 +8,6 @@ import Logo from ".././images/logo.svg";
 import html2canvas from "html2canvas";
 import history from ".././history";
 import ".././css/Header.css";
-import { UncontrolledPopover, PopoverHeader, PopoverBody } from "reactstrap";
 import Popover from "react-bootstrap/Popover";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 
@@ -30,7 +29,7 @@ class Header extends Component {
           ? this.props.stateFromStore.boardData[boardIndex].name
           : "",
       boardIndex: boardIndex,
-      Email: "",
+      email: "",
       str: "",
       memberList: [],
     };
@@ -89,7 +88,7 @@ class Header extends Component {
         return 4;
     }
   }
-  
+
   componentWillMount() {
     if (this.props.stateFromStore.userData.Color == 0) {
       let c = this.randomBackground();
@@ -303,60 +302,100 @@ class Header extends Component {
                   Clear frame
                 </button>
               </Col>
-              {/* //FIXME member list */}
-              <Col xs={4}>
-                <OverlayTrigger
-                trigger="focus"
-                placement="bottom"
-                overlay={
-                  <Popover
-                    id="popover-basic"
-                    className="py-3 d-flex flex-column popover-dec-header text-center"
-                  >
-                    <div className="w-100 text-center d-flex flex-row justify-content-center">
-                      <button
-                        className="btn button-profile text-center p-0"
-                        disable
-                      >
-                        {this.props.stateFromStore.user.displayName
-                          .split(" ")[0]
-                          .charAt(0)
-                          .toUpperCase()}
-                        {this.props.stateFromStore.user.displayName
-                          .split(" ")[1]
-                          .charAt(0)
-                          .toUpperCase()}
-                      </button>
-                    </div>
-                    <div className="display-name mb-1">
-                      {this.props.stateFromStore.user.displayName}
-                    </div>
-                    <div className="hr px-2"></div>
-                    <div className="w-100 mt-1 text-center d-flex flex-row justify-content-center">
-                      <div
-                        className="button-logout pt-1 mt-1"
-                        onClick={() => {
-                          this.props.userLogout();
-                        }}
-                      >
-                        Sign Out
-                      </div>
-                    </div>
-                  </Popover>
-                }
-              >
-                <button className="btn button-user text-center p-0 mt-2 mr-2">
-                  {this.props.stateFromStore.user.displayName
-                    .split(" ")[0]
-                    .charAt(0)
-                    .toUpperCase()}
-                  {this.props.stateFromStore.user.displayName
-                    .split(" ")[1]
-                    .charAt(0)
-                    .toUpperCase()}
-                </button>
-              </OverlayTrigger></Col>
               <Col xs={4}></Col>
+              {/* //FIXME add member btn */}
+              <Col xs={4} className="d-flex justify-content-end pr-3">
+                <OverlayTrigger
+                  trigger="click"
+                  placement="bottom"
+                  overlay={
+                    <Popover
+                      id="popover-basic"
+                      className="py-3 d-flex flex-column popover-dec-add-member text-center"
+                    >
+                      <div class="form-group w-100 d-flex justify-content-center">
+                        <input
+                          type="email"
+                          className="form-control"
+                          placeholder="Enter email"
+                          style={{ width: "250px" }}
+                          onChange={(e) =>
+                            this.setState({
+                              ...this.state,
+                              email: e.target.value,
+                            })
+                          }
+                        />
+                      </div>
+                      <div className="d-flex justify-content-center">
+                        <button
+                          type="submit"
+                          class="btn button-invite pt-1"
+                          onClick={() => {this.props.inviteMemberFn(this.state.email)}}
+                        >
+                          Invite
+                        </button>
+                      </div>
+                    </Popover>
+                  }
+                >
+                  <button className="btn button-add-member text-center p-0 m-1">
+                    +
+                  </button>
+                </OverlayTrigger>
+                {/* //FIXME map all member */}
+                <OverlayTrigger
+                  trigger="focus"
+                  placement="bottom"
+                  overlay={
+                    <Popover
+                      id="popover-basic"
+                      className="py-3 d-flex flex-column popover-dec-member text-center"
+                    >
+                      <div className="w-100 text-center d-flex flex-row justify-content-center">
+                        <button
+                          className="btn button-member-profile text-center p-0"
+                          disable
+                        >
+                          {this.props.stateFromStore.user.displayName
+                            .split(" ")[0]
+                            .charAt(0)
+                            .toUpperCase()}
+                          {this.props.stateFromStore.user.displayName
+                            .split(" ")[1]
+                            .charAt(0)
+                            .toUpperCase()}
+                        </button>
+                      </div>
+                      <div className="display-member mb-1">
+                        {this.props.stateFromStore.user.displayName}
+                      </div>
+                      <div className="hr px-2"></div>
+                      <div className="w-100 mt-1 text-center d-flex flex-row justify-content-center">
+                        <div
+                          className="button-kick pt-1 mt-1"
+                          onClick={() => {
+                            // this.props.userLogout();
+                          }}
+                        >
+                          Kick Member
+                        </div>
+                      </div>
+                    </Popover>
+                  }
+                >
+                  <button className="btn button-member text-center p-0 m-1">
+                    {this.props.stateFromStore.user.displayName
+                      .split(" ")[0]
+                      .charAt(0)
+                      .toUpperCase()}
+                    {this.props.stateFromStore.user.displayName
+                      .split(" ")[1]
+                      .charAt(0)
+                      .toUpperCase()}
+                  </button>
+                </OverlayTrigger>
+              </Col>
             </Row>
           ) : (
             <div />
@@ -403,6 +442,7 @@ const mapDispatchToProps = (dispatch) => {
       return dispatch({ type: "CHANGE_USER_COLOR", payload: newColor });
     },
     userLogout: () => dispatch(action.userLogout()),
+    inviteMemberFn: (data) => dispatch(action.inviteMember(data)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

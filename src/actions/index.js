@@ -194,3 +194,16 @@ export const userLogout = () => async dispatch => {
     
   }
 }
+
+export const inviteMember = (email) => async dispatch => {
+  try {
+    const res = await axios.post(`http://localhost:8080/api/invite-member`,{email})
+    // return dispatch({
+    //   type: 'USER_LOGIN',
+    //   payload: res.data
+    // })
+  } catch (error) {
+    console.log(error)
+    
+  }
+}
