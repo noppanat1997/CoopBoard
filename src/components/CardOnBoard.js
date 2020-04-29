@@ -17,6 +17,7 @@ import 'prismjs/components/prism-java';
 import 'prismjs/components/prism-php';
 import 'prismjs/components/prism-arduino';
 import 'prismjs/components/prism-python';
+import 'prismjs/components/prism-javascript';
 import '.././css/prism.css';
 //cpp,java,php,arduino,py
 
@@ -152,7 +153,7 @@ class CardOnBoard extends Component {
         <strong><Card.Title className="drag-title"></Card.Title></strong>
         {this.state.isHover == true ? hoverEvent : <div></div>}
         <ReactTinyLink 
-          cardSize={this.props.size === 's' ? 'small' : this.props.size === 'm' ? 'medium' : 'large'}
+          cardSize={this.props.size === 's' ? 'small' : 'large'}
           showGraphic={true}
           maxLine={2}
           minLine={1}
@@ -176,7 +177,8 @@ class CardOnBoard extends Component {
                   : this.state.language === 2 ? code => highlight(code, languages.java)
                   : this.state.language === 3 ? code => highlight(code, languages.php)
                   : this.state.language === 4 ? code => highlight(code, languages.arduino)
-                  : code => highlight(code, languages.python)}
+                  : this.state.language === 5 ? code => highlight(code, languages.python)
+                  : code => highlight(code, languages.javascript)}
         padding={10}
         style={{
           color: "white",

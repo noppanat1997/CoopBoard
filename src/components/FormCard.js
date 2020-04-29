@@ -70,6 +70,7 @@ const FormCard = (props) => {
       case "php" : setState({ ...state, language: 3}); break
       case "arduino" : setState({ ...state, language: 4}); break
       case "python" : setState({ ...state, language: 5}); break
+      case "javascript" : setState({ ...state, language: 6}); break
       default : setState({ ...state, language: 0}); break
     }
   }
@@ -157,11 +158,14 @@ const FormCard = (props) => {
                   M
                 </div>
               </Col>
-              <Col xs={1} className="p-0 mr-2">
-                <div id="2" name="l" className={'text-center mt-2 ' + (state.sizeSelected == 2 ? 'size-ball-active' : 'size-ball')} onClick={sizeHandler}>
-                  L
-                </div>
-              </Col>
+              {
+                props.name !== 'Url' ? 
+                <Col xs={1} className="p-0 mr-2">
+                  <div id="2" name="l" className={'text-center mt-2 ' + (state.sizeSelected == 2 ? 'size-ball-active' : 'size-ball')} onClick={sizeHandler}>
+                    L
+                  </div>
+                </Col> : <Col xs={1} />
+              }
               <Col className="p-0"></Col>
               {
                 props.name === 'Post-It' || props.name === 'To-Do-Lists' || props.name === 'Calendar' || props.name === 'Table' ?
@@ -187,6 +191,7 @@ const FormCard = (props) => {
                         <option value="php">PHP</option>
                         <option value="arduino">Arduino</option>
                         <option value="python">Python</option>
+                        <option value="javascript">Javascript</option>
                       </select>
                       </div>
                     </Col>
