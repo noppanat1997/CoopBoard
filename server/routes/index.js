@@ -17,6 +17,7 @@ router.post('/api/add-user', controllers.addUser)
 router.post('/api/user-login', controllers.userLogin)
 router.get('/api/check-login', controllers.checkLogin)
 router.post('/api/user-logout', controllers.userLogout)
+router.post('/api/invite-member', controllers.inviteMember)
 
 router.use(express.static(path.resolve(__dirname, '..', 'dist')));
 

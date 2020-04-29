@@ -199,7 +199,7 @@
     transition: 0.1s ease-in-out;
     color: white;
     background-color: rgb(255, 60, 60);
-    box-shadow: none;
+    box-shadow: 0px 0px 0px 2px rgba(222,222,222,1);
   }
   .display-name{
     font-size: 18px;
@@ -233,19 +233,19 @@
 
 
 .button-member{
-    width: 45px;
-    height: 45px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     color: white;
-    font-size: 20px;
+    font-size: 12px;
     font-family: 'Roboto', sans-serif;
-    background-color: darkorange;
+    background-color: #202C5D;
     box-shadow: none;
   }
   .button-member:hover{
     transition: 0.1s ease-in-out;
     color: white;
-    box-shadow: 0px 0px 0px 5px rgba(222,222,222,1);
+    box-shadow: 0px 0px 0px 4px rgba(222,222,222,1);
   }
 
   .popover-dec-member {
@@ -253,12 +253,12 @@
     box-shadow: 0 0 5px 0 rgb(131, 131, 131);
   }
   .button-kick{
-    width: 90px;
+    width: 120px;
     height: 30px;
     font-size: 15px;
-    color: rgb(73, 73, 73);
+    color: rgb(255, 255, 255);
     font-family: 'Roboto', sans-serif;
-    background-color:'white';
+    background-color: rgb(255, 60, 60);
     box-shadow: 0px 0px 0px 2px rgba(222,222,222,1);
     border-radius: 3px;
     cursor: pointer;
@@ -267,26 +267,61 @@
     cursor: pointer;
     transition: 0.1s ease-in-out;
     color: white;
-    background-color: rgb(255, 60, 60);
-    box-shadow: none;
+    background-color: rgb(206, 50, 50);
+    box-shadow: 0px 0px 0px 2px rgba(222,222,222,1);
   }
-  .display-name{
+  .display-member{
     font-size: 18px;
     font-weight: bold;
     color: rgb(75, 75, 75);
   }
-  .button-member{
+  .button-member-profile{
     width: 70px;
     height: 70px;
     border-radius: 50%;
     color: white;
     font-size: 32px;
     font-family: 'Roboto', sans-serif;
-    background-color: darkorange;
+    background-color: #202C5D;
     box-shadow: none;
   }
-  .button-member:hover{
+  .button-member-profile:hover{
     transition: 0.1s ease-in-out;
     color: white;
     box-shadow: 0px 0px 0px 5px rgba(222,222,222,1);
+  }
+
+
+  .button-add-member{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 12px;
+    font-family: 'Roboto', sans-serif;
+    background-color: rgb(206, 206, 206);
+    box-shadow: none;
+  }
+  .button-add-member:hover{
+    transition: 0.1s ease-in-out;
+    background-color: rgb(161, 161, 161);
+  }
+
+  .popover-dec-add-member {
+    width: 500px;
+    box-shadow: 0 0 5px 0 rgb(131, 131, 131);
+  }
+  .button-invite{
+    width: 80px;
+    height: 30px;
+    font-family: 'Roboto', sans-serif;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 0px 0px 2px rgba(222,222,222,1);
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  .button-invite:hover{
+    cursor: pointer;
+    transition: 0.1s ease-in-out;
+    background-color: rgb(226, 226, 226);
+    box-shadow: 0px 0px 0px 2px rgba(222,222,222,1);
   }
