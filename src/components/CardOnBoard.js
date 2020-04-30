@@ -19,6 +19,8 @@ import 'prismjs/components/prism-arduino';
 import 'prismjs/components/prism-python';
 import 'prismjs/components/prism-javascript';
 import '.././css/prism.css';
+import ReactDataSheet from 'react-datasheet';
+import 'react-datasheet/lib/react-datasheet.css';
 //cpp,java,php,arduino,py
 
 class CardOnBoard extends Component {
@@ -32,6 +34,7 @@ class CardOnBoard extends Component {
       isHover: false,
       onDelete: false,
       code : this.props.text,
+      grid : this.props.text,
       language : this.props.language
     };
 
@@ -125,6 +128,27 @@ class CardOnBoard extends Component {
         <Card.Text className="p-2" style={{ position: 'relative' }}>{this.props.text}</Card.Text>
       </Card>
     )
+    const tableCard = (
+      <Card
+        onMouseEnter={() => this.setState({ ...this.state, isHover: true })}
+        onMouseLeave={() => this.setState({ ...this.state, isHover: false })}
+        className={"default-card"}
+      >
+        <strong><Card.Title className="drag-title"></Card.Title></strong>
+        {this.state.isHover == true ? hoverEvent : <div></div>}
+        <ReactDataSheet
+        data={this.state.grid}
+        valueRenderer={(cell) => cell.value}
+        onCellsChanged={changes => {
+          const grid = this.state.grid.map(row => [...row])
+          changes.forEach(({cell, row, col, value}) => {
+            grid[row][col] = {...grid[row][col], value}
+          })
+          this.setState({grid})
+        }}
+        />
+      </Card>
+    )
     const videoCard = (
       <Card
         onMouseEnter={() => this.setState({ ...this.state, isHover: true })}
@@ -202,7 +226,7 @@ class CardOnBoard extends Component {
             : this.props.type === 'Checklist' ? postItCard
               : this.props.type === 'Calendar' ? postItCard
                 : this.props.type === 'Map' ? postItCard
-                  : this.props.type === 'Table' ? postItCard
+                  : this.props.type === 'Table' ? tableCard
                     : this.props.type === 'Url' ? urlCard
                       : this.props.type === 'Code' ? codeCard
                         : videoCard

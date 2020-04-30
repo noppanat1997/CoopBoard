@@ -32,7 +32,6 @@ const FormCard = (props) => {
     let board = props.board
     let type = props.name
     let language = state.language
-    console.log("Language : " + language)
     if (text.length !== 0) {
       if (props.name === 'Video') {
         text = extractVideoID(text)
@@ -55,8 +54,21 @@ const FormCard = (props) => {
           cancelHandler();
         }
       }
+      else if(props.name === "Table"){
+        let sizeOfTable = text.split(',');
+        let columns = [];
+        for(let i = 0; i < parseInt(sizeOfTable[1]); i++){
+          columns.push({value: 0});
+        }
+        let grid = [];
+        for(let j = 0; j < parseInt(sizeOfTable[0]); j++){
+          grid.push(columns);
+        }
+        console.log(grid);
+        props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: grid, language: language })
+      }
       else{
-        props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: text })
+        props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: text, language: language })
       }
     }
     setState({ ...state, textAreaCount: 0, text: '' })
@@ -140,6 +152,18 @@ const FormCard = (props) => {
       </Form.Group>
     </Card.Body>
   )
+  const tableForm = (
+    <Card.Body className='text-area-bg bg-light'>
+      <Form.Group className="mb-0" controlId="exampleForm.ControlTextarea1">
+        <Form.Control
+          placeholder="Enter number of rows and columns...(1,1)"
+          className="text-box my-card-form-control"
+          as="textarea"
+          rows="3"
+          onChange={(e) => setState({ ...state, textAreaCount: e.target.value.length, text: e.target.value })} />
+      </Form.Group>
+    </Card.Body>
+  )
   return (
     <div>
       <Card className="postit-form">
@@ -198,7 +222,6 @@ const FormCard = (props) => {
                       
                       : <Col xs={4}/>
               }
-
             </Row>
           </Container>
         </Card.Header>
@@ -207,7 +230,7 @@ const FormCard = (props) => {
             : props.name === 'Checklist' ? postItForm
               : props.name === 'Calendar' ? postItForm
                 : props.name === 'Map' ? postItForm
-                  : props.name === 'Table' ? postItForm
+                  : props.name === 'Table' ? tableForm
                     : props.name === 'Url' ? urlForm
                       : props.name === 'Code' ? codeForm
                         : videoForm
