@@ -322,17 +322,19 @@ class Header extends Component {
                             })
                           }
                         />
-                        
+
                       </div>
                       <div className="d-flex justify-content-center">
                         <button
                           type="submit"
                           class="btn button-invite pt-1"
-                          onClick={() => {
+                          onClick={async() => {
                             // console.log(this.props.board)
-                            this.props.inviteMemberFn(this.state.email,this.props.board)
-                            this.props.updateLoaderFn(true);
+                            await this.props.inviteMemberFn(this.state.email,this.props.board)
+                            if(this.props.stateFromStore.inviteStatus === 'Invite member success'){
+                              this.props.updateLoaderFn(true);
                             this.props.fetchBoardFn();
+                            }
                           }}
                         >
                           Invite
