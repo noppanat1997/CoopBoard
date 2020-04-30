@@ -6,8 +6,8 @@ const controllers = {};
 //NOTE
 controllers.addBoard = async (req, res, next) => {
   try {
-    const { userEmail } = req.body;
-    const data = await services.addBoardData(userEmail);
+    const { user } = req.body;
+    const data = await services.addBoardData(user);
 
     res.status(200).send(data);
   } catch (error) {
@@ -129,7 +129,11 @@ controllers.userLogin = async (req, res, next) => {
         userData = null;
       }
     });
-    res.status(200).send(userData);
+
+    const uid = userData.uid
+    const userFireStore = await services.getUser(uid)
+
+    res.status(200).send(userFireStore);
   } catch (error) {
     console.log(error);
   }
@@ -145,7 +149,11 @@ controllers.checkLogin = async (req, res, next) => {
         userData = null;
       }
     });
-    res.status(200).send(userData);
+
+    const uid = userData.uid
+    const userFireStore = await services.getUser(uid)
+
+    res.status(200).send(userFireStore);
   } catch (error) {
     console.log(error);
   }
@@ -163,9 +171,9 @@ controllers.userLogout = async (req, res, next) => {
 
 controllers.inviteMember = async (req, res, next) => {
   try {
-    const { email } = req.body;
-    const data = await services.inviteMember(email);
-    res.status(200).send();
+    const { email,boardId } = req.body;
+    const user = await services.inviteMember(email,boardId);
+    res.status(200).send(user);
   } catch (error) {
     next(error);
   }

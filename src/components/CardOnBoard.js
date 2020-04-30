@@ -182,7 +182,7 @@ class CardOnBoard extends Component {
         padding={10}
         style={{
           color: "white",
-          background: "black",
+          background: "#121212",
           fontFamily: '"Consolas" ,"monaco" ,monospace',
           fontSize: 16
         }}

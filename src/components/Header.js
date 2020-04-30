@@ -244,18 +244,16 @@ class Header extends Component {
                         className="btn button-profile text-center p-0"
                         disable
                       >
-                        {this.props.stateFromStore.user.displayName
-                          .split(" ")[0]
+                        {this.props.stateFromStore.user.firstname
                           .charAt(0)
                           .toUpperCase()}
-                        {this.props.stateFromStore.user.displayName
-                          .split(" ")[1]
+                        {this.props.stateFromStore.user.lastname
                           .charAt(0)
                           .toUpperCase()}
                       </button>
                     </div>
                     <div className="display-name mb-1">
-                      {this.props.stateFromStore.user.displayName}
+                      {this.props.stateFromStore.user.firstname} {this.props.stateFromStore.user.lastname}
                     </div>
                     <div className="hr px-2"></div>
                     <div className="w-100 mt-1 text-center d-flex flex-row justify-content-center">
@@ -272,12 +270,10 @@ class Header extends Component {
                 }
               >
                 <button className="btn button-user text-center p-0 mt-2 mr-2">
-                  {this.props.stateFromStore.user.displayName
-                    .split(" ")[0]
+                  {this.props.stateFromStore.user.firstname
                     .charAt(0)
                     .toUpperCase()}
-                  {this.props.stateFromStore.user.displayName
-                    .split(" ")[1]
+                  {this.props.stateFromStore.user.lastname
                     .charAt(0)
                     .toUpperCase()}
                 </button>
@@ -331,7 +327,12 @@ class Header extends Component {
                         <button
                           type="submit"
                           class="btn button-invite pt-1"
-                          onClick={() => {this.props.inviteMemberFn(this.state.email)}}
+                          onClick={() => {
+                            // console.log(this.props.board)
+                            this.props.inviteMemberFn(this.state.email,this.props.board)
+                            this.props.updateLoaderFn(true);
+                            this.props.fetchBoardFn();
+                          }}
                         >
                           Invite
                         </button>
@@ -357,18 +358,16 @@ class Header extends Component {
                           className="btn button-member-profile text-center p-0"
                           disable
                         >
-                          {this.props.stateFromStore.user.displayName
-                            .split(" ")[0]
+                          {this.props.stateFromStore.user.firstname
                             .charAt(0)
                             .toUpperCase()}
-                          {this.props.stateFromStore.user.displayName
-                            .split(" ")[1]
+                          {this.props.stateFromStore.user.lastname
                             .charAt(0)
                             .toUpperCase()}
                         </button>
                       </div>
                       <div className="display-member mb-1">
-                        {this.props.stateFromStore.user.displayName}
+                        {this.props.stateFromStore.user.firstname} {this.props.stateFromStore.user.lastname}
                       </div>
                       <div className="hr px-2"></div>
                       <div className="w-100 mt-1 text-center d-flex flex-row justify-content-center">
@@ -385,12 +384,10 @@ class Header extends Component {
                   }
                 >
                   <button className="btn button-member text-center p-0 m-1">
-                    {this.props.stateFromStore.user.displayName
-                      .split(" ")[0]
+                    {this.props.stateFromStore.user.firstname
                       .charAt(0)
                       .toUpperCase()}
-                    {this.props.stateFromStore.user.displayName
-                      .split(" ")[1]
+                    {this.props.stateFromStore.user.lastname
                       .charAt(0)
                       .toUpperCase()}
                   </button>
@@ -442,7 +439,13 @@ const mapDispatchToProps = (dispatch) => {
       return dispatch({ type: "CHANGE_USER_COLOR", payload: newColor });
     },
     userLogout: () => dispatch(action.userLogout()),
-    inviteMemberFn: (data) => dispatch(action.inviteMember(data)),
+    inviteMemberFn: (email,boardId) => dispatch(action.inviteMember(email,boardId)),
+    updateLoaderFn: (data) => {
+      return dispatch({ type: "UPDATE_LOADER", payload: data });
+    },
+    fetchBoardFn: () => {
+      return dispatch(action.fetchBoard());
+    },
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

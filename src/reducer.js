@@ -319,13 +319,18 @@ const reducer = (state = initialState, action) => {
         boardData: newBoardData,
         lineData: newLineData,
         cardData: newCardData,
+        boardId: boardId,
       } = action.payload;
-
+      const newUser = state.user
+      if(newUser){
+        newUser.board = [...newUser.board, boardId]
+      }
       return {
         ...state,
         lineData: [...state.lineData, newLineData],
         cardData: [...state.cardData, newCardData],
         boardData: [...state.boardData, newBoardData],
+        user: newUser,
       };
     }
     // REVIEW b img

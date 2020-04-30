@@ -8,9 +8,9 @@ const headers = {
 axios.defaults.headers.common["Content-Type"] = "application/json";
 
 
-export const addBoard = (userEmail) => async (dispatch) => {
+export const addBoard = (user) => async (dispatch) => {
   try {
-    const res = await axios.post(`http://localhost:8080/api/add-board`, {userEmail});
+    const res = await axios.post(`http://localhost:8080/api/add-board`, {user});
     // console.log(res.data)
     if (!res.data) {
       const err = new Error("no `data` property on response object");
@@ -195,9 +195,10 @@ export const userLogout = () => async dispatch => {
   }
 }
 
-export const inviteMember = (email) => async dispatch => {
+export const inviteMember = (email,boardId) => async dispatch => {
   try {
-    const res = await axios.post(`http://localhost:8080/api/invite-member`,{email})
+    // console.log(boardId)
+    const res = await axios.post(`http://localhost:8080/api/invite-member`,{email,boardId})
     // return dispatch({
     //   type: 'USER_LOGIN',
     //   payload: res.data
