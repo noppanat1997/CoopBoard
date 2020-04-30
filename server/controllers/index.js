@@ -172,8 +172,8 @@ controllers.userLogout = async (req, res, next) => {
 controllers.inviteMember = async (req, res, next) => {
   try {
     const { email,boardId } = req.body;
-    const user = await services.inviteMember(email,boardId);
-    res.status(200).send(user);
+    const data = await services.inviteMember(email,boardId);
+    res.status(200).send(data);
   } catch (error) {
     next(error);
   }

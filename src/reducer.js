@@ -32,6 +32,7 @@ const initialState = {
   isDrop: false,
   onDropArea: false,
   onCanvas: false,
+  inviteStatus: '',
   userData: {
     Name: "Nontapat",
     Surname: "Sirichuensuwan",
@@ -545,6 +546,13 @@ const reducer = (state = initialState, action) => {
         ...state,
         user: currentUser,
         isLoading: false
+      }
+    }
+    case 'INVITE_MEMBER':{
+      const { status } = action.payload
+      return {
+        ...state,
+        inviteStatus: status,
       }
     }
     default:

@@ -280,11 +280,12 @@ services.inviteMember = async (email,boardId) => {
       await db.collection("user").doc(userHasEmail.id).update({
         board: newUserHasBoard
       });
+      return {status: 'Invite member success'}
     } else {
-      return null
+      return {status: 'Already has an account in this board'}
     }
   }
-  return userHasEmail
+  return {status: 'Not have an account on the Coopboard'}
   
 };
 services.getUser = async (uid) => {

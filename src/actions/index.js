@@ -199,10 +199,10 @@ export const inviteMember = (email,boardId) => async dispatch => {
   try {
     // console.log(boardId)
     const res = await axios.post(`http://localhost:8080/api/invite-member`,{email,boardId})
-    // return dispatch({
-    //   type: 'USER_LOGIN',
-    //   payload: res.data
-    // })
+    return dispatch({
+      type: 'INVITE_MEMBER',
+      payload: res.data
+    })
   } catch (error) {
     console.log(error)
     
