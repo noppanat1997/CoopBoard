@@ -253,7 +253,8 @@ class Header extends Component {
                       </button>
                     </div>
                     <div className="display-name mb-1">
-                      {this.props.stateFromStore.user.firstname} {this.props.stateFromStore.user.lastname}
+                      {this.props.stateFromStore.user.firstname}{" "}
+                      {this.props.stateFromStore.user.lastname}
                     </div>
                     <div className="hr px-2"></div>
                     <div className="w-100 mt-1 text-center d-flex flex-row justify-content-center">
@@ -298,7 +299,40 @@ class Header extends Component {
                   Clear frame
                 </button>
               </Col>
-              <Col xs={4}></Col>
+              <Col
+                xs={4}
+                className="d-flex ot-1 flex-wrap flex-row justify-content-center"
+              >
+                <button
+                  className="btn button-page mt-1 pt-0 btn-sm"
+                  onClick={() =>
+                    this.pageChangeHandler(
+                      this.props.stateFromStore.curPage - 1
+                    )
+                  }
+                  style={{ width: "50px", height: "32px", fontSize: "20px" }}
+                >
+                  &#60;
+                </button>
+                {/*NOTE page number render*/}
+                <div
+                  className="text-center mt-1 mb-1 border-right border-left btn-sm"
+                  style={{ width: "70px", fontSize: "16px" }}
+                >
+                  {this.props.stateFromStore.curPage}
+                </div>
+                <button
+                  className="btn button-page mt-1 pt-0 btn-sm"
+                  onClick={() =>
+                    this.pageChangeHandler(
+                      this.props.stateFromStore.curPage + 1
+                    )
+                  }
+                  style={{ width: "50px", height: "32px", fontSize: "20px" }}
+                >
+                  &#62;
+                </button>
+              </Col>
               {/* //FIXME add member btn */}
               <Col xs={4} className="d-flex justify-content-end pr-3">
                 <OverlayTrigger
@@ -322,19 +356,25 @@ class Header extends Component {
                             })
                           }
                         />
-
                       </div>
                       <div className="d-flex justify-content-center">
                         <button
                           type="submit"
                           class="btn button-invite pt-1"
-                          onClick={async() => {
+                          onClick={async () => {
                             // console.log(this.props.board)
-                            await this.props.inviteMemberFn(this.state.email,this.props.board)
-                            if(this.props.stateFromStore.inviteStatus === 'Invite member success'){
+                            await this.props.inviteMemberFn(
+                              this.state.email,
+                              this.props.board
+                            );
+                            if (
+                              this.props.stateFromStore.inviteStatus ===
+                              "Invite member success"
+                            ) {
                               this.props.updateLoaderFn(true);
-                            this.props.fetchBoardFn();
+                              await this.props.fetchBoardFn(this.props.stateFromStore.user);
                             }
+                            this.props.clearStatusInviteFn();
                           }}
                         >
                           Invite
@@ -370,7 +410,8 @@ class Header extends Component {
                         </button>
                       </div>
                       <div className="display-member mb-1">
-                        {this.props.stateFromStore.user.firstname} {this.props.stateFromStore.user.lastname}
+                        {this.props.stateFromStore.user.firstname}{" "}
+                        {this.props.stateFromStore.user.lastname}
                       </div>
                       <div className="hr px-2"></div>
                       <div className="w-100 mt-1 text-center d-flex flex-row justify-content-center">
@@ -442,13 +483,16 @@ const mapDispatchToProps = (dispatch) => {
       return dispatch({ type: "CHANGE_USER_COLOR", payload: newColor });
     },
     userLogout: () => dispatch(action.userLogout()),
-    inviteMemberFn: (email,boardId) => dispatch(action.inviteMember(email,boardId)),
+    inviteMemberFn: (email, boardId) =>
+      dispatch(action.inviteMember(email, boardId)),
     updateLoaderFn: (data) => {
       return dispatch({ type: "UPDATE_LOADER", payload: data });
     },
-    fetchBoardFn: () => {
-      return dispatch(action.fetchBoard());
+    fetchBoardFn: (data) => {
+      return dispatch(action.fetchBoard(data));
     },
+    clearStatusInviteFn: () =>
+      dispatch({ type: "INVITE_MEMBER", payload: '' }),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -17,7 +17,7 @@ const BoardList = (props) => {
   });
   const fetchData = async () => {
     try {
-      await props.fetchBoardFn();
+      await props.fetchBoardFn(this.props.stateFromStore.user);
     } catch (error) {
       throw error;
     }
@@ -180,8 +180,8 @@ const mapDispatchToProps = (dispatch) => {
     deleteBoardFn: (data) => {
       return dispatch(action.deleteBoard(data));
     },
-    fetchBoardFn: () => {
-      return dispatch(action.fetchBoard());
+    fetchBoardFn: (data) => {
+      return dispatch(action.fetchBoard(data));
     },
     updateLoaderFn: (data) => {
       return dispatch({ type: "UPDATE_LOADER", payload: data });

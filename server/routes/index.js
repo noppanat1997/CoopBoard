@@ -6,7 +6,7 @@ import controllers from '../controllers';
 const router = Router();
 
 router.post('/api/add-board', controllers.addBoard)
-router.get('/api/fetch-board', controllers.fetchBoard)
+router.get('/api/fetch-board/:user', controllers.fetchBoard)
 router.delete('/api/delete-board/:boardId', controllers.deleteBoard)
 router.post('/api/add-page', controllers.addPage)
 router.delete('/api/delete-page/:boardId/:pageId', controllers.deletePage)

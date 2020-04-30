@@ -14,7 +14,7 @@ const BoardPage = (props) => {
   });
   const fetchData = async () => {
     try {
-      await props.fetchBoardFn();
+      await props.fetchBoardFn(this.props.stateFromStore.user);
     } catch (error) {
       throw error;
     }
@@ -104,8 +104,8 @@ const mapDispatchToProps = (dispatch) => ({
   updateLoaderFn: (data) => {
     return dispatch({ type: "UPDATE_LOADER", payload: data });
   },
-  fetchBoardFn: () => {
-    return dispatch(action.fetchBoard());
+  fetchBoardFn: (data) => {
+    return dispatch(action.fetchBoard(data));
   },
 });
 
