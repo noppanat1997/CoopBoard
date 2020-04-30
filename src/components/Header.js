@@ -24,6 +24,7 @@ class Header extends Component {
       }
     }
     this.state = {
+      inviteStatusColor:'',
       boardName:
         this.props.path != "list"
           ? this.props.stateFromStore.boardData[boardIndex].name
@@ -68,11 +69,11 @@ class Header extends Component {
     this.props.changePageFn(newPage);
     history.push(
       "/list/" +
-        this.props.board +
-        "/" +
-        this.props.stateFromStore.cardData[this.state.boardIndex].data[
-          newPage - 1
-        ].id
+      this.props.board +
+      "/" +
+      this.props.stateFromStore.cardData[this.state.boardIndex].data[
+        newPage - 1
+      ].id
     );
   }
   randomBackground() {
@@ -148,9 +149,9 @@ class Header extends Component {
       this.pageChangeHandler(newPage);
       history.push(
         "/list/" +
-          this.props.board +
-          "/" +
-          this.props.stateFromStore.cardData[boardIndex].data[newPage - 1].id
+        this.props.board +
+        "/" +
+        this.props.stateFromStore.cardData[boardIndex].data[newPage - 1].id
       );
     }
     if (pageLength > 1) {
@@ -210,8 +211,8 @@ class Header extends Component {
                   value={this.state.boardName}
                 ></input>
               ) : (
-                <div></div>
-              )}
+                  <div></div>
+                )}
             </Col>
             <Col xs={4} className="text-center">
               <Link to="/list">
@@ -343,7 +344,7 @@ class Header extends Component {
                       id="popover-basic"
                       className="py-3 d-flex flex-column popover-dec-add-member text-center"
                     >
-                      <div class="form-group w-100 d-flex justify-content-center">
+                      <div class="form-group mb-1 w-100 d-flex justify-content-center">
                         <input
                           type="email"
                           className="form-control"
@@ -357,22 +358,25 @@ class Header extends Component {
                           }
                         />
                       </div>
-                      <div className="d-flex justify-content-center">
+                      <div style={{textAlign:'left',marginLeft:'13px',color:this.state.inviteStatusColor}}>{this.props.stateFromStore.inviteStatus}</div>
+                      <div className="d-flex justify-content-center mt-1">
                         <button
                           type="submit"
                           class="btn button-invite pt-1"
                           onClick={async () => {
                             // console.log(this.props.board)
-                            await this.props.inviteMemberFn(
-                              this.state.email,
-                              this.props.board
-                            );
-                            if (
-                              this.props.stateFromStore.inviteStatus ===
-                              "Invite member success"
-                            ) {
+                            await this.props.inviteMemberFn(this.state.email, this.props.board)
+                            if (this.props.stateFromStore.inviteStatus === 'Invite member success') {
                               this.props.updateLoaderFn(true);
-                              await this.props.fetchBoardFn(this.props.stateFromStore.user);
+                              this.props.fetchBoardFn(this.props.stateFromStore.user);
+                              this.setState({
+                                inviteStatusColor:'green'
+                              })
+                            }
+                            else{
+                              this.setState({
+                                inviteStatusColor:'red'
+                              })
                             }
                             this.props.clearStatusInviteFn();
                           }}
@@ -439,8 +443,8 @@ class Header extends Component {
               </Col>
             </Row>
           ) : (
-            <div />
-          )}
+              <div />
+            )}
         </Container>
       </div>
     );
