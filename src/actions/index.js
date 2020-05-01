@@ -40,7 +40,8 @@ export const deleteBoard = (boardId) => async (dispatch) => {
 
 export const fetchBoard = (user) => async (dispatch) => {
   try {
-    const res = await axios.get(`http://localhost:8080/api/fetch-board/${user}`);
+    console.log('????', user)
+    const res = await axios.post(`http://localhost:8080/api/fetch-board/`,{user});
     if (!res.data) {
       const err = new Error("no `data` property on response object");
       throw err;

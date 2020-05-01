@@ -14,7 +14,7 @@ const BoardPage = (props) => {
   });
   const fetchData = async () => {
     try {
-      await props.fetchBoardFn(this.props.stateFromStore.user);
+      await props.fetchBoardFn(props.stateFromStore.user);
     } catch (error) {
       throw error;
     }

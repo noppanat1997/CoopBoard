@@ -17,7 +17,14 @@ const BoardList = (props) => {
   });
   const fetchData = async () => {
     try {
-      await props.fetchBoardFn(this.props.stateFromStore.user);
+      await props.fetchBoardFn(props.stateFromStore.user);
+    } catch (error) {
+      throw error;
+    }
+  };
+  const checkLoginAsync = async () => {
+    try {
+      await props.checkLogin();
     } catch (error) {
       throw error;
     }
@@ -25,7 +32,7 @@ const BoardList = (props) => {
   useEffect(() => {
     //REVIEW loader(true)
     props.updateLoaderFn(true);
-    props.checkLogin();
+    checkLoginAsync();
     props.updateLoaderFn(true);
     fetchData();
   }, []);

@@ -17,7 +17,8 @@ controllers.addBoard = async (req, res, next) => {
 
 controllers.fetchBoard = async (req, res, next) => {
   try {
-    const {user } = req.params;
+    const { user } = req.body;
+    console.log(user)
     const data = await services.fetchBoard(user);
 
     res.status(200).send(data);

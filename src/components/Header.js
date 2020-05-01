@@ -23,6 +23,7 @@ class Header extends Component {
         break;
       }
     }
+    
     this.state = {
       inviteStatusColor:'',
       boardName:
@@ -178,6 +179,10 @@ class Header extends Component {
   }
 
   render() {
+    // const hasUser = !!this.props.stateFromStore.user;
+    // const { firstname } = this.props.stateFromStore.user || {};
+    
+    // {hasUser ? < : }
     return (
       <div
         className="roboto"

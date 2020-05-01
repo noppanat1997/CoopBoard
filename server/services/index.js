@@ -69,11 +69,18 @@ services.addBoardData = async (user) => {
 };
 
 services.fetchBoard = async (user) => {
+  console.log(user.board)
+  
   const promiseGetList = [
     db.collection("boardData").where("id", "in", user.board).get(),
     db.collection("lineData").where("id", "in", user.board).get(),
     db.collection("cardData").where("id", "in", user.board).get(),
   ];
+  // const promiseGetList = [
+  //   db.collection("boardData").get(),
+  //   db.collection("lineData").get(),
+  //   db.collection("cardData").get(),
+  // ];
   const responseGetList = await Promise.all(promiseGetList);
 
   const [
