@@ -1,1 +1,1 @@
-web: webpack --config ./src/webpack.config.js && nodemon --exec babel-node --ignore ./src ./server/index.js
+web: webpack --config ./src/webpack.config.js && babel-node --max_old_space_size=460 --ignore ./src ./server/index.js
