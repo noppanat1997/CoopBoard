@@ -56,8 +56,8 @@
     "webpack-cli": "^3.3.11"
   },
   "scripts": {
-    "start": "webpack --config ./src/webpack.config.js && babel-node --max_old_space_size=460 --ignore ./src ./server/index.js",
-    "_start": "react-scripts start",
+    "_start": "webpack --config ./src/webpack.config.js && babel-node --max_old_space_size=460 --ignore ./src ./server/index.js",
+    "start": "react-scripts start",
     "_build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
