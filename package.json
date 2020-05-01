@@ -56,7 +56,7 @@
     "webpack-cli": "^3.3.11"
   },
   "scripts": {
-    "start": "react-scripts webpack --config ./src/webpack.config.js netlify-lambda build express nodemon --exec babel-node --ignore ./src ./server/index.js",
+    "start": "webpack --config ./src/webpack.config.js && nodemon --exec babel-node --ignore ./src ./server/index.js",
     "_start": "react-scripts start",
     "_build": "react-scripts build",
     "test": "react-scripts test",
