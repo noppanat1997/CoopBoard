@@ -1,1 +1,1 @@
-web: npm start
+web: webpack --config ./src/webpack.config.js && nodemon --exec babel-node --ignore ./src ./server/index.js
