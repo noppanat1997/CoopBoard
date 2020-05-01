@@ -23,9 +23,9 @@ class Header extends Component {
         break;
       }
     }
-    
+
     this.state = {
-      inviteStatusColor:'',
+      inviteStatusColor: "",
       boardName:
         this.props.path != "list"
           ? this.props.stateFromStore.boardData[boardIndex].name
@@ -70,11 +70,11 @@ class Header extends Component {
     this.props.changePageFn(newPage);
     history.push(
       "/list/" +
-      this.props.board +
-      "/" +
-      this.props.stateFromStore.cardData[this.state.boardIndex].data[
-        newPage - 1
-      ].id
+        this.props.board +
+        "/" +
+        this.props.stateFromStore.cardData[this.state.boardIndex].data[
+          newPage - 1
+        ].id
     );
   }
   randomBackground() {
@@ -150,9 +150,9 @@ class Header extends Component {
       this.pageChangeHandler(newPage);
       history.push(
         "/list/" +
-        this.props.board +
-        "/" +
-        this.props.stateFromStore.cardData[boardIndex].data[newPage - 1].id
+          this.props.board +
+          "/" +
+          this.props.stateFromStore.cardData[boardIndex].data[newPage - 1].id
       );
     }
     if (pageLength > 1) {
@@ -181,8 +181,68 @@ class Header extends Component {
   render() {
     // const hasUser = !!this.props.stateFromStore.user;
     // const { firstname } = this.props.stateFromStore.user || {};
-    
+
     // {hasUser ? < : }
+    let memberList = []
+    let renderAllmember = (<div></div>)
+    if (this.props.path != "list") {
+      memberList = this.props.stateFromStore.boardData[
+        this.state.boardIndex
+      ].member;
+      // this.props.stateFromStore.user.id
+      renderAllmember = memberList.map((item) => (
+        this.props.stateFromStore.user.id !== item.id ?
+        <OverlayTrigger
+          trigger="focus"
+          placement="bottom"
+          overlay={
+            <Popover
+              id="popover-basic"
+              className="py-3 d-flex flex-column popover-dec-member text-center"
+            >
+              <div className="w-100 text-center d-flex flex-row justify-content-center">
+                <button
+                  className="btn button-member-profile text-center p-0"
+                  disable
+                >
+                  {item.firstname
+                    .charAt(0)
+                    .toUpperCase()}
+                  {item.lastname
+                    .charAt(0)
+                    .toUpperCase()}
+                </button>
+              </div>
+              <div className="display-member mb-1">
+                {item.firstname}{" "}
+                {item.lastname}
+              </div>
+              <div className="hr px-2"></div>
+              <div className="w-100 mt-1 text-center d-flex flex-row justify-content-center">
+                <div
+                  className="button-kick pt-1 mt-1"
+                  onClick={async() => {
+                    await this.props.kickMemberFn(item.id ,this.props.board);
+                    this.props.updateLoaderFn(true);
+                    this.props.fetchBoardFn(
+                      this.props.stateFromStore.user
+                    );
+                  }}
+                >
+                  Kick Member
+                </div>
+              </div>
+            </Popover>
+          }
+        >
+          <button className="btn button-member text-center p-0 m-1">
+            {item.firstname.charAt(0).toUpperCase()}
+            {item.lastname.charAt(0).toUpperCase()}
+          </button>
+        </OverlayTrigger>:<div></div>
+      ));
+    }
+
     return (
       <div
         className="roboto"
@@ -216,8 +276,8 @@ class Header extends Component {
                   value={this.state.boardName}
                 ></input>
               ) : (
-                  <div></div>
-                )}
+                <div></div>
+              )}
             </Col>
             <Col xs={4} className="text-center">
               <Link to="/list">
@@ -363,25 +423,40 @@ class Header extends Component {
                           }
                         />
                       </div>
-                      <div style={{textAlign:'left',marginLeft:'13px',color:this.state.inviteStatusColor}}>{this.props.stateFromStore.inviteStatus}</div>
+                      <div
+                        style={{
+                          textAlign: "left",
+                          marginLeft: "13px",
+                          color: this.state.inviteStatusColor,
+                        }}
+                      >
+                        {this.props.stateFromStore.inviteStatus}
+                      </div>
                       <div className="d-flex justify-content-center mt-1">
                         <button
                           type="submit"
                           class="btn button-invite pt-1"
                           onClick={async () => {
                             // console.log(this.props.board)
-                            await this.props.inviteMemberFn(this.state.email, this.props.board)
-                            if (this.props.stateFromStore.inviteStatus === 'Invite member success') {
+                            await this.props.inviteMemberFn(
+                              this.state.email,
+                              this.props.board
+                            );
+                            if (
+                              this.props.stateFromStore.inviteStatus ===
+                              "Invite member success"
+                            ) {
                               this.props.updateLoaderFn(true);
-                              this.props.fetchBoardFn(this.props.stateFromStore.user);
+                              this.props.fetchBoardFn(
+                                this.props.stateFromStore.user
+                              );
                               this.setState({
-                                inviteStatusColor:'green'
-                              })
-                            }
-                            else{
+                                inviteStatusColor: "green",
+                              });
+                            } else {
                               this.setState({
-                                inviteStatusColor:'red'
-                              })
+                                inviteStatusColor: "red",
+                              });
                             }
                             this.props.clearStatusInviteFn();
                           }}
@@ -397,59 +472,12 @@ class Header extends Component {
                   </button>
                 </OverlayTrigger>
                 {/* //FIXME map all member */}
-                <OverlayTrigger
-                  trigger="focus"
-                  placement="bottom"
-                  overlay={
-                    <Popover
-                      id="popover-basic"
-                      className="py-3 d-flex flex-column popover-dec-member text-center"
-                    >
-                      <div className="w-100 text-center d-flex flex-row justify-content-center">
-                        <button
-                          className="btn button-member-profile text-center p-0"
-                          disable
-                        >
-                          {this.props.stateFromStore.user.firstname
-                            .charAt(0)
-                            .toUpperCase()}
-                          {this.props.stateFromStore.user.lastname
-                            .charAt(0)
-                            .toUpperCase()}
-                        </button>
-                      </div>
-                      <div className="display-member mb-1">
-                        {this.props.stateFromStore.user.firstname}{" "}
-                        {this.props.stateFromStore.user.lastname}
-                      </div>
-                      <div className="hr px-2"></div>
-                      <div className="w-100 mt-1 text-center d-flex flex-row justify-content-center">
-                        <div
-                          className="button-kick pt-1 mt-1"
-                          onClick={() => {
-                            // this.props.userLogout();
-                          }}
-                        >
-                          Kick Member
-                        </div>
-                      </div>
-                    </Popover>
-                  }
-                >
-                  <button className="btn button-member text-center p-0 m-1">
-                    {this.props.stateFromStore.user.firstname
-                      .charAt(0)
-                      .toUpperCase()}
-                    {this.props.stateFromStore.user.lastname
-                      .charAt(0)
-                      .toUpperCase()}
-                  </button>
-                </OverlayTrigger>
+                {renderAllmember}
               </Col>
             </Row>
           ) : (
-              <div />
-            )}
+            <div />
+          )}
         </Container>
       </div>
     );
@@ -500,8 +528,8 @@ const mapDispatchToProps = (dispatch) => {
     fetchBoardFn: (data) => {
       return dispatch(action.fetchBoard(data));
     },
-    clearStatusInviteFn: () =>
-      dispatch({ type: "INVITE_MEMBER", payload: '' }),
+    clearStatusInviteFn: () => dispatch({ type: "INVITE_MEMBER", payload: "" }),
+    kickMemberFn: (memberId,boardId) => dispatch(action.kickMember(memberId,boardId))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

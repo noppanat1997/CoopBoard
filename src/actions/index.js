@@ -209,3 +209,12 @@ export const inviteMember = (email,boardId) => async dispatch => {
     
   }
 }
+
+export const kickMember = (memberId,boardId) => async dispatch => {
+  try {
+    // console.log('action????????',memberId,boardId)
+    await axios.delete(`http://localhost:8080/api/kick-member/${boardId}/${memberId}`)
+  } catch (error) {
+    console.log(error)
+  }
+}

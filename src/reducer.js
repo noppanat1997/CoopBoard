@@ -527,9 +527,9 @@ const reducer = (state = initialState, action) => {
     //REVIEW fetch board
     case "FETCH_BOARD": {
       let {
-        boardDataList: newBoardDataList,
-        lineDataList: newLineDataList,
-        cardDataList: newCardDataList,
+        newBoardDataList: newBoardDataList,
+        newLineDataList: newLineDataList,
+        newCardDataList: newCardDataList,
       } = action.payload;
 
       return {

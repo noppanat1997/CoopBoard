@@ -22,6 +22,7 @@ router.get('/api/check-login', controllers.checkLogin)
 
 router.delete('/api/delete-board/:boardId', controllers.deleteBoard)
 router.delete('/api/delete-page/:boardId/:pageId', controllers.deletePage)
+router.delete('/api/kick-member/:boardId/:memberId', controllers.kickMember)
 
 router.use(express.static(path.resolve(__dirname, '..', 'dist')));
 
