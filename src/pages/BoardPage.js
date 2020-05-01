@@ -14,7 +14,7 @@ const BoardPage = (props) => {
   });
   const fetchData = async () => {
     try {
-      await props.fetchBoardFn();
+      await props.fetchBoardFn(props.stateFromStore.user);
     } catch (error) {
       throw error;
     }
@@ -29,12 +29,12 @@ const BoardPage = (props) => {
     props.checkLogin();
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (!props.stateFromStore.user) {
-      console.log(props.stateFromStore.user)
+      console.log(props.stateFromStore.user);
       history.push("/login");
     }
-  },[props.stateFromStore.user])
+  }, [props.stateFromStore.user]);
 
   if (!state.isFetch) {
     return (
@@ -50,6 +50,19 @@ const BoardPage = (props) => {
   } else {
     return (
       <div>
+        {props.stateFromStore.isLoading ? (
+          <div className="coop-loader">
+            <div class="lds-ring">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+        ) : (
+          <div></div>
+        )}
+
         {props.stateFromStore.onDropArea === true &&
           props.stateFromStore.formCardData &&
           Object.entries(props.stateFromStore.formCardData)
@@ -91,8 +104,8 @@ const mapDispatchToProps = (dispatch) => ({
   updateLoaderFn: (data) => {
     return dispatch({ type: "UPDATE_LOADER", payload: data });
   },
-  fetchBoardFn: () => {
-    return dispatch(action.fetchBoard());
+  fetchBoardFn: (data) => {
+    return dispatch(action.fetchBoard(data));
   },
 });
 

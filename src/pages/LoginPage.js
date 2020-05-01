@@ -132,7 +132,8 @@ const LoginPage = (props) => {
   };
 
   useEffect(()=>{
-    props.checkLogin();;
+    //FIXME Hold checklogin
+    // props.checkLogin();
   },[])
 
   useEffect(()=>{
