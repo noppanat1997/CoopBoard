@@ -1,1 +1,1 @@
-web: node nodemon --exec babel-node --ignore ./src ./server/index.js
+web: npm start
