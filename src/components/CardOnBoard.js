@@ -21,6 +21,8 @@ import 'prismjs/components/prism-javascript';
 import '.././css/prism.css';
 import ReactDataSheet from 'react-datasheet';
 import 'react-datasheet/lib/react-datasheet.css';
+import ReactEditableList from 'react-editable-list'
+import '.././css/CheckList.css'
 //cpp,java,php,arduino,py
 
 class CardOnBoard extends Component {
@@ -33,7 +35,6 @@ class CardOnBoard extends Component {
       },
       isHover: false,
       onDelete: false,
-      code : this.props.text,
       grid : this.props.text,
       language : this.props.language
     };
@@ -115,6 +116,17 @@ class CardOnBoard extends Component {
 
       </div>
     )
+    const checklistCard = (
+      <Card
+        onMouseEnter={() => this.setState({ ...this.state, isHover: true })}
+        onMouseLeave={() => this.setState({ ...this.state, isHover: false })}
+        className={"default-card"}
+      >
+        <strong><Card.Title className="drag-title"></Card.Title></strong>
+        {this.state.isHover == true ? hoverEvent : <div></div>}
+        <ReactEditableList list={this.props.text} onListUpdated={this.onListUpdated} />
+      </Card>
+    )
     const postItCard = (
       <Card
         onMouseEnter={() => this.setState({ ...this.state, isHover: true })}
@@ -137,7 +149,7 @@ class CardOnBoard extends Component {
         <strong><Card.Title className="drag-title"></Card.Title></strong>
         {this.state.isHover == true ? hoverEvent : <div></div>}
         <ReactDataSheet
-        data={this.state.grid}
+        data={this.props.text}
         valueRenderer={(cell) => cell.value}
         onCellsChanged={changes => {
           const grid = this.state.grid.map(row => [...row])
@@ -195,7 +207,7 @@ class CardOnBoard extends Component {
         {this.state.isHover == true ? hoverEvent : <div></div>}
         <Editor
         className="code-style"
-        value={this.state.code}
+        value={this.props.text}
         onValueChange={code => this.setState({ code })}
         highlight={this.state.language === 1 ? code => highlight(code, languages.cpp) 
                   : this.state.language === 2 ? code => highlight(code, languages.java)
@@ -223,7 +235,7 @@ class CardOnBoard extends Component {
       >
         {
           this.props.type === 'Post-It' ? postItCard
-            : this.props.type === 'Checklist' ? postItCard
+            : this.props.type === 'Checklist' ? checklistCard
               : this.props.type === 'Calendar' ? postItCard
                 : this.props.type === 'Map' ? postItCard
                   : this.props.type === 'Table' ? tableCard

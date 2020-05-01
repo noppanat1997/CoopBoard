@@ -33,6 +33,10 @@ const FormCard = (props) => {
     let type = props.name
     let language = state.language
     if (text.length !== 0) {
+      if (props.name === 'Checklist') {
+        text = text.split(',');
+        props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: text, language: language })
+      }
       if (props.name === 'Video') {
         text = extractVideoID(text)
         props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: text, language: language })
@@ -114,6 +118,18 @@ const FormCard = (props) => {
           onChange={(e) => setState({ ...state, textAreaCount: e.target.value.length, text: e.target.value })} />
       </Form.Group>
       <div className="d-flex justify-content-end pr-3">{state.textAreaCount}/40</div>
+    </Card.Body>
+  )
+  const checklistForm = (
+    <Card.Body className='text-area-bg bg-light'>
+      <Form.Group className="mb-0" controlId="exampleForm.ControlTextarea1">
+        <Form.Control
+          placeholder="Enter your list...(Split with comma)"
+          className="text-box my-card-form-control"
+          as="textarea"
+          rows="3"
+          onChange={(e) => setState({ ...state, textAreaCount: e.target.value.length, text: e.target.value })} />
+      </Form.Group>
     </Card.Body>
   )
   const videoForm = (
@@ -227,7 +243,7 @@ const FormCard = (props) => {
         </Card.Header>
         {
           props.name === 'Post-It' ? postItForm
-            : props.name === 'Checklist' ? postItForm
+            : props.name === 'Checklist' ? checklistForm
               : props.name === 'Calendar' ? postItForm
                 : props.name === 'Map' ? postItForm
                   : props.name === 'Table' ? tableForm
