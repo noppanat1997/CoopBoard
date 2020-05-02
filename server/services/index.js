@@ -52,9 +52,14 @@ services.addBoardData = async (user) => {
     board: newUserBoard,
   });
 
+  const initialLineDataToArray = {
+    id: boardId,
+    data: [{ id: pageId, line: [], color: [], size: [] }],
+  };
+
   const resData = {
     boardData: boardDataList[0],
-    lineData: lineDataList[0],
+    lineData: initialLineDataToArray,
     cardData: cardDataList[0],
     boardId: boardId,
   };
@@ -65,11 +70,6 @@ services.addBoardData = async (user) => {
 services.fetchBoard = async (user) => {
   console.log(user.board);
 
-  // const promiseGetList = [
-  //   db.collection("boardData").where("id", "in", user.board).get(),
-  //   db.collection("lineData").where("id", "in", user.board).get(),
-  //   db.collection("cardData").where("id", "in", user.board).get(),
-  // ];
   const promiseGetList = [
     db.collection("boardData").get(),
     db.collection("lineData").get(),
@@ -98,6 +98,12 @@ services.fetchBoard = async (user) => {
   );
 
   console.log("?????", newBoardDataList);
+
+  newLineDataList.forEach((itemBoard) =>
+    itemBoard.data.forEach(
+      (itemPage) => (itemPage.line = Object.values(itemPage.line))
+    )
+  );
 
   const resData = {
     newBoardDataList,
@@ -198,9 +204,16 @@ services.addPage = async (boardId) => {
   ];
   await Promise.all(promiseSetList);
 
+  const newLineDataToArray = {
+    id: pageId,
+    line: [],
+    color: [],
+    size: [],
+  };
+
   const resData = {
     boardId,
-    newLineData,
+    newLineDataToArray,
     newCardData,
   };
 
@@ -418,11 +431,14 @@ services.deleteCard = async (data) => {
   let cardData = dtf.keyRemove(fireCardData.docs);
   const cardfireId = fireCardData.docs[0].id;
 
-  for(let i=0;i<cardData[0].data.length;i++){
-    if(cardData[0].data[i].id === data.curPage){
-      console.log('got it !!!!!!')
-      const newData = cardData[0].data[i].data.filter((item) => {console.log('>>>',item.id);return item.id !== data.id;})
-      cardData[0].data[i].data = newData
+  for (let i = 0; i < cardData[0].data.length; i++) {
+    if (cardData[0].data[i].id === data.curPage) {
+      console.log("got it !!!!!!");
+      const newData = cardData[0].data[i].data.filter((item) => {
+        console.log(">>>", item.id);
+        return item.id !== data.id;
+      });
+      cardData[0].data[i].data = newData;
     }
   }
 
@@ -441,18 +457,18 @@ services.addLine = async (data) => {
     .where("id", "==", data.boardId)
     .get();
 
-  console.log(fireLineData)
+  console.log(fireLineData);
   let lineData = dtf.keyRemove(fireLineData.docs);
   const linefireId = fireLineData.docs[0].id;
-  
-  lineData[0].data.forEach((item) =>{
-    if(item.id === data.pageId){
-      let lineLength = Object.keys(item.line).length 
-      item.line = {...item.line,[lineLength]:data.data}
+
+  lineData[0].data.forEach((item) => {
+    if (item.id === data.pageId) {
+      let lineLength = Object.keys(item.line).length;
+      item.line = { ...item.line, [lineLength]: data.data };
       item.color.push(data.color);
       item.size.push(data.size);
     }
-  })
+  });
 
   console.log(lineData[0].data);
 
@@ -460,7 +476,55 @@ services.addLine = async (data) => {
     data: lineData[0].data,
   });
 
-  return 
+  return;
+};
+
+services.deleteLine = async (data) => {
+  console.log(data);
+  const fireLineData = await db
+    .collection("lineData")
+    .where("id", "==", data.boardId)
+    .get();
+
+  // console.log(fireLineData)
+  let lineData = dtf.keyRemove(fireLineData.docs);
+  const linefireId = fireLineData.docs[0].id;
+
+  lineData[0].data.forEach((item) => {
+    if (item.id === data.pageId) {
+      item.line = Object.values(item.line);
+      for(let i = data.data.length; i>0 ; i--){
+        let index = data.data.pop()
+        item.line.splice(index, 1);
+        item.color.splice(index, 1);
+        item.size.splice(index, 1);
+      }
+    }
+  });
+
+  const lineDataToFire = lineData[0].data
+  lineDataToFire.forEach((item) => {
+    if (item.id === data.pageId) {
+      let tmpLineObject = {}
+      let keyCount = 0
+      item.line.forEach(value=>{
+        tmpLineObject = {
+          ...tmpLineObject,
+          [keyCount] : value
+        }
+        keyCount += 1
+      })
+      item.line = tmpLineObject
+    }
+  });
+
+  // console.log(lineData[0].data);
+
+  await db.collection("lineData").doc(linefireId).update({
+    data: lineDataToFire,
+  });
+
+  return
 };
 
 export default services;

@@ -240,4 +240,15 @@ controllers.addLine = async (req, res, next) => {
   }
 };
 
+controllers.deleteLine = async (req, res, next) => {
+  try {
+    const data = req.body;
+    // console.log(data)
+    await services.deleteLine(data);
+    res.status(200).send();
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default controllers;

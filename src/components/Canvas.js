@@ -145,7 +145,7 @@ class Canvas extends Component {
       );
     }
   }
-  endPaintEvent() {
+  async endPaintEvent() {
     if (this.state.isPainting) {
       this.state.isPainting = false;
       this.sendPaintData();
@@ -161,12 +161,14 @@ class Canvas extends Component {
         return a - b;
       });
       this.state.lineCount -= this.state.arrIndex.length;
+      //FIXME deleteLine
       const sendData = {
         boardId: this.props.board,
-        pageId: this.props.stateFromStore.curPage - 1,
+        pageId: this.props.page,
         data: this.state.arrIndex
       };
-      this.props.deleteLine(sendData);
+      
+      await this.props.deleteLine(sendData);
       this.state.arrIndex = [];
       this.redraw();
     } else if (this.state.isMarking) {
@@ -353,8 +355,8 @@ const mapDispatchToProps = (dispatch) => {
     addLine: (data) => {
       return dispatch(action.addLine(data));
     },
-    deleteLine: (updateLine) => {
-      return dispatch({ type: "DELETE_LINE", payload: updateLine });
+    deleteLine: (data) => {
+      return dispatch(action.deleteLine(data));
     },
     panelCheck: (check) => {
       return dispatch({ type: "CHECK_PANEL", payload: check });

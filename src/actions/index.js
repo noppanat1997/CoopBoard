@@ -272,3 +272,15 @@ export const addLine = (data) => async (dispatch) => {
     console.log(err);
   }
 };
+
+export const deleteLine = (data) => async (dispatch) => {
+  try {
+    await axios.post(`http://localhost:8080/api/delete-line`, data);
+    return dispatch({
+      type: "DELETE_LINE",
+      payload: data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};

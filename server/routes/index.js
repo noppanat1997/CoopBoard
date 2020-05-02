@@ -18,6 +18,7 @@ router.post('/api/update-position', controllers.updatePositon)
 router.post('/api/delete-card', controllers.deleteCard)
 
 router.post('/api/add-line', controllers.addLine)
+router.post('/api/delete-line', controllers.deleteLine)
 
 router.post('/api/add-user', controllers.addUser)
 router.post('/api/invite-member', controllers.inviteMember)

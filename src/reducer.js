@@ -95,7 +95,7 @@ const reducer = (state = initialState, action) => {
       const newPage = action.payload;
       newState.curPage = newPage;
       return newState;
-    //  FIXME add line
+    //REVIEW add line
     case "ADD_LINE":
       const {
         boardId,
@@ -111,17 +111,17 @@ const reducer = (state = initialState, action) => {
           break;
         }
       }
-      const lineLength = Object.keys(newState.lineData[newBoardIndex].data[state.curPage - 1].line).length
-      newState.lineData[newBoardIndex].data[state.curPage - 1].line = {
-        ...newState.lineData[newBoardIndex].data[state.curPage - 1].line,
-        [lineLength] : updatedLineData,
-      }
+      const lineList = Object.values(updatedLineData)
+
+      newState.lineData[newBoardIndex].data[state.curPage - 1].line.push(
+        lineList
+      )
       newState.lineData[newBoardIndex].data[state.curPage - 1].color.push(
         color
       );
       newState.lineData[newBoardIndex].data[state.curPage - 1].size.push(size);
       return newState;
-    //FIXME delete line
+    //REVIEW delete line
     case "DELETE_LINE":
       let {
         boardId: boardId_2,
