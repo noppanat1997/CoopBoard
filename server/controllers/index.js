@@ -193,4 +193,51 @@ controllers.kickMember = async (req, res, next) => {
   }
 };
 
+controllers.addCard = async (req, res, next) => {
+  try {
+    const data = req.body;
+    console.log(data)
+
+    const dataToSend = await services.addCard(data);
+    res.status(200).send(dataToSend);
+  } catch (error) {
+    next(error);
+  }
+};
+
+controllers.updatePositon = async (req, res, next) => {
+  try {
+    const data = req.body;
+    console.log(data)
+
+    const dataToSend = await services.updatePosition(data);
+    res.status(200).send(dataToSend);
+  } catch (error) {
+    next(error);
+  }
+};
+
+controllers.deleteCard = async (req, res, next) => {
+  try {
+    const data = req.body;
+    // console.log(data)
+
+    const dataToSend = await services.deleteCard(data);
+    res.status(200).send(dataToSend);
+  } catch (error) {
+    next(error);
+  }
+};
+
+controllers.addLine = async (req, res, next) => {
+  try {
+    const data = req.body;
+    // console.log(data)
+    await services.addLine(data);
+    res.status(200).send();
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default controllers;

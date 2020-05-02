@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import ".././css/CarouselComponent.css";
 import CardField from "./CardField.js";
 
+import * as action from "../actions";
 class Canvas extends Component {
   constructor(props) {
     super(props);
@@ -236,20 +237,13 @@ class Canvas extends Component {
       line: this.state.line,
       userId: this.state.userId,
     };
-    // We use the native fetch API to make requests to the server
-    //  const req = await fetch('http://localhost:4000/paint', {
-    //    method: 'post',
-    //    body: JSON.stringify(body),
-    //    headers: {
-    //      'content-type': 'application/json',
-    //    },
-    //  });
-    //  const res = await req.json();
-    //console.log(this.state.line)
+    // console.log(this.props.stateFromStore)
     const dataLine = {
       boardId: this.props.board,
-      pageId: this.props.stateFromStore.curPage - 1,
-      data: this.state.line
+      pageId: this.props.page,
+      data: this.state.line,
+      color: this.props.stateFromStore.penColor,
+      size: this.props.stateFromStore.penSize,
     };
     console.log(dataLine);
     this.props.addLine(dataLine);
@@ -356,8 +350,8 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    addLine: (updateLine) => {
-      return dispatch({ type: "ADD_LINE", payload: updateLine });
+    addLine: (data) => {
+      return dispatch(action.addLine(data));
     },
     deleteLine: (updateLine) => {
       return dispatch({ type: "DELETE_LINE", payload: updateLine });

@@ -8,6 +8,8 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 
+import * as action from "../actions";
+
 const FormCard = (props) => {
   const [state, setState] = useState({
     textAreaCount: 0,
@@ -33,6 +35,7 @@ const FormCard = (props) => {
     let type = props.name
     let language = state.language
     console.log("Language : " + language)
+    //REVIEW save handler
     if (text.length !== 0) {
       if (props.name === 'Video') {
         text = extractVideoID(text)
@@ -56,7 +59,8 @@ const FormCard = (props) => {
         }
       }
       else{
-        props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: text })
+        //NOTE beware add card argument
+        props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: text, language: language })
       }
     }
     setState({ ...state, textAreaCount: 0, text: '' })
@@ -234,7 +238,7 @@ const mapDispatchToProps = dispatch => {
       return dispatch({ type: 'UPDATE_ON_DROP_AREA', payload: onDropArea });
     },
     addCardFn: (data) => {
-      return dispatch({ type: 'ADD_CARD', payload: data });
+      return dispatch(action.addCard(data));
     },
     onCanvasFn: (data) => {
       return dispatch({ type: 'ON_CANVAS', payload: data });

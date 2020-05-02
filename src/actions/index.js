@@ -218,3 +218,57 @@ export const kickMember = (memberId,boardId) => async dispatch => {
     console.log(error)
   }
 }
+
+export const addCard = (data) => async (dispatch) => {
+  try {
+    const res = await axios.post(`http://localhost:8080/api/add-card`, data);
+    if (!res.data) {
+      const err = new Error("no `data` property on response object");
+      throw err;
+    }
+    return dispatch({
+      type: "ADD_CARD",
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const updatePosition = (data) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "UPDATE_POSITION",
+      payload: data,
+    });
+    await axios.post(`http://localhost:8080/api/update-position`, data);
+    return
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const deleteCard = (data) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "DELETE_CARD",
+      payload: data,
+    });
+    await axios.post(`http://localhost:8080/api/delete-card`, data);
+    return
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const addLine = (data) => async (dispatch) => {
+  try {
+    await axios.post(`http://localhost:8080/api/add-line`, data);
+    return dispatch({
+      type: "ADD_LINE",
+      payload: data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};

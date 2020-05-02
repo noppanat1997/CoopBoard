@@ -20,6 +20,7 @@ import 'prismjs/components/prism-python';
 import 'prismjs/components/prism-javascript';
 import '.././css/prism.css';
 //cpp,java,php,arduino,py
+import * as action from "../actions";
 
 class CardOnBoard extends Component {
   constructor(props) {
@@ -60,6 +61,7 @@ class CardOnBoard extends Component {
     let position = this.state.deltaPosition
     let board = this.props.board
     if (this.state.onDelete == false) {
+      //REVIEW update position
       this.props.updatePositionFn({
         board: board,
         curPage: curPage,
@@ -70,7 +72,7 @@ class CardOnBoard extends Component {
   }
 
   onDelete() {
-    let curPage = this.props.stateFromStore.curPage
+    let curPage = this.props.page
     let id = this.props.id
     let board = this.props.board
     this.props.deleteCardFn({
@@ -220,7 +222,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     updatePositionFn: (data) => {
-      return dispatch({ type: 'UPDATE_POSITION', payload: data });
+      return dispatch(action.updatePosition(data));
     },
     changeBoardImgFn: (data) => {
       return dispatch({ type: 'CHANGE_BOARD_IMG', payload: data });
@@ -229,7 +231,7 @@ const mapDispatchToProps = (dispatch) => {
       return dispatch({ type: 'ADD_RECENT_BOARD', payload: data });
     },
     deleteCardFn: (data) => {
-      return dispatch({ type: 'DELETE_CARD', payload: data });
+      return dispatch(action.deleteCard(data));
     }
   }
 }

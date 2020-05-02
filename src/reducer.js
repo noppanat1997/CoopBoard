@@ -32,7 +32,7 @@ const initialState = {
   isDrop: false,
   onDropArea: false,
   onCanvas: false,
-  inviteStatus: '',
+  inviteStatus: "",
   userData: {
     Name: "Nontapat",
     Surname: "Sirichuensuwan",
@@ -95,29 +95,39 @@ const reducer = (state = initialState, action) => {
       const newPage = action.payload;
       newState.curPage = newPage;
       return newState;
-    //  FIXME update line
+    //  FIXME add line
     case "ADD_LINE":
-      const { boardId, pageId, data: updatedLineData } = action.payload;
+      const {
+        boardId,
+        pageId,
+        data: updatedLineData,
+        color,
+        size,
+      } = action.payload;
       let newBoardIndex;
       for (let i = 0; i < state.lineData.length; i++) {
         if (state.lineData[i].id === boardId) {
           newBoardIndex = i;
-          break
+          break;
         }
       }
-      newState.lineData[newBoardIndex].data[state.curPage - 1].line.push(
-        updatedLineData
-      );
+      const lineLength = Object.keys(newState.lineData[newBoardIndex].data[state.curPage - 1].line).length
+      newState.lineData[newBoardIndex].data[state.curPage - 1].line = {
+        ...newState.lineData[newBoardIndex].data[state.curPage - 1].line,
+        [lineLength] : updatedLineData,
+      }
       newState.lineData[newBoardIndex].data[state.curPage - 1].color.push(
-        newState.penColor
+        color
       );
-      newState.lineData[newBoardIndex].data[state.curPage - 1].size.push(
-        newState.penSize
-      );
+      newState.lineData[newBoardIndex].data[state.curPage - 1].size.push(size);
       return newState;
-
+    //FIXME delete line
     case "DELETE_LINE":
-      let { boardId : boardId_2, pageId : pageId_2, data: deletedLineData } = action.payload;
+      let {
+        boardId: boardId_2,
+        pageId: pageId_2,
+        data: deletedLineData,
+      } = action.payload;
       let newBoardIndex_2;
       for (let i = 0; i < state.lineData.length; i++) {
         if (state.lineData[i].id === boardId_2) {
@@ -202,11 +212,6 @@ const reducer = (state = initialState, action) => {
         return newState;
       }
 
-    case "CHANGE_USER_COLOR":
-      const { color } = action.payload;
-      newState.userData.Color = color;
-      return newState;
-
     case "UPDATE_ON_DROP_AREA":
       const { isHolding, isDrop } = action.payload;
       console.log(action.payload);
@@ -240,33 +245,20 @@ const reducer = (state = initialState, action) => {
         },
       };
     }
-    // FIXME add card
+    // REVIEW add card
     case "ADD_CARD": {
-      let { board, type, curPage, size, color, text, language } = action.payload;
+      const { boardId, pageId, data } = action.payload;
       let newData = [...state.cardData];
       let boardIndex;
-      let uuid = uuidv4();
       for (let i = 0; i < newData.length; i++) {
-        if (newData[i].id === board) {
+        if (newData[i].id === boardId) {
           boardIndex = i;
           break;
         }
       }
       let newList = newData[boardIndex].data[state.curPage - 1].data;
 
-      newList = [
-        ...newList,
-        {
-          id: uuid,
-          type: type,
-          size: size,
-          color: color,
-          position: { x: 0, y: 0 },
-          text: text,
-          isNew: true,
-          language: language
-        },
-      ];
+      newList = [...newList, data];
 
       newData[boardIndex].data[state.curPage - 1] = {
         ...newData[boardIndex].data[state.curPage - 1],
@@ -278,7 +270,7 @@ const reducer = (state = initialState, action) => {
         cardData: newData,
       };
     }
-    // FIXME update position
+    // REVIEW update position
     case "UPDATE_POSITION": {
       let { board, curPage, id, position } = action.payload;
       let newData = [...state.cardData];
@@ -322,9 +314,9 @@ const reducer = (state = initialState, action) => {
         cardData: newCardData,
         boardId: boardId,
       } = action.payload;
-      const newUser = state.user
-      if(newUser){
-        newUser.board = [...newUser.board, boardId]
+      const newUser = state.user;
+      if (newUser) {
+        newUser.board = [...newUser.board, boardId];
       }
       return {
         ...state,
@@ -375,7 +367,7 @@ const reducer = (state = initialState, action) => {
         recentBoardData: newRecentBoardData,
       };
     }
-    // FIXME delete card
+    // REVIEW delete card
     case "DELETE_CARD": {
       let { board, curPage, id } = action.payload;
       let newData = [...state.cardData];
@@ -385,14 +377,14 @@ const reducer = (state = initialState, action) => {
           boardIndex = i;
         }
       }
-      let newList = newData[boardIndex].data[curPage - 1].data;
+      let newList = newData[boardIndex].data[state.curPage - 1].data;
 
       for (let i = 0; i < newList.length; i++) {
         if (newList[i].id == id) {
           newList.splice(i, 1);
         }
       }
-      newData[boardIndex].data[curPage - 1].data = newList;
+      newData[boardIndex].data[state.curPage - 1].data = newList;
       return {
         ...state,
         cardData: newData,
@@ -540,20 +532,20 @@ const reducer = (state = initialState, action) => {
         isLoading: false,
       };
     }
-    case 'USER_LOGIN': {
+    case "USER_LOGIN": {
       const currentUser = action.payload;
       return {
         ...state,
         user: currentUser,
-        isLoading: false
-      }
+        isLoading: false,
+      };
     }
-    case 'INVITE_MEMBER':{
-      const { status } = action.payload
+    case "INVITE_MEMBER": {
+      const { status } = action.payload;
       return {
         ...state,
         inviteStatus: status,
-      }
+      };
     }
     default:
       break;

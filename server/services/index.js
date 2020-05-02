@@ -19,7 +19,7 @@ services.addBoardData = async (user) => {
   };
   const initialLineData = {
     id: boardId,
-    data: [{ id: pageId, line: [], color: [], size: [] }],
+    data: [{ id: pageId, line: {}, color: [], size: [] }],
   };
   const initialCardData = {
     id: boardId,
@@ -87,11 +87,17 @@ services.fetchBoard = async (user) => {
   const lineDataList = dtf.keyRemove(fireLineDataList.docs);
   const cardDataList = dtf.keyRemove(fireCardDataList.docs);
 
-  const newBoardDataList = boardDataList.filter(item=> user.board.includes(item.id));
-  const newLineDataList = lineDataList.filter(item=> user.board.includes(item.id));
-  const newCardDataList = cardDataList.filter(item=> user.board.includes(item.id));
+  const newBoardDataList = boardDataList.filter((item) =>
+    user.board.includes(item.id)
+  );
+  const newLineDataList = lineDataList.filter((item) =>
+    user.board.includes(item.id)
+  );
+  const newCardDataList = cardDataList.filter((item) =>
+    user.board.includes(item.id)
+  );
 
-  console.log('?????',newBoardDataList)
+  console.log("?????", newBoardDataList);
 
   const resData = {
     newBoardDataList,
@@ -152,7 +158,6 @@ services.deleteBoard = async (boardId) => {
       board: item.board,
     });
   });
- 
 
   return;
 };
@@ -162,7 +167,7 @@ services.addPage = async (boardId) => {
 
   const newLineData = {
     id: pageId,
-    line: [],
+    line: {},
     color: [],
     size: [],
   };
@@ -320,24 +325,142 @@ services.getUser = async (uid) => {
   return userList[0];
 };
 
-services.kickMember = async (boardId,memberId) => {
+services.kickMember = async (boardId, memberId) => {
   // console.log('service', boardId,memberId)
   const fireBoardData = await db.collection("boardData").doc(boardId).get();
   const boardData = dtf.keyRemove([fireBoardData]);
-  const newMemberData = boardData[0].member.filter(item=>item.id !== memberId)
+  const newMemberData = boardData[0].member.filter(
+    (item) => item.id !== memberId
+  );
   // console.log("?????",newBoardData)
   await db.collection("boardData").doc(boardId).update({
-    member: newMemberData
-  })
+    member: newMemberData,
+  });
   const fireUserData = await db.collection("user").doc(memberId).get();
   const userData = dtf.keyRemove([fireUserData]);
-  const newBoardData = userData[0].board.filter(item=>item == boardId)
+  const newBoardData = userData[0].board.filter((item) => item == boardId);
 
   await db.collection("user").doc(memberId).update({
-    board: newBoardData
+    board: newBoardData,
+  });
+
+  return;
+};
+
+services.addCard = async (data) => {
+  const cardId = uuidv4();
+  const newCardData = {
+    id: cardId,
+    type: data.type,
+    size: data.size,
+    color: data.color,
+    position: { x: 0, y: 0 },
+    text: data.text,
+    isNew: true,
+    language: data.language,
+  };
+  const fireCardData = await db
+    .collection("cardData")
+    .where("id", "==", data.board)
+    .get();
+
+  let cardData = dtf.keyRemove(fireCardData.docs);
+  const cardfireId = fireCardData.docs[0].id;
+
+  cardData[0].data.forEach((item) =>
+    item.id === data.curPage ? item.data.push(newCardData) : null
+  );
+  // console.log(cardData[0].data);
+  await db.collection("cardData").doc(cardfireId).update({
+    data: cardData[0].data,
+  });
+
+  return {
+    boardId: data.board,
+    pageId: data.curPage,
+    data: newCardData,
+  };
+};
+
+services.updatePosition = async (data) => {
+  // console.log(data);
+  const fireCardData = await db
+    .collection("cardData")
+    .where("id", "==", data.board)
+    .get();
+
+  let cardData = dtf.keyRemove(fireCardData.docs);
+  const cardfireId = fireCardData.docs[0].id;
+
+  cardData[0].data.forEach((item) =>
+    item.id === data.curPage
+      ? item.data.forEach((item) =>
+          item.id === data.id ? (item.position = data.position) : null
+        )
+      : null
+  );
+
+  // console.log(cardData[0].data[0])
+  await db.collection("cardData").doc(cardfireId).update({
+    data: cardData[0].data,
+  });
+
+  return;
+};
+
+services.deleteCard = async (data) => {
+  // console.log('?????',data);
+  const fireCardData = await db
+    .collection("cardData")
+    .where("id", "==", data.board)
+    .get();
+
+  let cardData = dtf.keyRemove(fireCardData.docs);
+  const cardfireId = fireCardData.docs[0].id;
+
+  for(let i=0;i<cardData[0].data.length;i++){
+    if(cardData[0].data[i].id === data.curPage){
+      console.log('got it !!!!!!')
+      const newData = cardData[0].data[i].data.filter((item) => {console.log('>>>',item.id);return item.id !== data.id;})
+      cardData[0].data[i].data = newData
+    }
+  }
+
+  // console.log(cardData[0].data[0]);
+  await db.collection("cardData").doc(cardfireId).update({
+    data: cardData[0].data,
+  });
+
+  return;
+};
+
+services.addLine = async (data) => {
+  // console.log(data);
+  const fireLineData = await db
+    .collection("lineData")
+    .where("id", "==", data.boardId)
+    .get();
+
+  console.log(fireLineData)
+  let lineData = dtf.keyRemove(fireLineData.docs);
+  const linefireId = fireLineData.docs[0].id;
+  
+  lineData[0].data.forEach((item) =>{
+    if(item.id === data.pageId){
+      let lineLength = Object.keys(item.line).length 
+      item.line = {...item.line,[lineLength]:data.data}
+      item.color.push(data.color);
+      item.size.push(data.size);
+    }
   })
 
-  return
+  console.log(lineData[0].data);
+
+  await db.collection("lineData").doc(linefireId).update({
+    data: lineData[0].data,
+  });
+
+  return 
 };
 
 export default services;
