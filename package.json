@@ -19,6 +19,7 @@
     "html-loader": "^1.1.0",
     "html-webpack-plugin": "^4.2.0",
     "html2canvas": "^1.0.0-rc.5",
+    "http2": "^3.3.7",
     "less-loader": "^5.0.0",
     "mdbreact": "^4.26.0",
     "mobiscroll": "^3.0.0-beta6",

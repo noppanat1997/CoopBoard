@@ -547,6 +547,23 @@ const reducer = (state = initialState, action) => {
         inviteStatus: status,
       };
     }
+
+    case "CARD_DATA_SNAPSHOT":{
+      const { boardId , data } = action.payload; 
+      let boardIndex
+      for (let i = 0; i < state.cardData.length; i++) {
+        if (state.cardData[i].id === boardId) {
+          boardIndex = i;
+          break;
+        }
+      }
+      const newCardData = [...state.cardData];
+      newCardData[boardIndex].data = data
+      return {
+        ...state,
+        cardData: newCardData
+      }
+    }
     default:
       break;
   }
