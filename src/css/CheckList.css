@@ -1,0 +1,33 @@
+.react-editable-list {
+    font-size: 14px;
+    list-style: none;
+    padding: 0;
+  }
+  .react-editable-list-item-value {
+    width: 200px;
+    display: inline-block;
+    padding-bottom: 5px;
+  }
+  .react-editable-list-item-value input {
+    width: 190px;
+  }
+  .react-editable-list-delete-button {
+    background-image: url(.././images/erasor.svg);
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    height: 50px;
+    width: 50px;
+    border: none;
+    font-size: 0px;
+  }
+  .react-editable-list-add-button {
+    background-image: url(.././images/pencil.svg);
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    height: 50px;
+    width: 50px;
+    border: none;
+    font-size: 0px;
+    margin-left: 200px;
+    margin-top: 5px;
+  }
