@@ -94,7 +94,9 @@ const FormCard = (props) => {
     }
   }
   const extractVideoID = (url) => {
-    let regExp = /[^(?:https?:/{2})?(?:w{3}.)?youtu(?:be)?.(?:com|be)(?:/watch?v=|/)]([^\s&]+)/;
+    // let regExp = /[^(?:https?:/{2})?(?:w{3}.)?youtu(?:be)?.(?:com|be)(?:/watch?v=|/)]([^\s&]+)/;
+    let regExp = /(?<=v=|v\/|vi=|vi\/|youtu.be\/)[a-zA-Z0-9_-]{11}/;
+    
     let match = url.match(regExp);
     return match[0]
   }
