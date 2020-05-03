@@ -48,6 +48,7 @@ const initialState = {
     6: { onFormSetting: 0, name: "Url" },
     7: { onFormSetting: 0, name: "Code" },
     8: { onFormSetting: 0, name: "Video" },
+    9: { onFormSetting: 0, name: "Picture" },
   },
   msgData: {
     1: { id: 1, name: "server", msg: ["I am server", "I am 20 years old"] },
@@ -166,7 +167,7 @@ const reducer = (state = initialState, action) => {
         newbuttonData[newId].isActive = newIsActive;
         return {
           ...state,
-          buttonData: newbuttonData,
+          buttonData: newbuttonData
         };
       } else if (newId == 10) {
         newState.toolbarOpen = !newState.toolbarOpen;
