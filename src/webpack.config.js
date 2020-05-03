@@ -15,7 +15,7 @@ module.exports = {
     tls: 'empty',
     child_process: 'empty'
   },
-
+  
   entry: {
     app: './src/index.js'
   },
@@ -116,6 +116,7 @@ module.exports = {
 
   // Webpack Dev Server Config
   devServer: {
+    disableHostCheck: true,
     // Default config
     contentBase: path.join(__dirname, '..', 'server', 'dist'),
     compress: true,

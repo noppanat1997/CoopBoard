@@ -8,6 +8,8 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 
+import * as action from "../actions";
+
 const FormCard = (props) => {
   const [state, setState] = useState({
     textAreaCount: 0,
@@ -32,8 +34,11 @@ const FormCard = (props) => {
     let board = props.board
     let type = props.name
     let language = state.language
-    console.log("Language : " + language)
     if (text.length !== 0) {
+      if (props.name === 'Checklist') {
+        text = text.split(',');
+        props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: text, language: language })
+      }
       if (props.name === 'Video') {
         text = extractVideoID(text)
         props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: text, language: language })
@@ -55,8 +60,22 @@ const FormCard = (props) => {
           cancelHandler();
         }
       }
+      else if(props.name === "Table"){
+        let sizeOfTable = text.split(',');
+        let columns = [];
+        for(let i = 0; i < parseInt(sizeOfTable[1]); i++){
+          columns.push({value: 0});
+        }
+        let grid = [];
+        for(let j = 0; j < parseInt(sizeOfTable[0]); j++){
+          grid.push(columns);
+        }
+        console.log(grid);
+        props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: grid, language: language })
+      }
       else{
-        props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: text })
+        //NOTE beware add card argument
+        props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: text, language: language })
       }
     }
     setState({ ...state, textAreaCount: 0, text: '' })
@@ -104,6 +123,18 @@ const FormCard = (props) => {
       <div className="d-flex justify-content-end pr-3">{state.textAreaCount}/40</div>
     </Card.Body>
   )
+  const checklistForm = (
+    <Card.Body className='text-area-bg bg-light'>
+      <Form.Group className="mb-0" controlId="exampleForm.ControlTextarea1">
+        <Form.Control
+          placeholder="Enter your list...(Split with comma)"
+          className="text-box my-card-form-control"
+          as="textarea"
+          rows="3"
+          onChange={(e) => setState({ ...state, textAreaCount: e.target.value.length, text: e.target.value })} />
+      </Form.Group>
+    </Card.Body>
+  )
   const videoForm = (
     <Card.Body className="text-area-bg bg-light">
       <Form.Group className="mb-0" controlId="exampleForm.ControlTextarea1">
@@ -133,6 +164,18 @@ const FormCard = (props) => {
       <Form.Group className="mb-0" controlId="exampleForm.ControlTextarea1">
         <Form.Control
           placeholder="Paste the code here..."
+          className="text-box my-card-form-control"
+          as="textarea"
+          rows="3"
+          onChange={(e) => setState({ ...state, textAreaCount: e.target.value.length, text: e.target.value })} />
+      </Form.Group>
+    </Card.Body>
+  )
+  const tableForm = (
+    <Card.Body className='text-area-bg bg-light'>
+      <Form.Group className="mb-0" controlId="exampleForm.ControlTextarea1">
+        <Form.Control
+          placeholder="Enter number of rows and columns...(1,1)"
           className="text-box my-card-form-control"
           as="textarea"
           rows="3"
@@ -198,16 +241,15 @@ const FormCard = (props) => {
                       
                       : <Col xs={4}/>
               }
-
             </Row>
           </Container>
         </Card.Header>
         {
           props.name === 'Post-It' ? postItForm
-            : props.name === 'Checklist' ? postItForm
+            : props.name === 'Checklist' ? checklistForm
               : props.name === 'Calendar' ? postItForm
                 : props.name === 'Map' ? postItForm
-                  : props.name === 'Table' ? postItForm
+                  : props.name === 'Table' ? tableForm
                     : props.name === 'Url' ? urlForm
                       : props.name === 'Code' ? codeForm
                         : videoForm
@@ -234,7 +276,7 @@ const mapDispatchToProps = dispatch => {
       return dispatch({ type: 'UPDATE_ON_DROP_AREA', payload: onDropArea });
     },
     addCardFn: (data) => {
-      return dispatch({ type: 'ADD_CARD', payload: data });
+      return dispatch(action.addCard(data));
     },
     onCanvasFn: (data) => {
       return dispatch({ type: 'ON_CANVAS', payload: data });

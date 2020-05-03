@@ -7,6 +7,8 @@ import ".././css/BoardPages.css";
 import Header from "../components/Header.js";
 import * as action from "../actions";
 
+import {db,fire} from '../realtime'
+
 const BoardPage = (props) => {
   let history = useHistory();
   const [state, setState] = useState({
@@ -27,6 +29,22 @@ const BoardPage = (props) => {
       isFetch: true,
     });
     props.checkLogin();
+    console.log(props.match.params.board)
+    const boardIdSnap = props.match.params.board
+    // .where("id", "==", props.match.params.board)
+    const unsub = db.collection('cardData').where("id", "==", boardIdSnap).onSnapshot(docSnapshot => {
+      // console.log(fire.auth().currentUser)
+      const docList = []
+      docSnapshot.forEach(item=>docList.push(item.data()))
+      console.log(docList[0])
+      props.cardDataSnapshotFn({boardId:boardIdSnap, data:docList[0].data})
+    }, err => {
+      console.log(`Encountered error: ${err}`);
+    });
+
+    return () => {
+      unsub();
+    }
   }, []);
 
   useEffect(() => {
@@ -106,6 +124,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   fetchBoardFn: (data) => {
     return dispatch(action.fetchBoard(data));
+  },
+  cardDataSnapshotFn: (data) => {
+    return dispatch({ type: "CARD_DATA_SNAPSHOT", payload: data });
   },
 });
 

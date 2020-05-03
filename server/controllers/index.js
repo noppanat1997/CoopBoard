@@ -18,8 +18,9 @@ controllers.addBoard = async (req, res, next) => {
 controllers.fetchBoard = async (req, res, next) => {
   try {
     const { user } = req.body;
-    console.log(user)
+    console.log(user);
     const data = await services.fetchBoard(user);
+    console.log(data)
 
     res.status(200).send(data);
   } catch (error) {
@@ -132,8 +133,8 @@ controllers.userLogin = async (req, res, next) => {
       }
     });
 
-    const uid = userData.uid
-    const userFireStore = await services.getUser(uid)
+    const uid = userData.uid;
+    const userFireStore = await services.getUser(uid);
 
     res.status(200).send(userFireStore);
   } catch (error) {
@@ -152,15 +153,14 @@ controllers.checkLogin = async (req, res, next) => {
       }
     });
 
-    const uid = userData.uid
-    const userFireStore = await services.getUser(uid)
+    const uid = userData.uid;
+    const userFireStore = await services.getUser(uid);
 
     res.status(200).send(userFireStore);
   } catch (error) {
     console.log(error);
   }
 };
-
 
 controllers.userLogout = async (req, res, next) => {
   try {
@@ -173,9 +173,79 @@ controllers.userLogout = async (req, res, next) => {
 
 controllers.inviteMember = async (req, res, next) => {
   try {
-    const { email,boardId } = req.body;
-    const data = await services.inviteMember(email,boardId);
+    const { email, boardId } = req.body;
+    const data = await services.inviteMember(email, boardId);
     res.status(200).send(data);
+  } catch (error) {
+    next(error);
+  }
+};
+
+controllers.kickMember = async (req, res, next) => {
+  try {
+    const boardId = req.params.boardId;
+    const memberId = req.params.memberId;
+    // console.log(boardId,memberId)
+    await services.kickMember(boardId,memberId);
+    res.status(200).send();
+  } catch (error) {
+    next(error);
+  }
+};
+
+controllers.addCard = async (req, res, next) => {
+  try {
+    const data = req.body;
+    console.log(data)
+
+    const dataToSend = await services.addCard(data);
+    res.status(200).send(dataToSend);
+  } catch (error) {
+    next(error);
+  }
+};
+
+controllers.updatePositon = async (req, res, next) => {
+  try {
+    const data = req.body;
+    console.log(data)
+
+    const dataToSend = await services.updatePosition(data);
+    res.status(200).send(dataToSend);
+  } catch (error) {
+    next(error);
+  }
+};
+
+controllers.deleteCard = async (req, res, next) => {
+  try {
+    const data = req.body;
+    // console.log(data)
+
+    const dataToSend = await services.deleteCard(data);
+    res.status(200).send(dataToSend);
+  } catch (error) {
+    next(error);
+  }
+};
+
+controllers.addLine = async (req, res, next) => {
+  try {
+    const data = req.body;
+    // console.log(data)
+    await services.addLine(data);
+    res.status(200).send();
+  } catch (error) {
+    next(error);
+  }
+};
+
+controllers.deleteLine = async (req, res, next) => {
+  try {
+    const data = req.body;
+    // console.log(data)
+    await services.deleteLine(data);
+    res.status(200).send();
   } catch (error) {
     next(error);
   }

@@ -3,12 +3,13 @@ import { Link, useHistory } from "react-router-dom";
 import ".././css/LoginPage.css";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
-import fire from "../components/Fire.js";
 
 import Logo from ".././images/logo.svg";
 
 import * as action from "../actions";
 import { connect } from "react-redux";
+
+import {db,fire} from '../realtime'
 
 const LoginPage = (props) => {
   const { user } = props;
@@ -122,7 +123,8 @@ const LoginPage = (props) => {
 
     const username = state.formElements.email.value;
     const password = state.formElements.password.value;
-
+    
+    fire.auth().signInWithEmailAndPassword(username, password);
     props.userLogin(username, password);
     // console.log(user)
   };

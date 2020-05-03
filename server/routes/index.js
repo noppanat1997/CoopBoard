@@ -13,6 +13,13 @@ router.post('/api/fetch-board', controllers.fetchBoard)
 router.post('/api/add-page', controllers.addPage)
 router.post('/api/clear-page/:boardId/:pageId', controllers.clearPage)
 
+router.post('/api/add-card', controllers.addCard)
+router.post('/api/update-position', controllers.updatePositon)
+router.post('/api/delete-card', controllers.deleteCard)
+
+router.post('/api/add-line', controllers.addLine)
+router.post('/api/delete-line', controllers.deleteLine)
+
 router.post('/api/add-user', controllers.addUser)
 router.post('/api/invite-member', controllers.inviteMember)
 router.post('/api/user-login', controllers.userLogin)
@@ -22,6 +29,7 @@ router.get('/api/check-login', controllers.checkLogin)
 
 router.delete('/api/delete-board/:boardId', controllers.deleteBoard)
 router.delete('/api/delete-page/:boardId/:pageId', controllers.deletePage)
+router.delete('/api/kick-member/:boardId/:memberId', controllers.kickMember)
 
 router.use(express.static(path.resolve(__dirname, '..', 'dist')));
 

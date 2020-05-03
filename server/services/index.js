@@ -15,11 +15,11 @@ services.addBoardData = async (user) => {
     name: "Untitled Coop",
     img: "",
     owner: user.email,
-    member:[]
+    member: [user],
   };
   const initialLineData = {
     id: boardId,
-    data: [{ id: pageId, line: [], color: [], size: [] }],
+    data: [{ id: pageId, line: {}, color: [], size: [] }],
   };
   const initialCardData = {
     id: boardId,
@@ -41,46 +41,40 @@ services.addBoardData = async (user) => {
   ];
   const responseGetList = await Promise.all(promiseGetList);
 
-  const [
-    fireBoardData,
-    fireLineData,
-    fireCardData,
-  ] = responseGetList;
+  const [fireBoardData, fireLineData, fireCardData] = responseGetList;
 
   const boardDataList = dtf.keyRemove([fireBoardData]);
   const lineDataList = dtf.keyRemove([fireLineData]);
   const cardDataList = dtf.keyRemove([fireCardData]);
 
-  const newUserBoard = [...user.board, boardId]
+  const newUserBoard = [...user.board, boardId];
   await db.collection("user").doc(user.id).update({
     board: newUserBoard,
-  })
+  });
+
+  const initialLineDataToArray = {
+    id: boardId,
+    data: [{ id: pageId, line: [], color: [], size: [] }],
+  };
 
   const resData = {
     boardData: boardDataList[0],
-    lineData: lineDataList[0],
+    lineData: initialLineDataToArray,
     cardData: cardDataList[0],
     boardId: boardId,
   };
-
-  
 
   return resData;
 };
 
 services.fetchBoard = async (user) => {
-  console.log(user.board)
-  
+  console.log(user.board);
+
   const promiseGetList = [
-    db.collection("boardData").where("id", "in", user.board).get(),
-    db.collection("lineData").where("id", "in", user.board).get(),
-    db.collection("cardData").where("id", "in", user.board).get(),
+    db.collection("boardData").get(),
+    db.collection("lineData").get(),
+    db.collection("cardData").get(),
   ];
-  // const promiseGetList = [
-  //   db.collection("boardData").get(),
-  //   db.collection("lineData").get(),
-  //   db.collection("cardData").get(),
-  // ];
   const responseGetList = await Promise.all(promiseGetList);
 
   const [
@@ -93,10 +87,28 @@ services.fetchBoard = async (user) => {
   const lineDataList = dtf.keyRemove(fireLineDataList.docs);
   const cardDataList = dtf.keyRemove(fireCardDataList.docs);
 
+  const newBoardDataList = boardDataList.filter((item) =>
+    user.board.includes(item.id)
+  );
+  const newLineDataList = lineDataList.filter((item) =>
+    user.board.includes(item.id)
+  );
+  const newCardDataList = cardDataList.filter((item) =>
+    user.board.includes(item.id)
+  );
+
+  console.log("?????", newBoardDataList);
+
+  newLineDataList.forEach((itemBoard) =>
+    itemBoard.data.forEach(
+      (itemPage) => (itemPage.line = Object.values(itemPage.line))
+    )
+  );
+
   const resData = {
-    boardDataList,
-    lineDataList,
-    cardDataList,
+    newBoardDataList,
+    newLineDataList,
+    newCardDataList,
   };
   return resData;
 };
@@ -141,6 +153,18 @@ services.deleteBoard = async (boardId) => {
   ];
   await Promise.all(promiseSetList);
 
+  const fireUser = await db.collection("user").get();
+  // console.log(fireUser)
+  const userList = dtf.keyRemove(fireUser.docs);
+  // console.log('>>>>>',userList)
+  const userHasBoard = userList.filter((item) => item.board.includes(boardId));
+  userHasBoard.forEach(async (item) => {
+    item.board.splice(item.board.indexOf(boardId), 1);
+    await db.collection("user").doc(item.id).update({
+      board: item.board,
+    });
+  });
+
   return;
 };
 
@@ -149,7 +173,7 @@ services.addPage = async (boardId) => {
 
   const newLineData = {
     id: pageId,
-    line: [],
+    line: {},
     color: [],
     size: [],
   };
@@ -180,9 +204,16 @@ services.addPage = async (boardId) => {
   ];
   await Promise.all(promiseSetList);
 
+  const newLineDataToArray = {
+    id: pageId,
+    line: [],
+    color: [],
+    size: [],
+  };
+
   const resData = {
     boardId,
-    newLineData,
+    newLineDataToArray,
     newCardData,
   };
 
@@ -251,61 +282,249 @@ services.clearPage = async (boardId, pageId) => {
 };
 
 services.changeBoardName = async (boardId, img) => {
-
   await db.collection("boardData").doc(boardId).update({
-    img: img
-  })
+    img: img,
+  });
 
   return;
 };
 
-
 services.addUser = async (id, firstname, lastname, email) => {
-  const user = await db.collection('user').doc(id).set({ id:id, firstname, lastname, email, board:[]});
+  const user = await db
+    .collection("user")
+    .doc(id)
+    .set({ id: id, firstname, lastname, email, board: [] });
   return user;
-}
+};
 
-services.inviteMember = async (email,boardId) => {
-
+services.inviteMember = async (email, boardId) => {
   const fireUser = await db.collection("user").get();
   // console.log(fireUser.docs)
   const userList = dtf.keyRemove(fireUser.docs);
   // console.log(userList)
-  const userHasEmail = userList.find(item=>item.email===email)
-  // console.log(userHasEmail)
-  if(userHasEmail){
-    const userHasBoard = userHasEmail.board.find(item=>item===boardId)
-    
-    if(!userHasBoard){
+  const userHasEmail = userList.find((item) => item.email === email);
+  console.log(userHasEmail);
+  if (userHasEmail) {
+    const userHasBoard = userHasEmail.board.find((item) => item === boardId);
+    if (!userHasBoard) {
       const fireBoardData = await db.collection("boardData").doc(boardId).get();
       const boardData = dtf.keyRemove([fireBoardData]);
-      const newMember = [...boardData[0].member,email]
-      await db.collection("boardData").doc(boardId).update({
-        member: newMember
-      })
-      const newUserHasBoard = [...userHasEmail.board, boardId]
-      await db.collection("user").doc(userHasEmail.id).update({
-        board: newUserHasBoard
-      });
-      return {status: 'Invite member success'}
+      // console.log(boardData[0].member,boardData[0].member.length)
+      if (boardData[0].member.length < 6) {
+        const newMember = [...boardData[0].member, userHasEmail];
+        await db.collection("boardData").doc(boardId).update({
+          member: newMember,
+        });
+        const newUserHasBoard = [...userHasEmail.board, boardId];
+        await db.collection("user").doc(userHasEmail.id).update({
+          board: newUserHasBoard,
+        });
+        return { status: "Invite member success" };
+      } else {
+        return { status: "Cannot add more member in this board" };
+      }
     } else {
-      return {status: 'Already has an account in this board'}
+      return { status: "Already has an account in this board" };
     }
   }
-  return {status: 'Not have an account on the Coopboard'}
-  
+  return { status: "Not have an account on the Coopboard" };
 };
 services.getUser = async (uid) => {
-
   const fireUser = await db.collection("user").doc(uid).get();
   // console.log(fireUser)
   const userList = dtf.keyRemove([fireUser]);
   // console.log(userList[0])
 
-  return userList[0]
-  
+  return userList[0];
 };
 
+services.kickMember = async (boardId, memberId) => {
+  // console.log('service', boardId,memberId)
+  const fireBoardData = await db.collection("boardData").doc(boardId).get();
+  const boardData = dtf.keyRemove([fireBoardData]);
+  const newMemberData = boardData[0].member.filter(
+    (item) => item.id !== memberId
+  );
+  // console.log("?????",newBoardData)
+  await db.collection("boardData").doc(boardId).update({
+    member: newMemberData,
+  });
+  const fireUserData = await db.collection("user").doc(memberId).get();
+  const userData = dtf.keyRemove([fireUserData]);
+  const newBoardData = userData[0].board.filter((item) => item == boardId);
 
+  await db.collection("user").doc(memberId).update({
+    board: newBoardData,
+  });
+
+  return;
+};
+
+services.addCard = async (data) => {
+  const cardId = uuidv4();
+  const newCardData = {
+    id: cardId,
+    type: data.type,
+    size: data.size,
+    color: data.color,
+    position: { x: 0, y: 0 },
+    text: data.text,
+    isNew: true,
+    language: data.language,
+  };
+  const fireCardData = await db
+    .collection("cardData")
+    .where("id", "==", data.board)
+    .get();
+
+  let cardData = dtf.keyRemove(fireCardData.docs);
+  const cardfireId = fireCardData.docs[0].id;
+
+  cardData[0].data.forEach((item) =>
+    item.id === data.curPage ? item.data.push(newCardData) : null
+  );
+  // console.log(cardData[0].data);
+  await db.collection("cardData").doc(cardfireId).update({
+    data: cardData[0].data,
+  });
+
+  return {
+    boardId: data.board,
+    pageId: data.curPage,
+    data: newCardData,
+  };
+};
+
+services.updatePosition = async (data) => {
+  // console.log(data);
+  const fireCardData = await db
+    .collection("cardData")
+    .where("id", "==", data.board)
+    .get();
+
+  let cardData = dtf.keyRemove(fireCardData.docs);
+  const cardfireId = fireCardData.docs[0].id;
+
+  cardData[0].data.forEach((item) =>
+    item.id === data.curPage
+      ? item.data.forEach((item) =>
+          item.id === data.id ? (item.position = data.position) : null
+        )
+      : null
+  );
+
+  // console.log(cardData[0].data[0])
+  await db.collection("cardData").doc(cardfireId).update({
+    data: cardData[0].data,
+  });
+
+  return;
+};
+
+services.deleteCard = async (data) => {
+  // console.log('?????',data);
+  const fireCardData = await db
+    .collection("cardData")
+    .where("id", "==", data.board)
+    .get();
+
+  let cardData = dtf.keyRemove(fireCardData.docs);
+  const cardfireId = fireCardData.docs[0].id;
+
+  for (let i = 0; i < cardData[0].data.length; i++) {
+    if (cardData[0].data[i].id === data.curPage) {
+      console.log("got it !!!!!!");
+      const newData = cardData[0].data[i].data.filter((item) => {
+        console.log(">>>", item.id);
+        return item.id !== data.id;
+      });
+      cardData[0].data[i].data = newData;
+    }
+  }
+
+  // console.log(cardData[0].data[0]);
+  await db.collection("cardData").doc(cardfireId).update({
+    data: cardData[0].data,
+  });
+
+  return;
+};
+
+services.addLine = async (data) => {
+  // console.log(data);
+  const fireLineData = await db
+    .collection("lineData")
+    .where("id", "==", data.boardId)
+    .get();
+
+  console.log(fireLineData);
+  let lineData = dtf.keyRemove(fireLineData.docs);
+  const linefireId = fireLineData.docs[0].id;
+
+  lineData[0].data.forEach((item) => {
+    if (item.id === data.pageId) {
+      let lineLength = Object.keys(item.line).length;
+      item.line = { ...item.line, [lineLength]: data.data };
+      item.color.push(data.color);
+      item.size.push(data.size);
+    }
+  });
+
+  console.log(lineData[0].data);
+
+  await db.collection("lineData").doc(linefireId).update({
+    data: lineData[0].data,
+  });
+
+  return;
+};
+
+services.deleteLine = async (data) => {
+  console.log(data);
+  const fireLineData = await db
+    .collection("lineData")
+    .where("id", "==", data.boardId)
+    .get();
+
+  // console.log(fireLineData)
+  let lineData = dtf.keyRemove(fireLineData.docs);
+  const linefireId = fireLineData.docs[0].id;
+
+  lineData[0].data.forEach((item) => {
+    if (item.id === data.pageId) {
+      item.line = Object.values(item.line);
+      for(let i = data.data.length; i>0 ; i--){
+        let index = data.data.pop()
+        item.line.splice(index, 1);
+        item.color.splice(index, 1);
+        item.size.splice(index, 1);
+      }
+    }
+  });
+
+  const lineDataToFire = lineData[0].data
+  lineDataToFire.forEach((item) => {
+    if (item.id === data.pageId) {
+      let tmpLineObject = {}
+      let keyCount = 0
+      item.line.forEach(value=>{
+        tmpLineObject = {
+          ...tmpLineObject,
+          [keyCount] : value
+        }
+        keyCount += 1
+      })
+      item.line = tmpLineObject
+    }
+  });
+
+  // console.log(lineData[0].data);
+
+  await db.collection("lineData").doc(linefireId).update({
+    data: lineDataToFire,
+  });
+
+  return
+};
 
 export default services;
