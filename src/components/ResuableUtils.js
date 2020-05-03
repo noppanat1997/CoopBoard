@@ -30,24 +30,18 @@ export function extractImageFileExtensionFromBase64 (base64Data) {
 }
 
 // Base64 Image to Canvas with a Crop
-export function image64toCanvasRef (canvasRef, image64, pixelCrop) {
-  const canvas = canvasRef // document.createElement('canvas');
-  canvas.width = pixelCrop.width
-  canvas.height = pixelCrop.height
-  const ctx = canvas.getContext('2d')
-  const image = new Image()
+export function image64toCanvasRef (image64) {
+  var canvas = document.getElementById("canvas");
+  var ctx = canvas.getContext('2d')
+  var image = new Image()
   image.src = image64
+  console.log(image.src,image64)
   image.onload = function () {
     ctx.drawImage(
       image,
-      pixelCrop.x,
-      pixelCrop.y,
-      pixelCrop.width,
-      pixelCrop.height,
-      0,
-      0,
-      pixelCrop.width,
-      pixelCrop.height
+      10,
+      10,
     )
   }
+  return canvas.toDataURL("image/jpeg",0.5);
 }

@@ -305,6 +305,19 @@ class CardOnBoard extends Component {
         />
       </Card>
     );
+    const imageCard = (
+      <Card
+        onMouseEnter={() => this.setState({ ...this.state, isHover: true })}
+        onMouseLeave={() => this.setState({ ...this.state, isHover: false })}
+        className={"default-card"}
+      >
+        <strong>
+          <Card.Title className="drag-title"></Card.Title>
+        </strong>
+        {this.state.isHover == true ? hoverEvent : <div></div>}
+        <img src={this.props.text} />
+      </Card>
+    );
     return (
       <Draggable
         handle="strong"
@@ -319,8 +332,8 @@ class CardOnBoard extends Component {
           ? checklistCard
           : this.props.type === "Calendar"
           ? postItCard
-          : this.props.type === "Map"
-          ? postItCard
+          : this.props.type === "Image"
+          ? imageCard
           : this.props.type === "Table"
           ? tableCard
           : this.props.type === "Url"

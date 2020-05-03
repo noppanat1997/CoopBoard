@@ -8,7 +8,7 @@ const MainBoard = (props) => {
   return (
     <div>
       <ChatBox />
-      <ToolBox />
+      <ToolBox board={props.board} page={props.page}/>
       <StackCard />
       <CarouselComponent board={props.board} page={props.page} />
 
