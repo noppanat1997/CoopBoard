@@ -123,7 +123,7 @@ class Header extends Component {
         800
       );
 
-      base64image = croppedCanvas.toDataURL("image/png");
+      base64image = croppedCanvas.toDataURL("image/jpeg",0.5);
       //REVIEW change b img
     });
     await this.props.changeBoardImgFn({
