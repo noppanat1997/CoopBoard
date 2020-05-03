@@ -32,24 +32,35 @@ const BoardPage = (props) => {
     console.log(props.match.params.board)
     const boardIdSnap = props.match.params.board
     // .where("id", "==", props.match.params.board)
-    const unsub = db.collection('cardData').where("id", "==", boardIdSnap).onSnapshot(docSnapshot => {
+    const unSubCardData = db.collection('cardData').where("id", "==", boardIdSnap).onSnapshot(docSnapshot => {
       // console.log(fire.auth().currentUser)
       const docList = []
       docSnapshot.forEach(item=>docList.push(item.data()))
-      console.log(docList[0])
+      // console.log(docList[0])
       props.cardDataSnapshotFn({boardId:boardIdSnap, data:docList[0].data})
     }, err => {
-      console.log(`Encountered error: ${err}`);
+      // console.log(`Encountered error: ${err}`);
+    });
+    
+    const unSubLineData = db.collection('lineData').where("id", "==", boardIdSnap).onSnapshot(docSnapshot => {
+      // console.log(fire.auth().currentUser)
+      const docList = []
+      docSnapshot.forEach(item=>docList.push(item.data()))
+      // console.log(docList[0])
+      props.lineDataSnapshotFn({boardId:boardIdSnap, data:docList[0].data})
+    }, err => {
+      // console.log(`Encountered error: ${err}`);
     });
 
     return () => {
-      unsub();
+      unSubCardData();
+      unSubLineData();
     }
   }, []);
 
   useEffect(() => {
     if (!props.stateFromStore.user) {
-      console.log(props.stateFromStore.user);
+      // console.log(props.stateFromStore.user);
       history.push("/login");
     }
   }, [props.stateFromStore.user]);
@@ -127,6 +138,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   cardDataSnapshotFn: (data) => {
     return dispatch({ type: "CARD_DATA_SNAPSHOT", payload: data });
+  },
+  lineDataSnapshotFn: (data) => {
+    return dispatch({ type: "LINE_DATA_SNAPSHOT", payload: data });
   },
 });
 

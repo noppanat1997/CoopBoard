@@ -11,7 +11,7 @@ axios.defaults.headers.common["Content-Type"] = "application/json";
 export const addBoard = (user) => async (dispatch) => {
   try {
     const res = await axios.post(`http://localhost:8080/api/add-board`, {user});
-    // console.log(res.data)
+    // //console.log(res.data)
     if (!res.data) {
       const err = new Error("no `data` property on response object");
       throw err;
@@ -21,7 +21,7 @@ export const addBoard = (user) => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    console.log(err);
+    //console.log(err);
   }
 };
 
@@ -34,13 +34,13 @@ export const deleteBoard = (boardId) => async (dispatch) => {
       payload: { board: boardId }
     });
   } catch (err) {
-    console.log(err);
+    //console.log(err);
   }
 };
 
 export const fetchBoard = (user) => async (dispatch) => {
   try {
-    console.log('????', user)
+    // //console.log('????', user)
     const res = await axios.post(`http://localhost:8080/api/fetch-board/`,{user});
     if (!res.data) {
       const err = new Error("no `data` property on response object");
@@ -51,7 +51,7 @@ export const fetchBoard = (user) => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    console.log(err);
+    //console.log(err);
   }
 };
 
@@ -69,7 +69,7 @@ export const addPage = (boardId) => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    console.log(err);
+    //console.log(err);
   }
 };
 
@@ -86,7 +86,7 @@ export const deletePage = (data) => async (dispatch) => {
       payload: { board: data.boardId, page: data.page },
     });
   } catch (err) {
-    console.log(err);
+    //console.log(err);
   }
 };
 
@@ -104,7 +104,7 @@ export const clearFrame = (data) => async (dispatch) => {
       payload: { board: boardId, page: page },
     });
   } catch (err) {
-    console.log(err);
+    //console.log(err);
   }
 };
 
@@ -122,7 +122,7 @@ export const changeBoardName = (data) => async (dispatch) => {
       payload: { board: boardId, name: boardName },
     });
   } catch (err) {
-    console.log(err);
+    //console.log(err);
   }
 };
 
@@ -140,7 +140,7 @@ export const changeBoardImg = (data) => async (dispatch) => {
       payload: { board: boardId, img: img },
     });
   } catch (err) {
-    console.log(err);
+    //console.log(err);
   }
 };
 
@@ -151,21 +151,21 @@ export const addUser = (username, password, firstname, lastname, email) => async
 
     history.push('/login')
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 }
 
 export const userLogin = (username, password) => async dispatch => {
   try {
     const res = await axios.post(`http://localhost:8080/api/user-login`, { username, password })
-    console.log(res.data)
+    // //console.log(res.data)
     const user = res?.data || null;
     return dispatch({
       type: 'USER_LOGIN',
       payload: user
     })
   } catch (error) {
-    console.log(error)
+    //console.log(error)
 
   }
 }
@@ -179,7 +179,7 @@ export const checkLogin = () => async dispatch => {
       payload: user
     })
   } catch (error) {
-    console.log(error)
+    //console.log(error)
   }
 }
 
@@ -191,31 +191,31 @@ export const userLogout = () => async dispatch => {
       payload: res.data
     })
   } catch (error) {
-    console.log(error)
+    //console.log(error)
     
   }
 }
 
 export const inviteMember = (email,boardId) => async dispatch => {
   try {
-    // console.log(boardId)
+    // //console.log(boardId)
     const res = await axios.post(`http://localhost:8080/api/invite-member`,{email,boardId})
     return dispatch({
       type: 'INVITE_MEMBER',
       payload: res.data
     })
   } catch (error) {
-    console.log(error)
+    //console.log(error)
     
   }
 }
 
 export const kickMember = (memberId,boardId) => async dispatch => {
   try {
-    // console.log('action????????',memberId,boardId)
+    // //console.log('action????????',memberId,boardId)
     await axios.delete(`http://localhost:8080/api/kick-member/${boardId}/${memberId}`)
   } catch (error) {
-    console.log(error)
+    //console.log(error)
   }
 }
 
@@ -231,7 +231,7 @@ export const addCard = (data) => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    console.log(err);
+    //console.log(err);
   }
 };
 
@@ -244,7 +244,7 @@ export const updatePosition = (data) => async (dispatch) => {
     await axios.post(`http://localhost:8080/api/update-position`, data);
     return
   } catch (err) {
-    console.log(err);
+    //console.log(err);
   }
 };
 
@@ -257,7 +257,7 @@ export const deleteCard = (data) => async (dispatch) => {
     await axios.post(`http://localhost:8080/api/delete-card`, data);
     return
   } catch (err) {
-    console.log(err);
+    //console.log(err);
   }
 };
 
@@ -269,7 +269,7 @@ export const addLine = (data) => async (dispatch) => {
       payload: data,
     });
   } catch (err) {
-    console.log(err);
+    //console.log(err);
   }
 };
 
@@ -281,6 +281,6 @@ export const deleteLine = (data) => async (dispatch) => {
       payload: data,
     });
   } catch (err) {
-    console.log(err);
+    //console.log(err);
   }
 };

@@ -70,7 +70,7 @@ const FormCard = (props) => {
         for(let j = 0; j < parseInt(sizeOfTable[0]); j++){
           grid.push(columns);
         }
-        console.log(grid);
+        // console.log(grid);
         props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: grid, language: language })
       }
       else{
@@ -107,7 +107,7 @@ const FormCard = (props) => {
     })
   }
   const sizeHandler = (e) => {
-    console.log(e.target.getAttribute('name'))
+    // console.log(e.target.getAttribute('name'))
     setState({
       ...state,
       size: e.target.getAttribute('name'),

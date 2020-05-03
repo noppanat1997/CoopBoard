@@ -114,7 +114,7 @@ controllers.addUser = async (req, res, next) => {
 
     res.status(200).send();
   } catch (error) {
-    console.log(error);
+    //console.log(error);
     next(error);
   }
 };
@@ -138,7 +138,7 @@ controllers.userLogin = async (req, res, next) => {
 
     res.status(200).send(userFireStore);
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 };
 
@@ -158,7 +158,7 @@ controllers.checkLogin = async (req, res, next) => {
 
     res.status(200).send(userFireStore);
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 };
 
@@ -167,7 +167,7 @@ controllers.userLogout = async (req, res, next) => {
     await fire.auth().signOut();
     res.status(200).send(null);
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 };
 
@@ -185,7 +185,7 @@ controllers.kickMember = async (req, res, next) => {
   try {
     const boardId = req.params.boardId;
     const memberId = req.params.memberId;
-    // console.log(boardId,memberId)
+    // //console.log(boardId,memberId)
     await services.kickMember(boardId,memberId);
     res.status(200).send();
   } catch (error) {
@@ -220,7 +220,7 @@ controllers.updatePositon = async (req, res, next) => {
 controllers.deleteCard = async (req, res, next) => {
   try {
     const data = req.body;
-    // console.log(data)
+    // //console.log(data)
 
     const dataToSend = await services.deleteCard(data);
     res.status(200).send(dataToSend);
@@ -232,7 +232,7 @@ controllers.deleteCard = async (req, res, next) => {
 controllers.addLine = async (req, res, next) => {
   try {
     const data = req.body;
-    // console.log(data)
+    // //console.log(data)
     await services.addLine(data);
     res.status(200).send();
   } catch (error) {
@@ -243,7 +243,7 @@ controllers.addLine = async (req, res, next) => {
 controllers.deleteLine = async (req, res, next) => {
   try {
     const data = req.body;
-    // console.log(data)
+    // //console.log(data)
     await services.deleteLine(data);
     res.status(200).send();
   } catch (error) {

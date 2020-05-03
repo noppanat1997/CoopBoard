@@ -17,9 +17,6 @@ class Canvas extends Component {
         boardIndex = i;
       }
     }
-    // TODO blame someone
-    // STUB
-    //
     this.state = {
       boardIndex: boardIndex,
       arrIndex: [],
@@ -96,7 +93,7 @@ class Canvas extends Component {
         stop: { ...offSetData },
       };
       this.state.prevPos = { offsetX, offsetY };
-      for (var i = 0; i < this.state.lineCount; i += 1) {
+      for (var i = 0; i < lineData.line.length; i += 1) {
         lineData.line[i].forEach((val) => {
           if (
             ((val.start.offsetX <= positionData.start.offsetX + 25) &
@@ -167,7 +164,7 @@ class Canvas extends Component {
         pageId: this.props.page,
         data: this.state.arrIndex
       };
-      
+      console.log('8888888888888888888',sendData)
       await this.props.deleteLine(sendData);
       this.state.arrIndex = [];
       this.redraw();
@@ -187,8 +184,15 @@ class Canvas extends Component {
   }
   // TODO
   redraw() {
+    let pageIndex;
+    for (let i = 0; i < this.props.stateFromStore.lineData[this.state.boardIndex].data.length; i++) {
+      if (this.props.stateFromStore.lineData[this.state.boardIndex].data[i].id === this.props.page) {
+        pageIndex = i;
+        // console.log(pageIndex)
+      }
+    }
     let lineData = this.props.stateFromStore.lineData[this.state.boardIndex].data[
-      this.props.stateFromStore.curPage - 1
+      pageIndex
     ];
     if (typeof lineData !== "undefined") {
       let lineCount = lineData.line.length;
@@ -247,7 +251,7 @@ class Canvas extends Component {
       color: this.props.stateFromStore.penColor,
       size: this.props.stateFromStore.penSize,
     };
-    console.log(dataLine);
+    // console.log(dataLine);
     this.props.addLine(dataLine);
     this.state.line = [];
   }
@@ -264,7 +268,7 @@ class Canvas extends Component {
     for (let i = 0; i < this.props.stateFromStore.boardData.length; i++) {
       if (this.props.stateFromStore.boardData[i].id === this.props.board) {
         boardIndex = i;
-        console.log(boardIndex)
+        // console.log(boardIndex)
       }
     }
     this.setState({
@@ -293,6 +297,11 @@ class Canvas extends Component {
         });
       }
     }
+  }
+  componentWillUpdate(){
+    this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height)
+
+    this.redraw();
   }
   render() {
     return (
