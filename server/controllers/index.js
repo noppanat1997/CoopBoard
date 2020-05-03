@@ -18,9 +18,9 @@ controllers.addBoard = async (req, res, next) => {
 controllers.fetchBoard = async (req, res, next) => {
   try {
     const { user } = req.body;
-    console.log(user);
+    //console.log(user);
     const data = await services.fetchBoard(user);
-    console.log(data)
+    //console.log(data)
 
     res.status(200).send(data);
   } catch (error) {
@@ -196,7 +196,7 @@ controllers.kickMember = async (req, res, next) => {
 controllers.addCard = async (req, res, next) => {
   try {
     const data = req.body;
-    console.log(data)
+    //console.log(data)
 
     const dataToSend = await services.addCard(data);
     res.status(200).send(dataToSend);
@@ -208,7 +208,7 @@ controllers.addCard = async (req, res, next) => {
 controllers.updatePositon = async (req, res, next) => {
   try {
     const data = req.body;
-    console.log(data)
+    //console.log(data)
 
     const dataToSend = await services.updatePosition(data);
     res.status(200).send(dataToSend);

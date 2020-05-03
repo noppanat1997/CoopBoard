@@ -68,7 +68,7 @@ services.addBoardData = async (user) => {
 };
 
 services.fetchBoard = async (user) => {
-  console.log(user.board);
+  //console.log(user.board);
 
   const promiseGetList = [
     db.collection("boardData").get(),
@@ -97,7 +97,7 @@ services.fetchBoard = async (user) => {
     user.board.includes(item.id)
   );
 
-  console.log("?????", newBoardDataList);
+  //console.log("?????", newBoardDataList);
 
   newLineDataList.forEach((itemBoard) =>
     itemBoard.data.forEach(
@@ -303,7 +303,7 @@ services.inviteMember = async (email, boardId) => {
   const userList = dtf.keyRemove(fireUser.docs);
   // console.log(userList)
   const userHasEmail = userList.find((item) => item.email === email);
-  console.log(userHasEmail);
+  //console.log(userHasEmail);
   if (userHasEmail) {
     const userHasBoard = userHasEmail.board.find((item) => item === boardId);
     if (!userHasBoard) {
@@ -433,9 +433,9 @@ services.deleteCard = async (data) => {
 
   for (let i = 0; i < cardData[0].data.length; i++) {
     if (cardData[0].data[i].id === data.curPage) {
-      console.log("got it !!!!!!");
+      //console.log("got it !!!!!!");
       const newData = cardData[0].data[i].data.filter((item) => {
-        console.log(">>>", item.id);
+        //console.log(">>>", item.id);
         return item.id !== data.id;
       });
       cardData[0].data[i].data = newData;
@@ -457,7 +457,7 @@ services.addLine = async (data) => {
     .where("id", "==", data.boardId)
     .get();
 
-  console.log(fireLineData);
+  //console.log(fireLineData);
   let lineData = dtf.keyRemove(fireLineData.docs);
   const linefireId = fireLineData.docs[0].id;
 
@@ -470,7 +470,7 @@ services.addLine = async (data) => {
     }
   });
 
-  console.log(lineData[0].data);
+  //console.log(lineData[0].data);
 
   await db.collection("lineData").doc(linefireId).update({
     data: lineData[0].data,
@@ -480,7 +480,7 @@ services.addLine = async (data) => {
 };
 
 services.deleteLine = async (data) => {
-  console.log(data);
+  //console.log(data);
   const fireLineData = await db
     .collection("lineData")
     .where("id", "==", data.boardId)
