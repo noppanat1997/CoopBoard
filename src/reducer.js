@@ -77,7 +77,7 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     //REVIEW add page
     case "ADD_PAGE": {
-      const { boardId, newLineData, newCardData } = action.payload;
+      const { boardId, newLineDataToArray, newCardData } = action.payload;
       let newBoardData = [...state.boardData];
       let boardIndex;
       for (let i = 0; i < newBoardData.length; i++) {
@@ -86,7 +86,7 @@ const reducer = (state = initialState, action) => {
           break;
         }
       }
-      newState.lineData[boardIndex].data.push(newLineData);
+      newState.lineData[boardIndex].data.push(newLineDataToArray);
       newState.cardData[boardIndex].data.push(newCardData);
 
       return newState;
@@ -187,7 +187,7 @@ const reducer = (state = initialState, action) => {
             newState.penColor = "#202C5D";
             break;
           default:
-            console.log("bruh");
+            // console.log("bruh");
             break;
         }
         newState.toolbarOpen = false;
@@ -214,7 +214,7 @@ const reducer = (state = initialState, action) => {
 
     case "UPDATE_ON_DROP_AREA":
       const { isHolding, isDrop } = action.payload;
-      console.log(action.payload);
+      // console.log(action.payload);
       return {
         ...state,
         isHolding: isHolding,
@@ -468,7 +468,7 @@ const reducer = (state = initialState, action) => {
     }
     // REVIEW del board
     case "DELETE_BOARD": {
-      console.log("try to delete board");
+      // console.log("try to delete board");
       let { board } = action.payload;
       let newBoardData = [...state.boardData];
       let newRecentBoardData = [...state.recentBoardData];
@@ -562,6 +562,26 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         cardData: newCardData
+      }
+    }
+
+    case "LINE_DATA_SNAPSHOT":{
+      const { boardId , data } = action.payload; 
+      let boardIndex
+      for (let i = 0; i < state.lineData.length; i++) {
+        if (state.lineData[i].id === boardId) {
+          boardIndex = i;
+          break;
+        }
+      }
+      const newLineData = [...state.lineData];
+      data.forEach(item=>item.line = Object.values(item.line))
+      const newListData = data
+      console.log(newListData)
+      newLineData[boardIndex].data = newListData
+      return {
+        ...state,
+        lineData: newLineData
       }
     }
     default:
