@@ -7,9 +7,10 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
-
 import * as action from "../actions";
+import Dropzone from 'react-dropzone'
 
+const acceptedFileTypes = 'image/x-png, image/png, image/jpg, image/jpeg, image/gif'
 const FormCard = (props) => {
   const [state, setState] = useState({
     textAreaCount: 0,
@@ -37,9 +38,23 @@ const FormCard = (props) => {
     if (text.length !== 0) {
       if (props.name === 'Checklist') {
         text = text.split(',');
+        let initList = {}
+        let listKey = 0
+        text.forEach(item => {
+          initList = {
+            ...initList,
+            [listKey] : {
+              text : item,
+              checked : false
+            }
+          }
+          listKey++
+        });
+        text = initList
+        console.log(text)
         props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: text, language: language })
       }
-      if (props.name === 'Video') {
+      else if (props.name === 'Video') {
         text = extractVideoID(text)
         props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: text, language: language })
       }
@@ -74,7 +89,6 @@ const FormCard = (props) => {
         props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: grid, language: language })
       }
       else{
-        //NOTE beware add card argument
         props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: text, language: language })
       }
     }
@@ -126,7 +140,7 @@ const FormCard = (props) => {
     </Card.Body>
   )
   const checklistForm = (
-    <Card.Body className='text-area-bg bg-light'>
+    <Card.Body className={state.color + ' text-area-bg'}>
       <Form.Group className="mb-0" controlId="exampleForm.ControlTextarea1">
         <Form.Control
           placeholder="Enter your list...(Split with comma)"
@@ -213,7 +227,7 @@ const FormCard = (props) => {
               }
               <Col className="p-0"></Col>
               {
-                props.name === 'Post-It' || props.name === 'To-Do-Lists' || props.name === 'Calendar' || props.name === 'Table' ?
+                props.name === 'Post-It' || props.name === 'Checklist' || props.name === 'Calendar' || props.name === 'Table' ?
                   <>
                     <Col xs={1} className="p-0 mr-2">
                       <div id="0" name="yellow" className={'ball ' + (state.ballSelected == 0 ? 'yellow-active' : 'yellow')} onClick={colorHandler} />

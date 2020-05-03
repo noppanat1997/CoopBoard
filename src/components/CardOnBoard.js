@@ -74,7 +74,23 @@ class CardOnBoard extends Component {
       });
     }
   }
-
+  genChecklist(){
+    if(this.props.type === 'Checklist'){
+      let i = 0;
+      let list = [];
+      console.log(this.props.text)
+      list = Object.keys(this.props.text).map((i, j) => {
+        return (
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id={i}/>
+            <label class="form-check-label" for={i}>
+              {this.props.text[i].text}
+            </label>
+          </div>
+      )})
+      return list
+    }
+  }
   onDelete() {
     let curPage = this.props.page;
     let id = this.props.id;
@@ -140,16 +156,23 @@ class CardOnBoard extends Component {
       <Card
         onMouseEnter={() => this.setState({ ...this.state, isHover: true })}
         onMouseLeave={() => this.setState({ ...this.state, isHover: false })}
-        className={"default-card"}
+        className={
+          "default-card " +
+          this.props.color +
+          "-post" +
+          (this.props.size === "s"
+            ? " small-card"
+            : this.props.size === "m"
+            ? " medium-card"
+            : " large-card")
+        }
       >
         <strong>
           <Card.Title className="drag-title"></Card.Title>
         </strong>
         {this.state.isHover == true ? hoverEvent : <div></div>}
-        <ReactEditableList
-          list={this.props.text}
-          onListUpdated={this.onListUpdated}
-        />
+        <div>Checklist</div>
+        {this.genChecklist()}
       </Card>
     );
     const postItCard = (
@@ -171,9 +194,7 @@ class CardOnBoard extends Component {
           <Card.Title className="drag-title"></Card.Title>
         </strong>
         {this.state.isHover == true ? hoverEvent : <div></div>}
-        <Card.Text className="p-2" style={{ position: "relative" }}>
-          {this.props.text}
-        </Card.Text>
+        <Card.Text className="p-2" style={{ position: 'relative' }}>{this.props.text}</Card.Text>
       </Card>
     );
     const tableCard = (
