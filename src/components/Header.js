@@ -12,7 +12,7 @@ import Popover from "react-bootstrap/Popover";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 
 import * as action from "../actions";
-
+import { db, fire } from "../realtime";
 class Header extends Component {
   constructor(props) {
     super(props);
