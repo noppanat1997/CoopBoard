@@ -7,18 +7,9 @@ import Col from 'react-bootstrap/Col';
 import * as action from "../actions";
 import { connect } from 'react-redux';
 
+import {db,fire} from '../realtime'
 
 const RegisterPages = (props) => {
-  useEffect(()=>{
-    props.checkLogin();
-  },[])
-
-  useEffect(()=>{
-    if (props.stateFromStore.user) {
-      history.push("/list");
-    }
-  },[props.stateFromStore.user])
-
   let history = useHistory();
   const [state, setState] = useState({
 
@@ -96,6 +87,7 @@ const RegisterPages = (props) => {
       formValid: false
     }
   })
+
 
   const onFormChange = (event) => {
     const name = event.target.name;

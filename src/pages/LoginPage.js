@@ -118,31 +118,17 @@ const LoginPage = (props) => {
     });
   };
 
-  const onFromSubmit = (event) => {
+  const onFromSubmit = async (event) => {
     event.preventDefault();
 
     const username = state.formElements.email.value;
     const password = state.formElements.password.value;
     
-    fire.auth().signInWithEmailAndPassword(username, password);
-    props.userLogin(username, password);
+    await fire.auth().signInWithEmailAndPassword(username, password);
+    await props.userLogin(username, password);
+    history.push("/list");
     // console.log(user)
   };
-
-  const logout = () => {
-    fire.auth().signOut();
-  };
-
-  useEffect(()=>{
-    //FIXME Hold checklogin
-    // props.checkLogin();
-  },[])
-
-  useEffect(()=>{
-    if (user) {
-      history.push("/list");
-    }
-  },[user])
   
   return (
     <div className="background">
