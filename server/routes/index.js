@@ -33,12 +33,13 @@ router.delete('/api/kick-member/:boardId/:memberId', controllers.kickMember)
 
 router.use(express.static(path.resolve(__dirname, '..', 'dist')));
 
-router.get('*', (req, res) =>
+router.get('*', (req, res) => {
+  console.log('get *')
   res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'))
-);
+});
 
-router.use('*', (req, res) =>
-  res.status(404).send({ message: 'no api handling' })
-);
+// router.use('*', (req, res) =>
+//   res.status(404).send({ message: 'no api handling' })
+// );
 
 export default router;

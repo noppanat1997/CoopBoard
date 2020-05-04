@@ -10,28 +10,35 @@ import * as action from "../actions";
 import {db,fire} from '../realtime'
 
 const BoardPage = (props) => {
+  
   let history = useHistory();
   const [state, setState] = useState({
     isFetch: false,
   });
-  const fetchData = async () => {
+  const fetchData = async (userUid) => {
     try {
-      await props.fetchBoardFn(props.stateFromStore.user);
+      await props.checkLogin();
+      await props.fetchBoardFn(userUid);
+      setState({
+        ...state,
+        isFetch: true,
+      });
     } catch (error) {
       throw error;
     }
   };
   useEffect(() => {
     //REVIEW loader(true)
-    fetchData();
-    setState({
-      ...state,
-      isFetch: true,
+    fire.auth().onAuthStateChanged(function(user) {
+      console.log('OOOOOOOOOOOOOOO',user.uid)
+      if (user != null) {
+        fetchData(user.uid);
+      }else{
+        history.push("/login");
+      }
     });
-    props.checkLogin();
-    console.log(props.match.params.board)
+    
     const boardIdSnap = props.match.params.board
-    // .where("id", "==", props.match.params.board)
     const unSubCardData = db.collection('cardData').where("id", "==", boardIdSnap).onSnapshot(docSnapshot => {
       // console.log(fire.auth().currentUser)
       const docList = []
@@ -52,18 +59,22 @@ const BoardPage = (props) => {
       // console.log(`Encountered error: ${err}`);
     });
 
+    const unSubBoardData = db.collection('boardData').where("id", "==", boardIdSnap).onSnapshot(docSnapshot => {
+      // console.log(fire.auth().currentUser)
+      const docList = []
+      docSnapshot.forEach(item=>docList.push(item.data()))
+      // console.log(docList[0])
+      props.boardDataSnapshotFn({boardId:boardIdSnap, data:docList[0].data})
+    }, err => {
+      // console.log(`Encountered error: ${err}`);
+    });
+
     return () => {
       unSubCardData();
       unSubLineData();
+      unSubBoardData();
     }
   }, []);
-
-  useEffect(() => {
-    if (!props.stateFromStore.user) {
-      // console.log(props.stateFromStore.user);
-      history.push("/login");
-    }
-  }, [props.stateFromStore.user]);
 
   if (!state.isFetch) {
     return (
@@ -79,18 +90,6 @@ const BoardPage = (props) => {
   } else {
     return (
       <div>
-        {props.stateFromStore.isLoading ? (
-          <div className="coop-loader">
-            <div class="lds-ring">
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
-          </div>
-        ) : (
-          <div></div>
-        )}
 
         {props.stateFromStore.onDropArea === true &&
           props.stateFromStore.formCardData &&
@@ -141,6 +140,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   lineDataSnapshotFn: (data) => {
     return dispatch({ type: "LINE_DATA_SNAPSHOT", payload: data });
+  },
+  boardDataSnapshotFn: (data) => {
+    return dispatch({ type: "BOARD_DATA_SNAPSHOT", payload: data });
   },
 });
 
