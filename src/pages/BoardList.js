@@ -86,7 +86,7 @@ const BoardList = (props) => {
         <OverlayTrigger trigger="focus" placement="bottom" overlay={popover}>
           <button
             className="btn button-el"
-            onClick={() => setState({ curBoard: item.id })}
+            onClick={() => setState({ ...state,curBoard: item.id })}
           >
             <FaEllipsisV />
           </button>
@@ -116,7 +116,7 @@ const BoardList = (props) => {
           <OverlayTrigger trigger="focus" placement="bottom" overlay={popover}>
             <button
               className="btn button-el"
-              onClick={() => setState({ curBoard: item.id })}
+              onClick={() => setState({ ...state,curBoard: item.id })}
             >
               <FaEllipsisV />
             </button>

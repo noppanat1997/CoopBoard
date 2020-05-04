@@ -356,7 +356,18 @@ services.clearPage = async (boardId, pageId) => {
   return;
 };
 
-services.changeBoardName = async (boardId, img) => {
+services.changeBoardName = async (boardId, boardName) => {
+  await db
+    .collection("boardData")
+    .doc(boardId)
+    .update({
+      name: boardName,
+    });
+
+  return;
+};
+
+services.changeBoardImg = async (boardId, img) => {
   await db
     .collection("boardData")
     .doc(boardId)

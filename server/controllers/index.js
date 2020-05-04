@@ -88,7 +88,7 @@ controllers.changeBoardImg = async (req, res, next) => {
   try {
     const boardId = req.params.boardId;
     const { img } = req.body;
-    await services.changeBoardName(boardId, img);
+    await services.changeBoardImg(boardId, img);
 
     res.status(200).send();
   } catch (error) {
