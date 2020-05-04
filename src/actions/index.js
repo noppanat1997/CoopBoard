@@ -144,9 +144,9 @@ export const changeBoardImg = (data) => async (dispatch) => {
 };
 
 
-export const addUser = (username, password, firstname, lastname, email) => async dispatch => {
+export const addUser = (id, username, password, firstname, lastname, email) => async dispatch => {
   try {
-    await axios.post(`http://localhost:8080/api/add-user`, { username, password, firstname, lastname, email })
+    await axios.post(`http://localhost:8080/api/add-user`, {id,  username, password, firstname, lastname, email })
 
     history.push('/login')
   } catch (error) {

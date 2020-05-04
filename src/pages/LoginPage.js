@@ -124,7 +124,14 @@ const LoginPage = (props) => {
     const username = state.formElements.email.value;
     const password = state.formElements.password.value;
     
-    await fire.auth().signInWithEmailAndPassword(username, password);
+    await fire.auth().signInWithEmailAndPassword(username, password).then((result) => {
+      // console.log(result.user.displayName)
+      alert(`WELCOME ~ ${result.user.displayName} ~`)
+      
+    }).catch((error)=>{
+      alert('The e-mail address or password you entered was incorrect. Please retry...!')
+    })
+    
     await props.userLogin(username, password);
     history.push("/list");
     // console.log(user)

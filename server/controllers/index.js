@@ -97,19 +97,7 @@ controllers.changeBoardImg = async (req, res, next) => {
 };
 controllers.addUser = async (req, res, next) => {
   try {
-    const { username, password, firstname, lastname, email } = req.body || {};
-
-    await fire
-      .auth()
-      .createUserWithEmailAndPassword(username, password)
-      .then((result) => {
-        // id = result.user.uid
-        return result.user.updateProfile({
-          displayName: firstname + " " + lastname,
-        });
-      });
-    const user = await fire.auth().currentUser;
-    const id = user.uid;
+    const { id, username, password, firstname, lastname, email } = req.body || {};
     await services.addUser(id, firstname, lastname, email);
 
     res.status(200).send();
