@@ -139,6 +139,18 @@ const FormCard = (props) => {
       <div className="d-flex justify-content-end pr-3">{state.textAreaCount}/40</div>
     </Card.Body>
   )
+  const calendarForm = (
+    <Card.Body className='text-area-bg bg-light'>
+      <Form.Group className="mb-0" controlId="exampleForm.ControlTextarea1">
+        <Form.Control
+          placeholder="Enter Date...(YYYY-MM-DD)"
+          className="text-box my-card-form-control"
+          as="textarea"
+          rows="3"
+          onChange={(e) => setState({ ...state, textAreaCount: e.target.value.length, text: e.target.value })} />
+      </Form.Group>
+    </Card.Body>
+  )
   const checklistForm = (
     <Card.Body className={state.color + ' text-area-bg'}>
       <Form.Group className="mb-0" controlId="exampleForm.ControlTextarea1">
@@ -263,7 +275,7 @@ const FormCard = (props) => {
         {
           props.name === 'Post-It' ? postItForm
             : props.name === 'Checklist' ? checklistForm
-              : props.name === 'Calendar' ? postItForm
+              : props.name === 'Calendar' ? calendarForm
                 : props.name === 'Map' ? postItForm
                   : props.name === 'Table' ? tableForm
                     : props.name === 'Url' ? urlForm

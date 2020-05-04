@@ -21,8 +21,8 @@ import "prismjs/components/prism-javascript";
 import ".././css/prism.css";
 import ReactDataSheet from "react-datasheet";
 import "react-datasheet/lib/react-datasheet.css";
-import ReactEditableList from "react-editable-list";
 import ".././css/CheckList.css";
+import SimpleReactCalendar from 'simple-react-calendar'
 //cpp,java,php,arduino,py
 import * as action from "../actions";
 
@@ -197,6 +197,19 @@ class CardOnBoard extends Component {
         <Card.Text className="p-2" style={{ position: 'relative' }}>{this.props.text}</Card.Text>
       </Card>
     );
+    const calendarCard = (
+      <Card
+        onMouseEnter={() => this.setState({ ...this.state, isHover: true })}
+        onMouseLeave={() => this.setState({ ...this.state, isHover: false })}
+        className={"default-card"}
+      >
+        <strong>
+          <Card.Title className="drag-title"></Card.Title>
+        </strong>
+        {this.state.isHover == true ? hoverEvent : <div></div>}
+        <SimpleReactCalendar activeMonth={new Date(this.props.text)} selected={new Date(this.props.text)}/>
+      </Card>
+    );
     const tableCard = (
       <Card
         onMouseEnter={() => this.setState({ ...this.state, isHover: true })}
@@ -331,7 +344,7 @@ class CardOnBoard extends Component {
           : this.props.type === "Checklist"
           ? checklistCard
           : this.props.type === "Calendar"
-          ? postItCard
+          ? calendarCard
           : this.props.type === "Image"
           ? imageCard
           : this.props.type === "Table"
