@@ -310,14 +310,30 @@ class CardOnBoard extends Component {
               : (code) => highlight(code, languages.javascript)
           }
           padding={10}
-          style={{
+          style={this.props.size === "s" ? {
+            color: "white",
+            background: "#121212",
+            fontFamily: '"Consolas" ,"monaco" ,monospace',
+            fontSize: 10,
+          } : this.props.size === "m" ? {
+            color: "white",
+            background: "#121212",
+            fontFamily: '"Consolas" ,"monaco" ,monospace',
+            fontSize: 20,
+          } : {
+            color: "white",
+            background: "#121212",
+            fontFamily: '"Consolas" ,"monaco" ,monospace',
+            fontSize: 30,
+          }}
+          disabled
+        />
+        {/*{
             color: "white",
             background: "#121212",
             fontFamily: '"Consolas" ,"monaco" ,monospace',
             fontSize: 16,
-          }}
-          disabled
-        />
+          }*/}
       </Card>
     );
     const imageCard = (

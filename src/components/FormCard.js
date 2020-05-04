@@ -228,18 +228,22 @@ const FormCard = (props) => {
             <Row>
               <Col xs={3} as="h4" className="p-0 text-left">{props.name}</Col>
               <Col className="p-0"></Col>
-              <Col xs={1} className="p-0 mr-2">
+              {
+                props.name !== 'Calendar' && props.name !== 'Table' ? <>
+                <Col xs={1} className="p-0 mr-2">
                 <div id="0" name="s" className={'text-center mt-2 ' + (state.sizeSelected == 0 ? 'size-ball-active' : 'size-ball')} onClick={sizeHandler}>
                   S
                 </div>
-              </Col>
-              <Col xs={1} className="p-0 mr-2">
+                </Col>
+                <Col xs={1} className="p-0 mr-2">
                 <div id="1" name="m" className={'text-center mt-2 ' + (state.sizeSelected == 1 ? 'size-ball-active' : 'size-ball')} onClick={sizeHandler}>
                   M
                 </div>
-              </Col>
+                </Col>
+                </> : <Col xs={2}/>
+              }
               {
-                props.name !== 'Url' ? 
+                props.name !== 'Url' && props.name !== 'Calendar' && props.name !== 'Table' ? 
                 <Col xs={1} className="p-0 mr-2">
                   <div id="2" name="l" className={'text-center mt-2 ' + (state.sizeSelected == 2 ? 'size-ball-active' : 'size-ball')} onClick={sizeHandler}>
                     L
