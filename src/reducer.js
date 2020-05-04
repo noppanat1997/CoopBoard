@@ -585,6 +585,23 @@ const reducer = (state = initialState, action) => {
         lineData: newLineData
       }
     }
+
+    case "BOARD_DATA_SNAPSHOT":{
+      const { boardId , data } = action.payload; 
+      let boardIndex
+      for (let i = 0; i < state.boardData.length; i++) {
+        if (state.boardData[i].id === boardId) {
+          boardIndex = i;
+          break;
+        }
+      }
+      const newBoardData = [...state.boardData];
+      newBoardData[boardIndex].data = data
+      return {
+        ...state,
+        boardData: newBoardData
+      }
+    }
     default:
       break;
   }

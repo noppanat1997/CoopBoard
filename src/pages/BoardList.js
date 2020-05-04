@@ -9,32 +9,36 @@ import Popover from "react-bootstrap/Popover";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 //NOTE import
 import * as action from ".././actions";
+import { db, fire } from "../realtime";
 
 const BoardList = (props) => {
   let history = useHistory();
   const [state, setState] = useState({
     curBoard: "",
+    isFetch: false,
   });
-  const fetchData = async () => {
-    try {
-      await props.fetchBoardFn(props.stateFromStore.user);
-    } catch (error) {
-      throw error;
-    }
-  };
-  const checkLoginAsync = async () => {
+  const fetchData = async (userUid) => {
     try {
       await props.checkLogin();
+      await props.fetchBoardFn(userUid);
+      setState({
+        ...state,
+        isFetch: true,
+      });
     } catch (error) {
       throw error;
     }
   };
   useEffect(() => {
     //REVIEW loader(true)
-    props.updateLoaderFn(true);
-    checkLoginAsync();
-    props.updateLoaderFn(true);
-    fetchData();
+    fire.auth().onAuthStateChanged(function(user) {
+      console.log("AAAAAAAAAA", user.uid);
+      if (user != null) {
+        fetchData(user.uid);
+      } else {
+        history.push("/login");
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -121,53 +125,55 @@ const BoardList = (props) => {
       </Card>
     )
   );
-  return (
-    <div>
-      {props.stateFromStore.isLoading ? (
-        <div className="coop-loader">
-          <div class="lds-ring">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-        </div>
-      ) : (
-        <div></div>
-      )}
 
-      <Header path="list" />
-      <div className="ml-5 mr-5 p-5">
-        <div className="mb-3 roboto">
-          Recent CoopBoards
-          <hr />
-        </div>
-        <div className="d-flex flex-wrap flex-row">{listRecent}</div>
-        <div className="mt-5 mb-3 roboto">
-          All CoopBoards
-          <hr />
-        </div>
-        <div className="d-flex flex-wrap flex-row">
-          <Card id="1" className="add-card-list m-3">
-            <Card.Body className="text-center pt-5">
-              <div
-                className="text-secondary"
-                style={{ fontSize: "60px", userSelect: "none" }}
-                onClick={() => {
-                  //FIXME add board
-                  props.addBoardFn(props.stateFromStore.user);
-                }}
-              >
-                +
-              </div>
-            </Card.Body>
-          </Card>
-
-          {list}
+  if (!state.isFetch) {
+    return (
+      <div className="coop-loader">
+        <div class="lds-ring">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return (
+      <div>
+
+        <Header path="list" />
+        <div className="ml-5 mr-5 p-5">
+          <div className="mb-3 roboto">
+            Recent CoopBoards
+            <hr />
+          </div>
+          <div className="d-flex flex-wrap flex-row">{listRecent}</div>
+          <div className="mt-5 mb-3 roboto">
+            All CoopBoards
+            <hr />
+          </div>
+          <div className="d-flex flex-wrap flex-row">
+            <Card id="1" className="add-card-list m-3">
+              <Card.Body className="text-center pt-5">
+                <div
+                  className="text-secondary"
+                  style={{ fontSize: "60px", userSelect: "none" }}
+                  onClick={() => {
+                    //FIXME add board
+                    props.addBoardFn(props.stateFromStore.user);
+                  }}
+                >
+                  +
+                </div>
+              </Card.Body>
+            </Card>
+
+            {list}
+          </div>
+        </div>
+      </div>
+    );
+  }
 };
 
 const mapStateToProps = (state) => {

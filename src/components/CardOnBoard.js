@@ -74,21 +74,22 @@ class CardOnBoard extends Component {
       });
     }
   }
-  genChecklist(){
-    if(this.props.type === 'Checklist'){
+  genChecklist() {
+    if (this.props.type === "Checklist") {
       let i = 0;
       let list = [];
-      console.log(this.props.text)
+      console.log(this.props.text);
       list = Object.keys(this.props.text).map((i, j) => {
         return (
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id={i}/>
+            <input class="form-check-input" type="checkbox" value="" id={i} />
             <label class="form-check-label" for={i}>
               {this.props.text[i].text}
             </label>
           </div>
-      )})
-      return list
+        );
+      });
+      return list;
     }
   }
   onDelete() {
@@ -194,7 +195,9 @@ class CardOnBoard extends Component {
           <Card.Title className="drag-title"></Card.Title>
         </strong>
         {this.state.isHover == true ? hoverEvent : <div></div>}
-        <Card.Text className="p-2" style={{ position: 'relative' }}>{this.props.text}</Card.Text>
+        <Card.Text className="p-2" style={{ position: "relative" }}>
+          {this.props.text}
+        </Card.Text>
       </Card>
     );
     const tableCard = (
