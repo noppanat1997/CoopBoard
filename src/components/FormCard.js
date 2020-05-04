@@ -88,6 +88,15 @@ const FormCard = (props) => {
         // console.log(grid);
         props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: grid, language: language })
       }
+      else if(props.name === "Calendar"){
+        let check = Date.parse(text)
+        if(!isNaN(check)){
+          props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: text, language: language })
+        }
+        else{
+          cancelHandler();
+        }
+      }
       else{
         props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: text, language: language })
       }
@@ -239,7 +248,7 @@ const FormCard = (props) => {
               }
               <Col className="p-0"></Col>
               {
-                props.name === 'Post-It' || props.name === 'Checklist' || props.name === 'Calendar' || props.name === 'Table' ?
+                props.name === 'Post-It' || props.name === 'Checklist' || props.name === 'Table' ?
                   <>
                     <Col xs={1} className="p-0 mr-2">
                       <div id="0" name="yellow" className={'ball ' + (state.ballSelected == 0 ? 'yellow-active' : 'yellow')} onClick={colorHandler} />

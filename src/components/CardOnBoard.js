@@ -19,6 +19,8 @@ import "prismjs/components/prism-arduino";
 import "prismjs/components/prism-python";
 import "prismjs/components/prism-javascript";
 import ".././css/prism.css";
+import '.././css/base_style.css'
+import '.././css/date_picker.css'
 import ReactDataSheet from "react-datasheet";
 import "react-datasheet/lib/react-datasheet.css";
 import ".././css/CheckList.css";
