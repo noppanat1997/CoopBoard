@@ -7,7 +7,7 @@ import ChatBox from './ChatBox.js';
 const MainBoard = (props) => {
   return (
     <div>
-      {/* <ChatBox /> */}
+      <ChatBox />
       <ToolBox board={props.board} page={props.page}/>
       <StackCard />
       <CarouselComponent board={props.board} page={props.page} />

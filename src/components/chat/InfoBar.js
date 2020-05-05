@@ -10,8 +10,9 @@ const InfoBar = ({ room, users }) => {
   if (users.length !== 0) {
     list = users.map((item) => (
       <div className="name-box px-1 bg-light mr-1" key={item.id}>
-        {item.name.split(" ")[0].charAt(0).toUpperCase()}
-        {item.name.split(" ")[1].charAt(0).toUpperCase()}
+        {/* {item.name.split(" ")[0].charAt(0).toUpperCase()}
+        {item.name.split(" ")[1].charAt(0).toUpperCase()} */}
+        A
       </div>
     ));
   }
