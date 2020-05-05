@@ -164,7 +164,6 @@ class Canvas extends Component {
         pageId: this.props.page,
         data: this.state.arrIndex
       };
-      console.log('8888888888888888888',sendData)
       await this.props.deleteLine(sendData);
       this.state.arrIndex = [];
       this.redraw();
@@ -252,7 +251,9 @@ class Canvas extends Component {
       size: this.props.stateFromStore.penSize,
     };
     // console.log(dataLine);
-    this.props.addLine(dataLine);
+
+    await this.props.addLine(dataLine);
+    
     this.state.line = [];
   }
 //FIXME didMount
@@ -278,6 +279,7 @@ class Canvas extends Component {
       ].line.length,
     });
     // console.log(this.state.lineCount)
+    
     this.redraw();
   }
   componentWillUnmount() {
@@ -299,7 +301,7 @@ class Canvas extends Component {
     }
   }
   componentWillUpdate(){
-    this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height)
+    this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height)  
 
     this.redraw();
   }

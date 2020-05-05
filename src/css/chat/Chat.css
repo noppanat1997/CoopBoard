@@ -13,6 +13,7 @@
   background: #FFFFFF;
   height: 500px;
   width: 450px;
+  box-shadow: 0px 0px 11px 0px rgba(133,133,133,1);
   border-radius: 20px 20px 20px 20px;
 }
 
@@ -51,19 +52,32 @@
   right: 2%
 }
 .my-button {
+  padding-left: 10px;
   width: 50px;
   height: 50px;
   margin-top: 9vmin;
   /* margin-top: 84px; */
+  color: white;
+  font-size: 30px;
   border-radius: 50%;
-  background-color: rgb(0, 113, 188);
+  background-color: #202C5D;
+  cursor: pointer;
+  box-shadow: 0px 0px 9px 0px rgba(133,133,133,1);
+}
+.my-button:hover {
+  background-color: rgb(20, 30, 68);
+  transition: 0.1s ease-in-out;
 }
 .my-button-active {
-
+  padding-left: 10px;
+  cursor: pointer;
+  font-size: 30px;
   margin-top: 15px;
   margin-left: 400px;
   width: 50px;
   height: 50px;
+  color: white;
   border-radius: 50%;
   background-color: rgb(212, 20, 90);
+  box-shadow: 0px 0px 9px 0px rgba(133,133,133,1);
 }

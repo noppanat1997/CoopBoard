@@ -88,6 +88,15 @@ const FormCard = (props) => {
         // console.log(grid);
         props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: grid, language: language })
       }
+      else if(props.name === "Calendar"){
+        let check = Date.parse(text)
+        if(!isNaN(check)){
+          props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: text, language: language })
+        }
+        else{
+          cancelHandler();
+        }
+      }
       else{
         props.addCardFn({ board: board, type: type, curPage: curPage, size: size, color: color, text: text, language: language })
       }
@@ -139,11 +148,23 @@ const FormCard = (props) => {
       <div className="d-flex justify-content-end pr-3">{state.textAreaCount}/40</div>
     </Card.Body>
   )
+  const calendarForm = (
+    <Card.Body className='text-area-bg bg-light'>
+      <Form.Group className="mb-0" controlId="exampleForm.ControlTextarea1">
+        <Form.Control
+          placeholder="Enter Date...(YYYY-MM-DD)"
+          className="text-box my-card-form-control"
+          as="textarea"
+          rows="3"
+          onChange={(e) => setState({ ...state, textAreaCount: e.target.value.length, text: e.target.value })} />
+      </Form.Group>
+    </Card.Body>
+  )
   const checklistForm = (
     <Card.Body className={state.color + ' text-area-bg'}>
       <Form.Group className="mb-0" controlId="exampleForm.ControlTextarea1">
         <Form.Control
-          placeholder="Enter your list...(Split with comma)"
+          placeholder="Enter your list...(Split with comma only)"
           className="text-box my-card-form-control"
           as="textarea"
           rows="3"
@@ -207,18 +228,22 @@ const FormCard = (props) => {
             <Row>
               <Col xs={3} as="h4" className="p-0 text-left">{props.name}</Col>
               <Col className="p-0"></Col>
-              <Col xs={1} className="p-0 mr-2">
+              {
+                props.name !== 'Calendar' && props.name !== 'Table' ? <>
+                <Col xs={1} className="p-0 mr-2">
                 <div id="0" name="s" className={'text-center mt-2 ' + (state.sizeSelected == 0 ? 'size-ball-active' : 'size-ball')} onClick={sizeHandler}>
                   S
                 </div>
-              </Col>
-              <Col xs={1} className="p-0 mr-2">
+                </Col>
+                <Col xs={1} className="p-0 mr-2">
                 <div id="1" name="m" className={'text-center mt-2 ' + (state.sizeSelected == 1 ? 'size-ball-active' : 'size-ball')} onClick={sizeHandler}>
                   M
                 </div>
-              </Col>
+                </Col>
+                </> : <Col xs={2}/>
+              }
               {
-                props.name !== 'Url' ? 
+                props.name !== 'Url' && props.name !== 'Calendar' && props.name !== 'Table' ? 
                 <Col xs={1} className="p-0 mr-2">
                   <div id="2" name="l" className={'text-center mt-2 ' + (state.sizeSelected == 2 ? 'size-ball-active' : 'size-ball')} onClick={sizeHandler}>
                     L
@@ -227,7 +252,7 @@ const FormCard = (props) => {
               }
               <Col className="p-0"></Col>
               {
-                props.name === 'Post-It' || props.name === 'Checklist' || props.name === 'Calendar' || props.name === 'Table' ?
+                props.name === 'Post-It' || props.name === 'Checklist' || props.name === 'Table' ?
                   <>
                     <Col xs={1} className="p-0 mr-2">
                       <div id="0" name="yellow" className={'ball ' + (state.ballSelected == 0 ? 'yellow-active' : 'yellow')} onClick={colorHandler} />
@@ -263,7 +288,7 @@ const FormCard = (props) => {
         {
           props.name === 'Post-It' ? postItForm
             : props.name === 'Checklist' ? checklistForm
-              : props.name === 'Calendar' ? postItForm
+              : props.name === 'Calendar' ? calendarForm
                 : props.name === 'Map' ? postItForm
                   : props.name === 'Table' ? tableForm
                     : props.name === 'Url' ? urlForm

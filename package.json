@@ -54,6 +54,7 @@
     "redux-promise-middleware": "^6.1.2",
     "redux-thunk": "^2.3.0",
     "serverless-http": "^2.3.2",
+    "simple-react-calendar": "^2.2.1",
     "socket.io-client": "^2.3.0",
     "style-loader": "^1.1.4",
     "url-exists": "^1.0.3",

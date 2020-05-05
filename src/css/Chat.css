@@ -13,6 +13,7 @@
   background: #FFFFFF;
   height: 500px;
   width: 450px;
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
   border-radius: 20px 20px 20px 20px;
 }
 

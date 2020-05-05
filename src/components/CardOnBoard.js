@@ -19,10 +19,12 @@ import "prismjs/components/prism-arduino";
 import "prismjs/components/prism-python";
 import "prismjs/components/prism-javascript";
 import ".././css/prism.css";
+import '.././css/base_style.css'
+import '.././css/date_picker.css'
 import ReactDataSheet from "react-datasheet";
 import "react-datasheet/lib/react-datasheet.css";
-import ReactEditableList from "react-editable-list";
 import ".././css/CheckList.css";
+import SimpleReactCalendar from 'simple-react-calendar'
 //cpp,java,php,arduino,py
 import * as action from "../actions";
 
@@ -80,14 +82,15 @@ class CardOnBoard extends Component {
       let list = [];
       console.log(this.props.text);
       list = Object.keys(this.props.text).map((i, j) => {
-        return (
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id={i} />
-            <label class="form-check-label" for={i}>
-              {this.props.text[i].text}
-            </label>
-          </div>
-        );
+          return (
+            <div className="form-check">
+              <input className={"form-check-input " + (this.props.size == 's' ? "s-checkbox" : this.props.size == 'm' ? "m-checkbox" : "l-checkbox")} type="checkbox" value="" id={i} />
+              <label className="pl-3 form-check-label" for={i}>
+                {this.props.text[i].text}
+              </label>
+            </div>
+          );
+        
       });
       return list;
     }
@@ -162,18 +165,21 @@ class CardOnBoard extends Component {
           this.props.color +
           "-post" +
           (this.props.size === "s"
-            ? " small-card"
+            ? " small-check"
             : this.props.size === "m"
-            ? " medium-card"
-            : " large-card")
+            ? " medium-check"
+            : " large-check")
         }
+        style={{width:"auto",paddingRight:"15px"}}
       >
         <strong>
           <Card.Title className="drag-title"></Card.Title>
         </strong>
         {this.state.isHover == true ? hoverEvent : <div></div>}
-        <div>Checklist</div>
-        {this.genChecklist()}
+        <Card.Text className="pt-3 pl-3 text-left">
+          {this.genChecklist()}
+        </Card.Text>
+        
       </Card>
     );
     const postItCard = (
@@ -198,6 +204,19 @@ class CardOnBoard extends Component {
         <Card.Text className="p-2" style={{ position: "relative" }}>
           {this.props.text}
         </Card.Text>
+      </Card>
+    );
+    const calendarCard = (
+      <Card
+        onMouseEnter={() => this.setState({ ...this.state, isHover: true })}
+        onMouseLeave={() => this.setState({ ...this.state, isHover: false })}
+        className={"default-card"}
+      >
+        <strong>
+          <Card.Title className="drag-title"></Card.Title>
+        </strong>
+        {this.state.isHover == true ? hoverEvent : <div></div>}
+        <SimpleReactCalendar activeMonth={new Date(this.props.text)} selected={new Date(this.props.text)}/>
       </Card>
     );
     const tableCard = (
@@ -298,14 +317,30 @@ class CardOnBoard extends Component {
               : (code) => highlight(code, languages.javascript)
           }
           padding={10}
-          style={{
+          style={this.props.size === "s" ? {
+            color: "white",
+            background: "#121212",
+            fontFamily: '"Consolas" ,"monaco" ,monospace',
+            fontSize: 14,
+          } : this.props.size === "m" ? {
+            color: "white",
+            background: "#121212",
+            fontFamily: '"Consolas" ,"monaco" ,monospace',
+            fontSize: 20,
+          } : {
+            color: "white",
+            background: "#121212",
+            fontFamily: '"Consolas" ,"monaco" ,monospace',
+            fontSize: 26,
+          }}
+          disabled
+        />
+        {/*{
             color: "white",
             background: "#121212",
             fontFamily: '"Consolas" ,"monaco" ,monospace',
             fontSize: 16,
-          }}
-          disabled
-        />
+          }*/}
       </Card>
     );
     const imageCard = (
@@ -334,7 +369,7 @@ class CardOnBoard extends Component {
           : this.props.type === "Checklist"
           ? checklistCard
           : this.props.type === "Calendar"
-          ? postItCard
+          ? calendarCard
           : this.props.type === "Image"
           ? imageCard
           : this.props.type === "Table"

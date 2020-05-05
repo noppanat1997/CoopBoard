@@ -67,7 +67,7 @@ const StackCard = (props) => {
         onStop={onMouseUpHandler}
       >
         <div>
-          <EachCard id="4" name={"Map"} color={"#D4145A"} />
+          <EachCard id="6" name={"Url"} color={"#D4145A"} />
         </div>
       </Draggable>
       <Draggable position={{ x: 0, y: -400 }}
@@ -76,7 +76,7 @@ const StackCard = (props) => {
         onStop={onMouseUpHandler}
       >
         <div>
-          <EachCard id="5" name={"Table"} color={"#0071BC"} />
+          <EachCard id="7" name={"Code"} color={"#0071BC"} />
         </div>
       </Draggable>
       <Draggable position={{ x: 0, y: -500 }}
@@ -85,25 +85,7 @@ const StackCard = (props) => {
         onStop={onMouseUpHandler}
       >
         <div>
-          <EachCard id="6" name={"Url"} color={"#202C5D"} />
-        </div>
-      </Draggable>
-      <Draggable position={{ x: 0, y: -600 }}
-        onMouseDown={() => { props.onDropAreaFn({ isHolding: true, isDrop: false }) }}
-        onStart={() => { setState({ ...state, isHolding: true, onCard: true }) }}
-        onStop={onMouseUpHandler}
-      >
-        <div>
-          <EachCard id="7" name={"Code"} color={"#D4145A"} />
-        </div>
-      </Draggable>
-      <Draggable position={{ x: 0, y: -700 }}
-        onMouseDown={() => { props.onDropAreaFn({ isHolding: true, isDrop: false }) }}
-        onStart={() => { setState({ ...state, isHolding: true, onCard: true }) }}
-        onStop={onMouseUpHandler}
-      >
-        <div>
-          <EachCard id="8" name={"Video"} color={"#0071BC"} />
+          <EachCard id="8" name={"Video"} color={"#202C5D"} />
         </div>
       </Draggable>
     </div>

@@ -54,6 +54,7 @@ const BoardPage = (props) => {
       const docList = []
       docSnapshot.forEach(item=>docList.push(item.data()))
       // console.log(docList[0])
+      
       props.lineDataSnapshotFn({boardId:boardIdSnap, data:docList[0].data})
     }, err => {
       // console.log(`Encountered error: ${err}`);
