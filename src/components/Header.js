@@ -34,6 +34,7 @@ class Header extends Component {
       email: "",
       str: "",
       memberList: [],
+      
     };
 
     this.onInputChange = this.onInputChange.bind(this);
@@ -42,6 +43,7 @@ class Header extends Component {
     this.screenShot = this.screenShot.bind(this);
     this.deleteFrameHandler = this.deleteFrameHandler.bind(this);
     this.clearFrameHandler = this.clearFrameHandler.bind(this);
+    
   }
   onInputChange(event) {
     this.setState({
@@ -76,6 +78,7 @@ class Header extends Component {
         ].id
     );
   }
+
   randomBackground() {
     var r = Math.floor(Math.random() * 4);
     switch (r) {
@@ -300,7 +303,7 @@ class Header extends Component {
                     </div>
                     <div className="hr px-2"></div>
                     <div className="w-100 mt-1 text-center d-flex flex-row justify-content-center">
-                      <Link to="/login">
+                      <Link to="/login" style={{textDecoration: "none"}}>
                         <div
                           className="button-logout pt-1 mt-1"
                           onClick={() => {
@@ -386,6 +389,7 @@ class Header extends Component {
                     <Popover
                       id="popover-basic"
                       className="py-3 d-flex flex-column popover-dec-add-member text-center"
+                      onBlur={()=>this.props.clearStatusInviteFn()}
                     >
                       <div class="form-group mb-1 w-100 d-flex justify-content-center">
                         <input
@@ -424,10 +428,9 @@ class Header extends Component {
                               this.props.stateFromStore.inviteStatus ===
                               "Invite member success"
                             ) {
-                              this.props.updateLoaderFn(true);
-                              this.props.fetchBoardFn(
-                                this.props.stateFromStore.user
-                              );
+                              // FIXME
+                              this.props.fetchBoardFn(this.props.stateFromStore.user.id);
+                              
                               this.setState({
                                 inviteStatusColor: "green",
                               });
@@ -436,7 +439,7 @@ class Header extends Component {
                                 inviteStatusColor: "red",
                               });
                             }
-                            this.props.clearStatusInviteFn();
+                            
                           }}
                         >
                           Invite

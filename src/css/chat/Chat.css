@@ -60,12 +60,12 @@
   color: white;
   font-size: 30px;
   border-radius: 50%;
-  background-color: #0071BC;
+  background-color: #202C5D;
   cursor: pointer;
   box-shadow: 0px 0px 9px 0px rgba(133,133,133,1);
 }
 .my-button:hover {
-  background-color: rgb(0, 71, 117);
+  background-color: rgb(20, 30, 68);
   transition: 0.1s ease-in-out;
 }
 .my-button-active {

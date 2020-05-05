@@ -1,5 +1,5 @@
 .stack-card{
-  margin: 6% 0% 0% 90%;
+  margin: 8% 0% 0% 90%;
   padding: 0% 0% 0% 0%;
   position: absolute;
   z-index: 5;
@@ -10,7 +10,7 @@
 }
 .stack-card-active {
   margin: 0% 0% 0% 10%;
-  padding: 6% 0% 0% 80%;
+  padding: 8% 0% 0% 80%;
   position: absolute;
   z-index: 5;
   overflow: hidden ;

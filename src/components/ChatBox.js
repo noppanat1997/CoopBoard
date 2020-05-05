@@ -20,16 +20,6 @@ const ChatBox = (props) => {
     }
   }
 
-  // fire.auth().onAuthStateChanged(function(user) {
-  //   console.log('OOOOOOOOOOOOOOO',user.uid)
-  //   if (user != null) {
-  //     fetchData(user.uid);
-  //   }else{
-  //     history.push("/login");
-  //   }
-  // });
-  //FIXME
-
   const [name, setName] = useState(props.stateFromStore.user.displayName);
   //FIXME boardname
   const [room, setRoom] = useState("A");
