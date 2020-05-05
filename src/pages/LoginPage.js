@@ -118,31 +118,24 @@ const LoginPage = (props) => {
     });
   };
 
-  const onFromSubmit = (event) => {
+  const onFromSubmit = async (event) => {
     event.preventDefault();
 
     const username = state.formElements.email.value;
     const password = state.formElements.password.value;
     
-    fire.auth().signInWithEmailAndPassword(username, password);
-    props.userLogin(username, password);
+    await fire.auth().signInWithEmailAndPassword(username, password).then((result) => {
+      // console.log(result.user.displayName)
+      alert(`WELCOME ~ ${result.user.displayName} ~`)
+      
+    }).catch((error)=>{
+      alert('The e-mail address or password you entered was incorrect. Please retry...!')
+    })
+    
+    await props.userLogin(username, password);
+    history.push("/list");
     // console.log(user)
   };
-
-  const logout = () => {
-    fire.auth().signOut();
-  };
-
-  useEffect(()=>{
-    //FIXME Hold checklogin
-    // props.checkLogin();
-  },[])
-
-  useEffect(()=>{
-    if (user) {
-      history.push("/list");
-    }
-  },[user])
   
   return (
     <div className="background">

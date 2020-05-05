@@ -164,7 +164,7 @@ const FormCard = (props) => {
     <Card.Body className={state.color + ' text-area-bg'}>
       <Form.Group className="mb-0" controlId="exampleForm.ControlTextarea1">
         <Form.Control
-          placeholder="Enter your list...(Split with comma)"
+          placeholder="Enter your list...(Split with comma. 10 Max.)"
           className="text-box my-card-form-control"
           as="textarea"
           rows="3"

@@ -17,9 +17,9 @@ controllers.addBoard = async (req, res, next) => {
 
 controllers.fetchBoard = async (req, res, next) => {
   try {
-    const { user } = req.body;
+    const { userUid } = req.body;
     //console.log(user);
-    const data = await services.fetchBoard(user);
+    const data = await services.fetchBoard(userUid);
     //console.log(data)
 
     res.status(200).send(data);
@@ -88,7 +88,7 @@ controllers.changeBoardImg = async (req, res, next) => {
   try {
     const boardId = req.params.boardId;
     const { img } = req.body;
-    await services.changeBoardName(boardId, img);
+    await services.changeBoardImg(boardId, img);
 
     res.status(200).send();
   } catch (error) {
@@ -97,19 +97,7 @@ controllers.changeBoardImg = async (req, res, next) => {
 };
 controllers.addUser = async (req, res, next) => {
   try {
-    const { username, password, firstname, lastname, email } = req.body || {};
-
-    await fire
-      .auth()
-      .createUserWithEmailAndPassword(username, password)
-      .then((result) => {
-        // id = result.user.uid
-        return result.user.updateProfile({
-          displayName: firstname + " " + lastname,
-        });
-      });
-    const user = await fire.auth().currentUser;
-    const id = user.uid;
+    const { id, username, password, firstname, lastname, email } = req.body || {};
     await services.addUser(id, firstname, lastname, email);
 
     res.status(200).send();

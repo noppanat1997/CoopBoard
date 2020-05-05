@@ -41,7 +41,7 @@ module.exports = {
       },
       {
         test: /\.html$/,
-        exclude: /node_modules/,
+        exclude: /node_modules|server/,
         use: {
           loader: 'html-loader'
         }
@@ -98,6 +98,7 @@ module.exports = {
     new CleanWebpackPlugin(),
     new HtmlWebPackPlugin({
       // template: '../coop-board-v1/public/index.html',
+      // template: './server/dist/index.html',
       template: './public/index.html',
       filename: 'index.html',
       // chunks: ['index'],

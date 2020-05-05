@@ -135,7 +135,42 @@
   font-size: 30px;
 }
 
+.l-checkbox {
+  width : 30px;
+  height : 30px;
+  padding-right: 10px;
+}
 
-/* .code-style textarea{
-  
-} */
+.m-checkbox {
+  width : 25px;
+  height : 25px;
+  padding-right: 10px;
+}
+
+.s-checkbox {
+  width : 20px;
+  height : 20px;
+  padding-right: 10px;
+}
+
+.small-check{
+  width: 200px;
+  height: 30x0px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  font-size: 1vw;
+}
+.medium-check{
+  width: 300px;
+  height: 450px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  font-size: 1.5vw;
+}
+.large-check{
+  width: 400px;
+  height: 600px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  font-size: 2vw;
+}

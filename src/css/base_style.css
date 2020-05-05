@@ -1,6 +1,7 @@
 .calendar {
   border-radius: 5px;
   padding: 30px;
+  background : #b9b9b9;
 }
 .calendar-month {
   width: 300px;
@@ -46,7 +47,7 @@
   background: #f00;
 }
 .calendar-week-day.is-selected.is-end_selection {
-  background: #00f;
+  background: #0071BC;
 }
 .calendar-header_button.is-prev:before {
   content: '<';

@@ -12,7 +12,7 @@ import Popover from "react-bootstrap/Popover";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 
 import * as action from "../actions";
-
+import { db, fire } from "../realtime";
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -91,17 +91,7 @@ class Header extends Component {
     }
   }
 
-  componentWillMount() {
-    if (this.props.stateFromStore.userData.Color == 0) {
-      let c = this.randomBackground();
-      this.state.str = "userBackground-" + c;
-      const colorData = { color: c };
-      this.props.updateUserColor(colorData);
-    } else {
-      this.state.str =
-        "userBackground-" + this.props.stateFromStore.userData.Color;
-    }
-  }
+
   async screenShot() {
     let base64image;
     await html2canvas(document.body).then((canvas) => {
@@ -179,10 +169,7 @@ class Header extends Component {
   }
 
   render() {
-    // const hasUser = !!this.props.stateFromStore.user;
-    // const { firstname } = this.props.stateFromStore.user || {};
-
-    // {hasUser ? < : }
+    
     let memberList = []
     let renderAllmember = (<div></div>)
     if (this.props.path != "list") {

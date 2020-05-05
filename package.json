@@ -59,13 +59,12 @@
     "url-exists": "^1.0.3",
     "url-exists-deep": "^2.0.6",
     "uuid": "^7.0.3",
-    "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11"
   },
   "scripts": {
     "_start": "webpack --config ./src/webpack.config.js && babel-node --max_old_space_size=460 --ignore ./src ./server/index.js",
     "start": "react-scripts start",
-    "_build": "react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "nodemon --exec babel-node --ignore ./src ./server/index.js ",
@@ -90,16 +89,17 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.9.0",
+    "@babel/core": "^7.9.6",
     "@babel/node": "^7.8.7",
     "@babel/plugin-transform-runtime": "^7.9.0",
-    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-env": "^7.9.6",
     "@babel/register": "^7.9.0",
     "@babel/runtime": "^7.9.2",
-    "babel-loader": "^8.1.0",
+    "babel-loader": "^8.0.6",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
-    "nodemon": "^2.0.3"
+    "nodemon": "^2.0.3",
+    "webpack": "^4.41.5"
   }
 }

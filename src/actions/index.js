@@ -38,10 +38,9 @@ export const deleteBoard = (boardId) => async (dispatch) => {
   }
 };
 
-export const fetchBoard = (user) => async (dispatch) => {
+export const fetchBoard = (userUid) => async (dispatch) => {
   try {
-    // //console.log('????', user)
-    const res = await axios.post(`http://localhost:8080/api/fetch-board/`,{user});
+    const res = await axios.post(`http://localhost:8080/api/fetch-board/`,{userUid});
     if (!res.data) {
       const err = new Error("no `data` property on response object");
       throw err;
@@ -145,9 +144,9 @@ export const changeBoardImg = (data) => async (dispatch) => {
 };
 
 
-export const addUser = (username, password, firstname, lastname, email) => async dispatch => {
+export const addUser = (id, username, password, firstname, lastname, email) => async dispatch => {
   try {
-    await axios.post(`http://localhost:8080/api/add-user`, { username, password, firstname, lastname, email })
+    await axios.post(`http://localhost:8080/api/add-user`, {id,  username, password, firstname, lastname, email })
 
     history.push('/login')
   } catch (error) {

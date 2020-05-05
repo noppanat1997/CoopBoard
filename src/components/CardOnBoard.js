@@ -76,21 +76,24 @@ class CardOnBoard extends Component {
       });
     }
   }
-  genChecklist(){
-    if(this.props.type === 'Checklist'){
+  genChecklist() {
+    if (this.props.type === "Checklist") {
       let i = 0;
       let list = [];
-      console.log(this.props.text)
+      console.log(this.props.text);
       list = Object.keys(this.props.text).map((i, j) => {
-        return (
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id={i}/>
-            <label class="form-check-label" for={i}>
-              {this.props.text[i].text}
-            </label>
-          </div>
-      )})
-      return list
+        if(i < 10){
+          return (
+            <div class="form-check">
+              <input class={"form-check-input " + (this.props.size == 's' ? "s-checkbox" : this.props.size == 'm' ? "m-checkbox" : "l-checkbox")} type="checkbox" value="" id={i} />
+              <label class="pl-3 form-check-label" for={i}>
+                {this.props.text[i].text}
+              </label>
+            </div>
+          );
+        }
+      });
+      return list;
     }
   }
   onDelete() {
@@ -163,17 +166,17 @@ class CardOnBoard extends Component {
           this.props.color +
           "-post" +
           (this.props.size === "s"
-            ? " small-card"
+            ? " small-check"
             : this.props.size === "m"
-            ? " medium-card"
-            : " large-card")
+            ? " medium-check"
+            : " large-check")
         }
       >
         <strong>
           <Card.Title className="drag-title"></Card.Title>
         </strong>
         {this.state.isHover == true ? hoverEvent : <div></div>}
-        <div>Checklist</div>
+        <div className="pt-3"></div>
         {this.genChecklist()}
       </Card>
     );
@@ -196,7 +199,9 @@ class CardOnBoard extends Component {
           <Card.Title className="drag-title"></Card.Title>
         </strong>
         {this.state.isHover == true ? hoverEvent : <div></div>}
-        <Card.Text className="p-2" style={{ position: 'relative' }}>{this.props.text}</Card.Text>
+        <Card.Text className="p-2" style={{ position: "relative" }}>
+          {this.props.text}
+        </Card.Text>
       </Card>
     );
     const calendarCard = (
@@ -314,7 +319,7 @@ class CardOnBoard extends Component {
             color: "white",
             background: "#121212",
             fontFamily: '"Consolas" ,"monaco" ,monospace',
-            fontSize: 10,
+            fontSize: 14,
           } : this.props.size === "m" ? {
             color: "white",
             background: "#121212",
@@ -324,7 +329,7 @@ class CardOnBoard extends Component {
             color: "white",
             background: "#121212",
             fontFamily: '"Consolas" ,"monaco" ,monospace',
-            fontSize: 30,
+            fontSize: 26,
           }}
           disabled
         />
