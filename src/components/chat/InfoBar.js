@@ -28,11 +28,11 @@ const InfoBar = ({ room, users }) => {
           </div>
         </div>
       </div>
-      <div className="rightInnerContainer">
+      {/* <div className="rightInnerContainer">
         <a href="/">
           <img src={closeIcon} alt="close icon" />
         </a>
-      </div>
+      </div> */}
     </div>
   );
 };
