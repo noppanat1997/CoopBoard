@@ -33,6 +33,10 @@
 
 }
 .name-box{
-  color: black;
-  border-radius: 5px;
+  color: rgb(255, 255, 255);
+  background-color: #0071BC;
+  padding-top: 3px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
 }

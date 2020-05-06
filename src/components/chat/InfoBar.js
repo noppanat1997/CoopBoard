@@ -8,10 +8,10 @@ import "../.././css/chat/InfoBar.css";
 const InfoBar = ({ room, users }) => {
   let list;
   if (users.length !== 0) {
+    console.log(users)
     list = users.map((item) => (
-      <div className="name-box px-1 bg-light mr-1" key={item.id}>
-        {item.name.split(" ")[0].charAt(0).toUpperCase()}
-        {item.name.split(" ")[1].charAt(0).toUpperCase()}
+      <div className="name-box px-1 mr-1" key={item.id}>
+        {item.name.split(' ')[0].charAt(0).toUpperCase()}{item.name.split(' ')[1].charAt(0).toUpperCase()}
       </div>
     ));
   }

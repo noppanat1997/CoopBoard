@@ -12,33 +12,33 @@ import { db, fire } from "../realtime";
 let socket;
 
 const ChatBox = (props) => {
-  let boardIndex;
-  for (let i = 0; i < props.stateFromStore.boardData.length; i++) {
-    if (props.stateFromStore.boardData[i].id === props.board) {
-      boardIndex = i;
-      break;
-    }
-  }
-
-  const [name, setName] = useState(props.stateFromStore.user.displayName);
+  const [name, setName] = useState("");
   //FIXME boardname
-  const [room, setRoom] = useState("A");
+  const [room, setRoom] = useState("");
   const [users, setUsers] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [state, setState] = useState({
     isShow: false,
   });
-  const ENDPOINT = "http://localhost:5000";
+  const ENDPOINT = 'https://mychatserve12.herokuapp.com/';
 
   useEffect(() => {
     socket = io(ENDPOINT);
-
-    setRoom(room);
-    setName(name);
-
-    // const roomToSend = props.stateFromStore.boardData[boardIndex].id
-    socket.emit("join", { name, room }, (error) => {
+    let boardIndex;
+    for (let i = 0; i < props.stateFromStore.boardData.length; i++) {
+      if (props.stateFromStore.boardData[i].id === props.board) {
+        boardIndex = i;
+        break;
+      }
+    }
+    
+    const myName = props.stateFromStore.user.firstname + ' ' +props.stateFromStore.user.lastname
+    const myRoom = props.stateFromStore.boardData[boardIndex].name
+    setRoom(myRoom);
+    setName(myName);
+    // console.log(myName)
+    socket.emit("join", {name:myName, room: myRoom}, (error) => {
       if (error) {
         alert(error);
       }
@@ -79,7 +79,7 @@ const ChatBox = (props) => {
       {state.isShow ? (
         <div className="my-container">
           <InfoBar
-            room={props.stateFromStore.boardData[boardIndex].name}
+            room={room}
             users={users}
           />
           <Messages messages={messages} name={name} />
