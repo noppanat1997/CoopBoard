@@ -21,8 +21,8 @@ const ChatBox = (props) => {
   const [state, setState] = useState({
     isShow: false,
   });
+  // const ENDPOINT = 'https://project-chat-application.herokuapp.com/';
   const ENDPOINT = 'https://mychatserve12.herokuapp.com/';
-
   useEffect(() => {
     socket = io(ENDPOINT);
     let boardIndex;
