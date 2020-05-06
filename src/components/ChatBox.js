@@ -34,8 +34,8 @@ const ChatBox = (props) => {
     }
     
     const myName = props.stateFromStore.user.firstname + ' ' +props.stateFromStore.user.lastname
-    const myRoom = props.stateFromStore.boardData[boardIndex].name
-    setRoom(myRoom);
+    const myRoom = props.stateFromStore.boardData[boardIndex].name + '~~' + props.stateFromStore.boardData[boardIndex].id
+    setRoom(props.stateFromStore.boardData[boardIndex].name);
     setName(myName);
     // console.log(myName)
     socket.emit("join", {name:myName, room: myRoom}, (error) => {
